@@ -1,0 +1,88 @@
+/**
+ * Configuration centrale du site.
+ * C'est le seul fichier à modifier pour changer les informations de contact,
+ * la localisation, les réseaux sociaux ou les informations légales.
+ *
+ * Les valeurs vides ("") sont des emplacements à compléter : elles ne sont pas
+ * affichées sur le site tant qu'elles ne contiennent rien.
+ */
+
+export const siteConfig = {
+  brand: 'YG Services',
+  legalName: 'YG Services — Yoann Guiot',
+  signature: "Je crée, j'optimise et je simplifie.",
+  positioning: 'Création web • Administration • Optimisation',
+
+  person: {
+    firstName: 'Yoann',
+    lastName: 'Guiot',
+    fullName: 'Yoann Guiot',
+    jobTitle: 'Créateur de sites web et accompagnement administratif',
+    /** Photo fournie par Yoann. Déposer le fichier dans /public/images/. */
+    photo: '/images/yoann-guiot.svg',
+    photoAlt: 'Yoann Guiot, fondateur de YG Services à Yverdon-les-Bains',
+  },
+
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://yg-services.ch',
+  domain: 'yg-services.ch',
+  locale: 'fr_CH',
+  lang: 'fr-CH',
+
+  contact: {
+    /** À compléter avant la mise en ligne. */
+    email: '' as string,
+    phone: '' as string,
+    /** Adresse postale complète : à compléter uniquement si vous souhaitez la publier. */
+    postalAddress: '' as string,
+  },
+
+  location: {
+    city: 'Yverdon-les-Bains',
+    region: 'Vaud',
+    country: 'Suisse',
+    countryCode: 'CH',
+    areaServed: [
+      'Yverdon-les-Bains',
+      'Nord vaudois',
+      'Canton de Vaud',
+      'Lausanne',
+      'Neuchâtel',
+      'Fribourg',
+      'Genève',
+      'Valais',
+      'Jura',
+      'Suisse romande',
+    ],
+    short: 'Yverdon-les-Bains • Vaud • Suisse romande',
+  },
+
+  social: {
+    instagram: 'https://www.instagram.com/yg_services/',
+    instagramHandle: '@yg_services',
+    /** À compléter si vous souhaitez afficher un profil LinkedIn. */
+    linkedin: '' as string,
+  },
+
+  /**
+   * Informations légales.
+   * Ne rien inventer : laisser vide tant que l'information n'est pas confirmée.
+   * Les champs vides s'affichent comme « à compléter » sur la page Mentions légales.
+   */
+  legal: {
+    companyName: '' as string,
+    ideNumber: '' as string,
+    vatNumber: '' as string,
+    address: '' as string,
+    responsiblePublication: 'Yoann Guiot',
+    /** Hébergeur du site, à confirmer avant la mise en ligne. */
+    host: '' as string,
+  },
+
+  /** Outils de mesure d'audience réellement utilisés (laisser vide si aucun). */
+  analytics: {
+    googleAnalytics: false as boolean,
+    googleSearchConsole: false as boolean,
+  },
+} as const;
+
+export type SiteConfig = typeof siteConfig;

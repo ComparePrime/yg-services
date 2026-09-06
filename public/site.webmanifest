@@ -1,0 +1,11 @@
+{
+  "name": "YG Services — Yoann Guiot",
+  "short_name": "YG Services",
+  "description": "Création web, administration et optimisation à Yverdon-les-Bains et en Suisse romande.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#12161d",
+  "lang": "fr-CH",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

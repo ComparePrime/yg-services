@@ -1,0 +1,176 @@
+@import 'tailwindcss';
+
+/* =========================================================
+   YG SERVICES — Design system
+   Direction : premium, minimaliste, humain, suisse.
+   Palette sobre : encre profonde, ardoise, un accent chaud discret.
+   ========================================================= */
+
+@theme {
+  --color-ink-50: #f6f7f8;
+  --color-ink-100: #eceef1;
+  --color-ink-200: #d6dae1;
+  --color-ink-300: #b1b9c5;
+  --color-ink-400: #8592a3;
+  --color-ink-500: #5f6b7d;
+  --color-ink-600: #515d70;
+  --color-ink-700: #424c5b;
+  --color-ink-800: #39414d;
+  --color-ink-900: #1e242e;
+  --color-ink-950: #12161d;
+
+  --color-accent-50: #fbf6ef;
+  --color-accent-100: #f4e7d5;
+  --color-accent-200: #e8cda9;
+  --color-accent-300: #daac76;
+  --color-accent-400: #cd8c4c;
+  --color-accent-500: #c07536;
+  --color-accent-600: #a75d2b;
+  --color-accent-700: #8a4726;
+  --color-accent-800: #713b25;
+  --color-accent-900: #5e3222;
+
+  --color-sand: #faf8f5;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, 'Times New Roman', serif;
+
+  --radius-xl2: 1.25rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    --header-height: 4.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: #ffffff;
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Cible de focus visible et cohérente sur tout le site. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-600);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Décalage des ancres sous le header fixe. */
+  [id] {
+    scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  }
+}
+
+@layer components {
+  /*
+   * Apparition douce au défilement, pilotée par IntersectionObserver.
+   * Amélioration progressive : le contenu reste visible si JavaScript est
+   * indisponible ou si l'utilisateur a demandé de réduire les animations.
+   */
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal[data-visible='true'] {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Contenu d'article de blog rendu en HTML. */
+  .prose-yg {
+    color: var(--color-ink-700);
+    line-height: 1.75;
+  }
+  .prose-yg > * + * {
+    margin-top: 1.15rem;
+  }
+  .prose-yg h2 {
+    margin-top: 2.75rem;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    line-height: 1.25;
+    color: var(--color-ink-900);
+  }
+  .prose-yg h3 {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-ink-900);
+  }
+  .prose-yg ul,
+  .prose-yg ol {
+    padding-left: 1.25rem;
+  }
+  .prose-yg ul {
+    list-style: disc;
+  }
+  .prose-yg ol {
+    list-style: decimal;
+  }
+  .prose-yg li + li {
+    margin-top: 0.4rem;
+  }
+  .prose-yg a {
+    color: var(--color-accent-700);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-yg strong {
+    color: var(--color-ink-900);
+    font-weight: 600;
+  }
+  .prose-yg blockquote {
+    border-left: 3px solid var(--color-accent-300);
+    padding-left: 1rem;
+    font-style: italic;
+  }
+  .prose-yg table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .prose-yg th,
+  .prose-yg td {
+    border: 1px solid var(--color-ink-200);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+  }
+}
