@@ -42,7 +42,9 @@ affichent un encadré « à compléter » tant que l'information n'est pas rense
 **Dans `src/config/site.ts`**
 
 - [ ] `contact.email` — adresse qui reçoit les demandes
-- [ ] `contact.phone` — si vous souhaitez l'afficher
+- [ ] `social.facebook` — adresse de la page Facebook, une fois créée
+- [ ] `contact.phone` — uniquement si vous voulez un numéro appelable en plus
+      de WhatsApp, qui est déjà renseigné
 - [ ] `legal.companyName`, `legal.ideNumber`, `legal.vatNumber`, `legal.address`
 - [ ] `legal.host` — nom de l'hébergeur (obligatoire dans les mentions légales)
 - [ ] `social.linkedin` — si vous en créez un
@@ -54,7 +56,6 @@ affichent un encadré « à compléter » tant que l'information n'est pas rense
 
 **Images à fournir** (voir la section Images plus bas)
 
-- [ ] Votre photo professionnelle
 - [ ] Les captures des trois réalisations
 
 **Point à trancher**
@@ -72,7 +73,7 @@ Tout ce qui change souvent est regroupé dans `src/config/`.
 
 | Je veux modifier… | Fichier |
 | --- | --- |
-| Nom, e-mail, téléphone, réseaux, localisation, mentions légales | `src/config/site.ts` |
+| Nom, e-mail, WhatsApp, réseaux sociaux, localisation, mentions légales | `src/config/site.ts` |
 | Tarifs et contenu des trois formules, tableau comparatif | `src/config/pricing.ts` |
 | Réalisations du portfolio | `src/config/projects.ts` |
 | Prestations admin & optimisation | `src/config/services.ts` |
@@ -166,15 +167,16 @@ minimal exigé par les règles d'accessibilité.
 
 | Fichier attendu | Emplacement | Utilisé sur |
 | --- | --- | --- |
-| Votre photo | `public/images/yoann-guiot.jpg` | Accueil, À propos |
+| Votre photo | `public/images/yoann-guiot.jpg` | Accueil, À propos (déjà en place) |
 | Capture Jolie Création | `public/images/realisations/jolie-creation.jpg` | Accueil, Réalisations, Sites web |
 | Capture ComparePrime | `public/images/realisations/compareprime.jpg` | idem |
 | Capture Devis-Rapide | `public/images/realisations/devis-rapide.jpg` | idem |
 | Illustrations d'articles | `public/images/blog/` | Blog |
 
-Des images de remplacement neutres (`.svg`) sont en place pour que le site reste
-présentable en attendant. Après avoir déposé un vrai fichier, changez l'extension
-dans `src/config/site.ts` ou `src/config/projects.ts` (`.svg` → `.jpg`).
+Votre photo est déjà intégrée, recadrée au format portrait 4/5 attendu par le site.
+Des images de remplacement neutres (`.svg`) tiennent encore la place des captures
+de réalisations. Après avoir déposé un vrai fichier, changez l'extension dans
+`src/config/projects.ts` (`.svg` → `.jpg`).
 
 **Recommandations :** photo en portrait (rapport 4/5, minimum 800 × 1000 px),
 captures en paysage (rapport 16/10, minimum 1200 × 750 px). Le format WebP ou AVIF
