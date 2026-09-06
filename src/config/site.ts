@@ -19,7 +19,9 @@ export const siteConfig = {
     fullName: 'Yoann Guiot',
     jobTitle: 'Créateur de sites web et accompagnement administratif',
     /** Photo fournie par Yoann. Déposer le fichier dans /public/images/. */
-    photo: '/images/yoann-guiot.svg',
+    photo: '/images/yoann-guiot.jpg',
+    /** Version carrée, pour les réseaux sociaux et les vignettes. */
+    photoSquare: '/images/yoann-guiot-carre.jpg',
     photoAlt: 'Yoann Guiot, fondateur de YG Services à Yverdon-les-Bains',
   },
 
@@ -31,7 +33,19 @@ export const siteConfig = {
   contact: {
     /** À compléter avant la mise en ligne. */
     email: '' as string,
+    /**
+     * Numéro affiché et appelable.
+     * Laisser vide si vous préférez n'être joignable que par WhatsApp.
+     */
     phone: '' as string,
+    /**
+     * WhatsApp. `display` est ce qui s'affiche, `international` sert au lien
+     * wa.me et doit être au format international sans espace ni signe plus.
+     */
+    whatsapp: {
+      display: '078 772 39 19',
+      international: '41787723919',
+    },
     /** Adresse postale complète : à compléter uniquement si vous souhaitez la publier. */
     postalAddress: '' as string,
   },
@@ -57,8 +71,13 @@ export const siteConfig = {
   },
 
   social: {
-    instagram: 'https://www.instagram.com/yg_services/',
-    instagramHandle: '@yg_services',
+    instagram: 'https://www.instagram.com/yg_services_/',
+    instagramHandle: '@yg_services_',
+    /**
+     * Page Facebook : coller l'adresse complète de la page une fois créée.
+     * Tant que ce champ est vide, aucun lien Facebook n'apparaît sur le site.
+     */
+    facebook: '' as string,
     /** À compléter si vous souhaitez afficher un profil LinkedIn. */
     linkedin: '' as string,
   },

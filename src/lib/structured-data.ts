@@ -1,5 +1,6 @@
 import { siteConfig } from '@/config/site';
 import { absoluteUrl } from './seo';
+import { socialProfileUrls } from './contact-links';
 
 /**
  * Données structurées schema.org.
@@ -27,7 +28,7 @@ export function personSchema() {
       addressCountry: siteConfig.location.countryCode,
     },
     worksFor: { '@id': absoluteUrl('/#yg-services') },
-    sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin].filter(Boolean),
+    sameAs: socialProfileUrls(),
   };
 }
 
@@ -44,7 +45,9 @@ export function professionalServiceSchema() {
     founder: { '@id': absoluteUrl('/#yoann-guiot') },
     image: absoluteUrl(siteConfig.person.photo),
     ...(siteConfig.contact.email ? { email: siteConfig.contact.email } : {}),
-    ...(siteConfig.contact.phone ? { telephone: siteConfig.contact.phone } : {}),
+    ...(siteConfig.contact.phone || siteConfig.contact.whatsapp.international
+      ? { telephone: siteConfig.contact.phone || `+${siteConfig.contact.whatsapp.international}` }
+      : {}),
     address: {
       '@type': 'PostalAddress',
       addressLocality: siteConfig.location.city,
@@ -54,7 +57,7 @@ export function professionalServiceSchema() {
     },
     areaServed: siteConfig.location.areaServed.map((name) => ({ '@type': 'Place', name })),
     knowsLanguage: ['fr-CH'],
-    sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin].filter(Boolean),
+    sameAs: socialProfileUrls(),
   };
 }
 

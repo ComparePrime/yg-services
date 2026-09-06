@@ -43,7 +43,11 @@ export default function MentionsLegalesPage() {
             <br />
             E-mail : <LegalValue value={siteConfig.contact.email} label="adresse e-mail" />
             <br />
-            Téléphone : <LegalValue value={siteConfig.contact.phone} label="numéro de téléphone" />
+            Téléphone / WhatsApp :{' '}
+            <LegalValue
+              value={siteConfig.contact.phone || siteConfig.contact.whatsapp.display}
+              label="numéro de téléphone"
+            />
             <br />
             Numéro IDE : <LegalValue value={siteConfig.legal.ideNumber} label="numéro IDE" />
             <br />

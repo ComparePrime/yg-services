@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Logo } from './Logo';
 import { siteConfig } from '@/config/site';
+import { contactLinks, socialLinks } from '@/lib/contact-links';
 import { footerNav } from '@/config/navigation';
 
 export function Footer() {
@@ -22,34 +23,16 @@ export function Footer() {
             <p className="mt-1 text-sm text-ink-400">Disponible en Suisse romande et en Suisse.</p>
 
             <div className="mt-6 flex flex-col gap-2 text-sm">
-              {siteConfig.contact.email ? (
-                <a href={`mailto:${siteConfig.contact.email}`} className="transition hover:text-white">
-                  {siteConfig.contact.email}
-                </a>
-              ) : null}
-              {siteConfig.contact.phone ? (
-                <a href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`} className="transition hover:text-white">
-                  {siteConfig.contact.phone}
-                </a>
-              ) : null}
-              <a
-                href={siteConfig.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition hover:text-white"
-              >
-                Instagram {siteConfig.social.instagramHandle}
-              </a>
-              {siteConfig.social.linkedin ? (
+              {[...contactLinks(), ...socialLinks()].map((link) => (
                 <a
-                  href={siteConfig.social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  key={link.id}
+                  href={link.href}
                   className="transition hover:text-white"
+                  {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  LinkedIn
+                  {link.label} {link.value}
                 </a>
-              ) : null}
+              ))}
             </div>
           </div>
 
