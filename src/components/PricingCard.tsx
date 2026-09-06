@@ -14,7 +14,7 @@ export function PricingCard({ plan }: { plan: Plan }) {
       }`}
     >
       {plan.highlight ? (
-        <span className="absolute -top-3 left-7 rounded-full bg-accent-500 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white">
+        <span className="absolute -top-3 left-7 rounded-full bg-accent-600 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white">
           {plan.highlight}
         </span>
       ) : null}
