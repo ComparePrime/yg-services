@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
-import { Logo } from './Logo';
+import { LogoLink } from './Logo';
 import { mainNav, primaryCta } from '@/config/navigation';
 
 export function Header() {
@@ -46,7 +46,7 @@ export function Header() {
     >
       <Container>
         <div className="flex h-[var(--header-height)] items-center justify-between gap-4">
-          <Logo />
+          <LogoLink className="h-8 w-auto sm:h-9" />
 
           <nav aria-label="Navigation principale" className="hidden lg:block">
             <ul className="flex items-center gap-1">

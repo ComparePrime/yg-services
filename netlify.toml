@@ -1,6 +1,17 @@
-# Configuration Netlify. Le plugin Next.js est détecté automatiquement.
+# Configuration Netlify.
+#
+# Les trois éléments ci-dessous sont nécessaires : sans le runtime Next.js,
+# Netlify publie le dossier indiqué tel quel, sans générer le serveur qui rend
+# les pages, et le site s'affiche vide.
+
 [build]
   command = "npm run build"
+  publish = ".next"
+
+# Runtime officiel Next.js : génère les pages statiques et la fonction serveur
+# qui traite les routes dynamiques, dont /api/contact.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [build.environment]
   NODE_VERSION = "22"

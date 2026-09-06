@@ -43,9 +43,6 @@ export const metadata: Metadata = {
   publisher: siteConfig.brand,
   alternates: { canonical: absoluteUrl('/') },
   manifest: '/site.webmanifest',
-  icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-  },
   formatDetection: { telephone: false, address: false, email: false },
   ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
@@ -53,7 +50,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#12161d',
+  themeColor: '#1c2026',
   width: 'device-width',
   initialScale: 1,
 };

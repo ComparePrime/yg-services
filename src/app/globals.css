@@ -19,16 +19,22 @@
   --color-ink-900: #1e242e;
   --color-ink-950: #12161d;
 
-  --color-accent-50: #fbf6ef;
-  --color-accent-100: #f4e7d5;
-  --color-accent-200: #e8cda9;
-  --color-accent-300: #daac76;
-  --color-accent-400: #cd8c4c;
-  --color-accent-500: #c07536;
-  --color-accent-600: #a75d2b;
-  --color-accent-700: #8a4726;
-  --color-accent-800: #713b25;
-  --color-accent-900: #5e3222;
+  /*
+   * Accent bleu repris du logo YG Services.
+   * --color-accent-500 est exactement le bleu du logo : il sert aux éléments
+   * graphiques. Pour du texte, utiliser 600 ou plus foncé sur fond clair,
+   * et 300/400 sur fond sombre : ces nuances respectent le contraste AA.
+   */
+  --color-accent-50: #f2f7fb;
+  --color-accent-100: #e3edf6;
+  --color-accent-200: #c6dbec;
+  --color-accent-300: #9dc0dc;
+  --color-accent-400: #6fa1c8;
+  --color-accent-500: #578ebe;
+  --color-accent-600: #3f74a5;
+  --color-accent-700: #33608b;
+  --color-accent-800: #2c5173;
+  --color-accent-900: #274560;
 
   --color-sand: #faf8f5;
 

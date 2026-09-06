@@ -57,6 +57,13 @@ affichent un encadré « à compléter » tant que l'information n'est pas rense
 - [ ] Votre photo professionnelle
 - [ ] Les captures des trois réalisations
 
+**Point à trancher**
+
+- [ ] Le logo affiche « DIGITAL • ADMINISTRATION • OPTIMISATION », alors que le
+      site écrit « Création web • Administration • Optimisation »
+      (`positioning` dans `src/config/site.ts`). Les deux formulations
+      cohabitent aujourd'hui. À harmoniser si vous le souhaitez.
+
 ---
 
 ## Où modifier quoi
@@ -144,6 +151,18 @@ price: 1490,   // ou null pour afficher « Sur devis »
 
 Déposez les fichiers dans `public/images/`, puis mettez à jour le chemin
 correspondant dans la configuration.
+
+### Le logo
+
+Le logo est déjà intégré : en-tête, pied de page, image de partage sur les
+réseaux sociaux et icônes de navigateur. Le fichier maître et les règles de
+marque sont documentés dans [`brand/README.md`](brand/README.md).
+
+Le bleu du logo (`#578ebe`) sert de couleur d'accent au site. Les nuances
+utilisées pour du texte sont plus foncées, afin de respecter le contraste
+minimal exigé par les règles d'accessibilité.
+
+### Photo et captures
 
 | Fichier attendu | Emplacement | Utilisé sur |
 | --- | --- | --- |
@@ -308,3 +327,27 @@ serveur Node).
 
 Après la mise en ligne, pensez à renseigner `legal.host` dans `src/config/site.ts` :
 les mentions légales doivent indiquer l'hébergeur réel.
+
+### Netlify
+
+Le fichier `netlify.toml` contient trois éléments indispensables :
+
+```toml
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+```
+
+Le runtime `@netlify/plugin-nextjs` est ce qui transforme le résultat du build en
+site servable : il publie les fichiers statiques et crée la fonction serveur qui
+rend les pages et traite `/api/contact`. Netlify l'installe automatiquement à
+partir de cette déclaration, il n'y a rien à ajouter dans `package.json`.
+
+**Si le site s'affiche vide après un déploiement réussi**, c'est presque toujours
+ce bloc qui manque : sans `publish` ni runtime, Netlify publie la racine du dépôt,
+qui ne contient aucun `index.html`. Le symptôme se repère dans le résumé du
+déploiement, à la ligne « No functions deployed » : un site Next.js correctement
+déployé embarque toujours une fonction serveur.
