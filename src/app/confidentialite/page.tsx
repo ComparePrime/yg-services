@@ -96,12 +96,19 @@ export default function ConfidentialitePage() {
             L’hébergeur peut être amené à traiter des données techniques (journaux de connexion,
             adresses IP) pour assurer le fonctionnement et la sécurité du service.
           </p>
+          {siteConfig.legal.hostCountry ? (
+            <p>
+              Les serveurs de l’hébergeur peuvent se situer hors de Suisse, notamment aux{' '}
+              {siteConfig.legal.hostCountry}. Les données techniques liées à la simple consultation
+              du site sont donc susceptibles d’être traitées à l’étranger.
+            </p>
+          ) : null}
           <p>
-            Les messages envoyés depuis le formulaire de contact sont acheminés vers ma boîte
-            e-mail :{' '}
-            <LegalValue value={siteConfig.contact.email} label="adresse e-mail de réception" />. Le
-            service technique utilisé pour cet acheminement traite le contenu de votre message pour
-            le seul besoin de la transmission.
+            Les messages envoyés depuis le formulaire de contact sont acheminés vers ma messagerie
+            professionnelle,{' '}
+            <LegalValue value={siteConfig.contact.email} label="adresse e-mail de réception" />,
+            hébergée par Infomaniak, en Suisse. Le contenu de votre message et les documents que
+            vous joignez ne transitent par aucun autre prestataire.
           </p>
 
           <h2>Cookies</h2>

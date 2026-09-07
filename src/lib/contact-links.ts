@@ -26,22 +26,25 @@ export function contactLinks(): ContactLink[] {
     });
   }
 
-  if (contact.whatsapp.international) {
-    links.push({
-      id: 'whatsapp',
-      label: 'WhatsApp',
-      value: contact.whatsapp.display,
-      href: `https://wa.me/${contact.whatsapp.international}`,
-      external: true,
-    });
-  }
-
   if (contact.phone) {
     links.push({
       id: 'phone',
       label: 'Téléphone',
       value: contact.phone,
-      href: `tel:${contact.phone.replace(/[^\d+]/g, '')}`,
+      href: `tel:${contact.phoneE164 || contact.phone.replace(/[^\d+]/g, '')}`,
+    });
+  }
+
+  if (contact.whatsapp.international) {
+    // Quand le numéro appelable est aussi celui de WhatsApp, on ne le répète
+    // pas : seule l'action change.
+    const sameNumber = contact.phone.replace(/\D/g, '') === contact.whatsapp.display.replace(/\D/g, '');
+    links.push({
+      id: 'whatsapp',
+      label: 'WhatsApp',
+      value: sameNumber ? 'même numéro' : contact.whatsapp.display,
+      href: `https://wa.me/${contact.whatsapp.international}`,
+      external: true,
     });
   }
 

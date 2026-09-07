@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { validateContact, subjectLabel, type ContactPayload } from '@/lib/contact';
+import { validateContact, type ContactPayload } from '@/lib/contact';
+import { deliverContactRequest } from '@/lib/mailer';
 
 export const runtime = 'nodejs';
 
@@ -19,70 +20,6 @@ function rateLimited(ip: string) {
 
   entry.count += 1;
   return entry.count > RATE_LIMIT_MAX;
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-async function deliver(payload: ContactPayload) {
-  const inbox = process.env.CONTACT_INBOX;
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM;
-
-  const lines = [
-    `Sujet : ${subjectLabel(payload.subject)}`,
-    `Nom : ${payload.firstName} ${payload.lastName}`,
-    `E-mail : ${payload.email}`,
-    `Téléphone : ${payload.phone || 'non communiqué'}`,
-    '',
-    payload.message,
-  ];
-
-  // Sans clé d'envoi configurée, la demande est journalisée côté serveur.
-  // Le visiteur reçoit malgré tout une confirmation, et rien n'est perdu.
-  if (!apiKey || !inbox || !from) {
-    console.info(
-      '[contact] Nouvelle demande reçue :\n' +
-        lines.join('\n') +
-        (payload.attachment ? `\n[pièce jointe : ${payload.attachment.filename}]` : ''),
-    );
-    return { delivered: false };
-  }
-
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from,
-      to: [inbox],
-      reply_to: payload.email,
-      subject: `Nouvelle demande — ${subjectLabel(payload.subject)}`,
-      html: lines.map((line) => `<p>${escapeHtml(line)}</p>`).join(''),
-      text: lines.join('\n'),
-      ...(payload.attachment?.content
-        ? {
-            attachments: [
-              { filename: payload.attachment.filename, content: payload.attachment.content },
-            ],
-          }
-        : {}),
-    }),
-  });
-
-  if (!response.ok) {
-    console.error('[contact] Échec de l’envoi', response.status, await response.text());
-    throw new Error('delivery-failed');
-  }
-
-  return { delivered: true };
 }
 
 export async function POST(request: Request) {
@@ -116,8 +53,9 @@ export async function POST(request: Request) {
   }
 
   try {
-    await deliver(body as ContactPayload);
-  } catch {
+    await deliverContactRequest(body as ContactPayload);
+  } catch (error) {
+    console.error('[contact] Échec de l’acheminement', error);
     return NextResponse.json(
       {
         ok: false,
