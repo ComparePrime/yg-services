@@ -45,8 +45,11 @@ export function professionalServiceSchema() {
     founder: { '@id': absoluteUrl('/#yoann-guiot') },
     image: absoluteUrl(siteConfig.person.photo),
     ...(siteConfig.contact.email ? { email: siteConfig.contact.email } : {}),
-    ...(siteConfig.contact.phone || siteConfig.contact.whatsapp.international
-      ? { telephone: siteConfig.contact.phone || `+${siteConfig.contact.whatsapp.international}` }
+    ...(siteConfig.contact.phoneE164 || siteConfig.contact.whatsapp.international
+      ? {
+          telephone:
+            siteConfig.contact.phoneE164 || `+${siteConfig.contact.whatsapp.international}`,
+        }
       : {}),
     address: {
       '@type': 'PostalAddress',

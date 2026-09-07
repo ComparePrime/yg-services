@@ -41,13 +41,18 @@ affichent un encadré « à compléter » tant que l'information n'est pas rense
 
 **Dans `src/config/site.ts`**
 
-- [ ] `contact.email` — adresse qui reçoit les demandes
-- [ ] `social.facebook` — adresse de la page Facebook, une fois créée
-- [ ] `contact.phone` — uniquement si vous voulez un numéro appelable en plus
-      de WhatsApp, qui est déjà renseigné
 - [ ] `legal.companyName`, `legal.ideNumber`, `legal.vatNumber`, `legal.address`
-- [ ] `legal.host` — nom de l'hébergeur (obligatoire dans les mentions légales)
+- [ ] `social.facebook` — adresse de la page Facebook, une fois créée
 - [ ] `social.linkedin` — si vous en créez un
+
+Déjà renseignés : e-mail (`info@yg-services.ch`), téléphone et WhatsApp
+(078 772 39 19), hébergeur (Netlify).
+
+**Chez Netlify**
+
+- [ ] `SMTP_PASSWORD` — mot de passe de la boîte Infomaniak, à saisir dans les
+      variables d'environnement de Netlify, jamais dans le dépôt
+- [ ] `NEXT_PUBLIC_SITE_URL` — `https://yg-services.ch`
 
 **Dans `src/config/pricing.ts`**
 
@@ -193,9 +198,9 @@ Les deux formulaires (contact complet et « J'ai besoin d'aide ») envoient vers
 `/api/contact`. Cette route valide les données, bloque les robots par un champ piège,
 limite le nombre d'envois par adresse IP, puis transmet la demande.
 
-**Sans configuration**, les demandes sont écrites dans les journaux du serveur et le
-visiteur reçoit quand même sa confirmation. Pour recevoir les demandes par e-mail,
-renseignez les variables d'environnement ci-dessous.
+Les e-mails partent par la messagerie Infomaniak du domaine, en SMTP. Aucun
+service tiers n'intervient : le contenu des messages et les documents joints ne
+transitent que par Infomaniak.
 
 ### Variables d'environnement
 
@@ -205,13 +210,24 @@ votre hébergeur (en production).
 | Variable | Rôle |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Adresse publique du site, sans slash final. Sert aux URL canoniques et au plan du site. |
-| `CONTACT_INBOX` | Adresse qui reçoit les demandes |
-| `RESEND_API_KEY` | Clé du service d'envoi d'e-mails. Vide = envoi désactivé |
-| `RESEND_FROM` | Adresse expéditrice vérifiée |
+| `CONTACT_INBOX` | Adresse qui reçoit les demandes. Par défaut, celle de `src/config/site.ts` |
+| `SMTP_HOST` | `mail.infomaniak.com` |
+| `SMTP_PORT` | `465` |
+| `SMTP_USER` | `info@yg-services.ch` |
+| `SMTP_PASSWORD` | Mot de passe de la boîte. **Secret** : uniquement dans Netlify |
+| `SMTP_FROM` | Adresse expéditrice. Doit appartenir au domaine, sinon le message est rejeté |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Code de vérification Search Console, si vous en utilisez un |
 
-Le service d'envoi peut être remplacé par un autre : tout se trouve dans la fonction
-`deliver()` de `src/app/api/contact/route.ts`.
+Le message arrive dans votre boîte avec l'adresse du visiteur en champ de
+réponse : un simple « Répondre » lui écrit directement.
+
+Tant que `SMTP_HOST` n'est pas renseigné, les demandes sont écrites dans les
+journaux du serveur : le formulaire reste fonctionnel pour le visiteur, mais
+vous ne recevez aucun e-mail. Pensez à faire un envoi de test après la première
+mise en ligne.
+
+Pour changer de fournisseur d'envoi, tout se trouve dans
+`src/lib/mailer.ts`.
 
 ---
 
@@ -326,9 +342,6 @@ serveur Node).
 4. Faites pointer le domaine `yg-services.ch` vers la plateforme
 5. Vérifiez que `https://yg-services.ch/sitemap.xml` répond, puis soumettez-le à la
    Search Console
-
-Après la mise en ligne, pensez à renseigner `legal.host` dans `src/config/site.ts` :
-les mentions légales doivent indiquer l'hébergeur réel.
 
 ### Netlify
 

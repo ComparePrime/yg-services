@@ -31,13 +31,15 @@ export const siteConfig = {
   lang: 'fr-CH',
 
   contact: {
-    /** À compléter avant la mise en ligne. */
-    email: '' as string,
+    email: 'info@yg-services.ch' as string,
     /**
      * Numéro affiché et appelable.
-     * Laisser vide si vous préférez n'être joignable que par WhatsApp.
+     * `phone` est la forme lisible, `phoneE164` la forme internationale
+     * utilisée pour le lien d'appel et les données structurées.
+     * Laisser les deux vides pour n'être joignable que par WhatsApp.
      */
-    phone: '' as string,
+    phone: '078 772 39 19' as string,
+    phoneE164: '+41787723919' as string,
     /**
      * WhatsApp. `display` est ce qui s'affiche, `international` sert au lien
      * wa.me et doit être au format international sans espace ni signe plus.
@@ -93,8 +95,13 @@ export const siteConfig = {
     vatNumber: '' as string,
     address: '' as string,
     responsiblePublication: 'Yoann Guiot',
-    /** Hébergeur du site, à confirmer avant la mise en ligne. */
-    host: '' as string,
+    /** Hébergeur du site. */
+    host: 'Netlify, Inc. (netlify.com)' as string,
+    /**
+     * Pays d'hébergement des données, mentionné dans la politique de
+     * confidentialité. Netlify est une société américaine.
+     */
+    hostCountry: 'États-Unis' as string,
   },
 
   /** Outils de mesure d'audience réellement utilisés (laisser vide si aucun). */

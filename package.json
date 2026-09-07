@@ -13,6 +13,7 @@
   "dependencies": {
     "gray-matter": "4.0.3",
     "next": "^16.3.4",
+    "nodemailer": "^10.0.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "remark": "15.0.1",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "4.1.13",
     "@types/node": "22.18.1",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "19.1.13",
     "@types/react-dom": "19.1.9",
     "eslint": "9.35.0",
