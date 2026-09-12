@@ -38,12 +38,18 @@ export function ContactForm({ variant = 'full' }: { variant?: 'full' | 'simple' 
   const [status, setStatus] = useState<Status>('idle');
   const [serverError, setServerError] = useState('');
 
-  // Pré-sélectionne le sujet quand on arrive depuis un CTA (?sujet=logement, etc.).
+  // Reprend ce qui vient de la page d'accueil : le sujet pré-sélectionné
+  // (?sujet=logement) et la phrase déjà saisie par le visiteur (?besoin=…),
+  // pour qu'il n'ait pas à réécrire ce qu'il vient de taper.
   useEffect(() => {
     const preset = searchParams.get('sujet');
-    if (preset && subjects.some((s) => s.value === preset)) {
-      setValues((prev) => ({ ...prev, subject: preset }));
-    }
+    const besoin = searchParams.get('besoin');
+
+    setValues((prev) => ({
+      ...prev,
+      ...(preset && subjects.some((s) => s.value === preset) ? { subject: preset } : {}),
+      ...(besoin && !prev.message ? { message: besoin.slice(0, 2000) } : {}),
+    }));
   }, [searchParams]);
 
   const field = (name: string) => `${uid}-${name}`;

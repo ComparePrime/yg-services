@@ -5,9 +5,8 @@ export const mainNav: NavLink[] = [
   { href: '/sites-web', label: 'Sites web' },
   { href: '/admin-optimisation', label: 'Admin & optimisation' },
   { href: '/realisations', label: 'Réalisations' },
-  { href: '/blog', label: 'Conseils' },
   { href: '/a-propos', label: 'À propos' },
-  { href: '/faq', label: 'FAQ' },
+  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ];
 

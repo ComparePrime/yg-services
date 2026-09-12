@@ -42,6 +42,9 @@
   --font-display: var(--font-fraunces), ui-serif, Georgia, 'Times New Roman', serif;
 
   --radius-xl2: 1.25rem;
+
+  /* Largeur à partir de laquelle la navigation complète tient sur une ligne. */
+  --breakpoint-menu: 1120px;
 }
 
 @layer base {
