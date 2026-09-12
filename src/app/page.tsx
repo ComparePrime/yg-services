@@ -1,20 +1,19 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { Hero } from '@/components/sections/Hero';
-import { TwoWays } from '@/components/sections/TwoWays';
-import { WhyMe } from '@/components/sections/WhyMe';
-import { HelpForm } from '@/components/sections/HelpForm';
+import { NeedSearch } from '@/components/sections/NeedSearch';
+import { Universes } from '@/components/sections/Universes';
 import { FinalCta } from '@/components/sections/FinalCta';
+import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
-import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { ArrowRight } from '@/components/ui/Check';
 import { PortfolioCard } from '@/components/PortfolioCard';
 import { BlogCard } from '@/components/BlogCard';
 import { JsonLd } from '@/components/JsonLd';
+import { siteConfig } from '@/config/site';
 import { featuredProjects } from '@/config/projects';
-import { adminServices, webProcess } from '@/config/services';
 import { getAllPosts } from '@/lib/blog';
 import { buildMetadata } from '@/lib/seo';
 import { webPageSchema } from '@/lib/structured-data';
@@ -33,76 +32,86 @@ export default function HomePage() {
 
   return (
     <>
-      <Hero />
-      <TwoWays />
+      <NeedSearch />
+      <Universes />
 
-      {/* Aperçu de la méthode web */}
-      <Section tone="sand">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          <SectionHeading
-            eyebrow="Création de sites web"
-            title="Je m’occupe de tout, de la première idée à la mise en ligne"
-            lead="Vous n’avez pas à coordonner un graphiste, un développeur et une agence. Vous avez un seul interlocuteur, qui suit le projet du début à la fin."
-          />
-          <div>
-            <ol className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-              {webProcess.map((step, index) => (
-                <Reveal as="li" key={step.step} delay={index * 50}>
-                  <p className="font-display text-sm text-accent-600">{step.step}</p>
-                  <h3 className="mt-1 font-medium text-ink-900">{step.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-ink-600">{step.text}</p>
-                </Reveal>
-              ))}
-            </ol>
-            <Button href="/sites-web" className="mt-10">
-              Voir les formules et les tarifs
-              <ArrowRight />
-            </Button>
+      {/* « Je ne sais pas ce qu'il me faut » */}
+      <Section tone="sand" size="narrow">
+        <div className="max-w-2xl">
+          <h2 className="font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
+            Vous ne savez pas exactement ce qu’il vous faut&nbsp;?
+          </h2>
+          <div className="mt-5 space-y-4 text-[17px] leading-relaxed text-ink-600">
+            <p>Ce n’est pas un problème.</p>
+            <p>
+              Vous pouvez simplement m’expliquer votre situation, même si vous ne savez pas quelle
+              démarche effectuer ou quel service choisir.
+            </p>
+            <p>Je regarde avec vous ce qui peut être fait et je vous indique la suite.</p>
           </div>
+          <Button href="/contact" size="lg" className="mt-8">
+            Me parler de mon besoin
+            <ArrowRight />
+          </Button>
         </div>
       </Section>
 
-      {/* Aperçu admin & optimisation */}
+      {/* Yoann */}
       <Section tone="white">
-        <SectionHeading
-          eyebrow="Admin & optimisation"
-          title="Ce que je peux reprendre à votre place"
-          lead="Certaines démarches sont simples sur le papier et deviennent vite compliquées dans la réalité. Mon objectif est de vous aider à y voir plus clair et à préparer les bonnes démarches."
-        />
-        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {adminServices.map((service, index) => (
-            <Reveal as="li" key={service.id} delay={index * 45}>
-              <Link
-                href={`/admin-optimisation#${service.id}`}
-                className="group flex h-full flex-col rounded-2xl bg-white p-6 ring-1 ring-ink-200 transition duration-300 hover:-translate-y-1 hover:shadow-lg"
-              >
-                <span aria-hidden="true" className="text-2xl">
-                  {service.emoji}
-                </span>
-                <h3 className="mt-4 font-display text-lg text-ink-900">{service.title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-600">
-                  {service.items.slice(0, 4).join(' • ')}
-                </p>
-                <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink-900 transition group-hover:text-accent-700">
-                  En savoir plus
-                  <ArrowRight className="transition group-hover:translate-x-0.5" />
-                </span>
-              </Link>
-            </Reveal>
-          ))}
-        </ul>
+        <div className="grid items-start gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
+          <div className="max-w-2xl">
+            <h2 className="font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
+              Bonjour, moi c’est Yoann.
+            </h2>
+            <div className="mt-6 space-y-4 text-[17px] leading-relaxed text-ink-600">
+              <p>
+                Je suis Yoann Guiot, basé à {siteConfig.location.city}. J’aime comprendre comment
+                les choses fonctionnent, trouver des solutions et surtout simplifier ce qui paraît
+                compliqué.
+              </p>
+              <p>
+                C’est exactement l’idée derrière {siteConfig.brand} : réunir mes compétences dans le
+                digital, l’administration et l’optimisation pour proposer une aide simple et
+                directe.
+              </p>
+              <p>
+                Pas besoin de savoir exactement ce qu’il vous faut. Vous m’expliquez votre situation
+                et on regarde ensemble.
+              </p>
+            </div>
+            <Button href="/a-propos" variant="secondary" className="mt-8">
+              En savoir plus sur moi
+              <ArrowRight />
+            </Button>
+          </div>
+
+          <div className="w-40 shrink-0 sm:w-48">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-ink-100 ring-1 ring-ink-200">
+              <Image
+                src={siteConfig.person.photo}
+                alt={siteConfig.person.photoAlt}
+                fill
+                sizes="192px"
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
       </Section>
 
       {/* Réalisations */}
       <Section tone="sand">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading
-            eyebrow="Mes réalisations"
-            title="Des projets que vous pouvez aller voir"
-            lead="Trois sites que j’ai conçus et développés, en ligne aujourd’hui."
-          />
+          <div className="max-w-2xl">
+            <h2 className="font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
+              Des projets que vous pouvez aller voir
+            </h2>
+            <p className="mt-4 text-lg text-ink-600">
+              Trois sites que j’ai conçus et développés, en ligne aujourd’hui.
+            </p>
+          </div>
           <Button href="/realisations" variant="secondary">
-            Toutes mes réalisations
+            Voir toutes mes réalisations
             <ArrowRight />
           </Button>
         </div>
@@ -115,19 +124,21 @@ export default function HomePage() {
         </div>
       </Section>
 
-      <WhyMe tone="white" />
-
-      {/* Derniers conseils */}
+      {/* Blog */}
       {posts.length > 0 ? (
-        <Section tone="sand">
+        <Section tone="white">
           <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading
-              eyebrow="Conseils"
-              title="Des réponses aux questions qu’on me pose souvent"
-              lead="Des articles écrits pour être utiles, pas pour remplir des pages."
-            />
+            <div className="max-w-2xl">
+              <h2 className="font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
+                Des réponses aux questions qu’on se pose tous
+              </h2>
+              <p className="mt-4 text-lg text-ink-600">
+                Baisse de loyer, changement d’adresse, assurances, prix d’un site : j’écris ce qu’on
+                me demande le plus souvent.
+              </p>
+            </div>
             <Button href="/blog" variant="secondary">
-              Tous les articles
+              Voir tous les articles
               <ArrowRight />
             </Button>
           </div>
@@ -141,8 +152,42 @@ export default function HomePage() {
         </Section>
       ) : null}
 
-      <HelpForm />
-      <FinalCta secondary={{ href: '/faq', label: 'Consulter la FAQ' }} />
+      {/* Contenu indexable : ce que je fais et où, en toutes lettres. */}
+      <Section tone="sand" size="narrow" as="aside">
+        <h2 className="font-display text-2xl text-ink-900 sm:text-3xl">
+          Où j’interviens, et pour qui
+        </h2>
+        <div className="mt-5 space-y-4 text-[16px] leading-relaxed text-ink-600">
+          <p>
+            Je suis basé à {siteConfig.location.city}, dans le Nord vaudois. Je crée des sites
+            internet pour des entreprises, des artisans et des personnes à leur compte du canton de
+            Vaud et de toute la Suisse romande, et un projet web se mène très bien à distance.
+          </p>
+          <p>
+            Pour l’accompagnement administratif et l’optimisation de contrats, je travaille surtout
+            avec des particuliers d’Yverdon-les-Bains, du Nord vaudois et du canton de Vaud, là où
+            connaître les usages locaux et les délais communaux change quelque chose.
+          </p>
+          <p>
+            Une question sur l’une ou l’autre de ces prestations&nbsp;? La{' '}
+            <Link href="/faq" className="underline underline-offset-2 hover:text-ink-900">
+              foire aux questions
+            </Link>{' '}
+            répond aux plus fréquentes, et vous pouvez sinon{' '}
+            <Link href="/contact" className="underline underline-offset-2 hover:text-ink-900">
+              m’écrire directement
+            </Link>
+            .
+          </p>
+        </div>
+      </Section>
+
+      <FinalCta
+        title="Vous avez une question, un projet ou simplement un problème à régler ?"
+        text="Pas besoin de préparer un long dossier. Expliquez-moi simplement ce qui vous amène ici."
+        ctaLabel="Me parler de mon besoin"
+        ctaHref="/contact"
+      />
 
       <JsonLd data={webPageSchema({ title, description, path: '/' })} />
     </>

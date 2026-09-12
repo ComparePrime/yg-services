@@ -48,7 +48,7 @@ export function Header() {
         <div className="flex h-[var(--header-height)] items-center justify-between gap-4">
           <LogoLink className="h-8 w-auto sm:h-9" />
 
-          <nav aria-label="Navigation principale" className="hidden xl:block">
+          <nav aria-label="Navigation principale" className="hidden menu:block">
             <ul className="flex items-center gap-1">
               {mainNav.map((link) => (
                 <li key={link.href}>
@@ -68,7 +68,7 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="hidden xl:block">
+          <div className="hidden menu:block">
             <Button href={primaryCta.href}>{primaryCta.label}</Button>
           </div>
 
@@ -77,7 +77,7 @@ export function Header() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="menu-mobile"
-            className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm text-ink-800 ring-1 ring-ink-200 transition hover:ring-ink-400 xl:hidden"
+            className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm text-ink-800 ring-1 ring-ink-200 transition hover:ring-ink-400 menu:hidden"
           >
             <span className="sr-only sm:not-sr-only">{open ? 'Fermer' : 'Menu'}</span>
             <svg viewBox="0 0 20 20" aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -90,7 +90,7 @@ export function Header() {
       <div
         id="menu-mobile"
         hidden={!open}
-        className="border-t border-ink-200/70 bg-white xl:hidden"
+        className="border-t border-ink-200/70 bg-white menu:hidden"
       >
         <Container size="wide">
           <nav aria-label="Navigation mobile" className="py-4">

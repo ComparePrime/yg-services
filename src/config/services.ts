@@ -175,24 +175,6 @@ export const adminServices: AdminService[] = [
   },
 ];
 
-/** Les deux portes d'entrée du site, affichées sur la page d'accueil. */
-export const twoWays = [
-  {
-    emoji: '💻',
-    title: 'Création web',
-    text: "Vous avez besoin d'un site web professionnel ? Je m'occupe de votre projet de la conception à la mise en ligne.",
-    href: '/sites-web',
-    cta: 'Découvrir mes offres web',
-  },
-  {
-    emoji: '📂',
-    title: 'Admin & optimisation',
-    text: "Une démarche administrative, une assurance à revoir, un courrier à rédiger ou une situation que vous ne savez pas comment gérer ? Expliquez-moi votre besoin.",
-    href: '/admin-optimisation',
-    cta: 'Découvrir mes services administratifs',
-  },
-];
-
 /** Les 7 étapes d'un projet web. */
 export const webProcess = [
   { step: '01', title: 'Analyse', text: "Je prends le temps de comprendre votre activité, vos objectifs et ce que le site doit réellement vous apporter." },
