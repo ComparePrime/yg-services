@@ -17,11 +17,11 @@ export function HelpForm({ id = 'besoin-aide' }: { id?: string }) {
               J’ai besoin d’aide
             </p>
             <h2 className="font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
-              Expliquez-moi simplement votre situation.
+              Décrivez simplement votre situation.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-ink-600">
-              Pas besoin de savoir quel service choisir. Expliquez-moi simplement ce qui vous pose
-              problème et je vous dirai comment je peux vous aider.
+              Pas besoin de savoir quel service choisir. Décrivez ce qui vous pose problème et
+              vous recevrez une réponse indiquant ce qui peut être fait.
             </p>
           </div>
 

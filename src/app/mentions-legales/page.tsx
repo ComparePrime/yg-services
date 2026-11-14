@@ -31,10 +31,16 @@ export default function MentionsLegalesPage() {
         <div className="prose-yg text-[16px]">
           <h2>Éditeur du site</h2>
           <p>
+            Nom commercial : {siteConfig.brand}
+            <br />
             Raison sociale :{' '}
             <LegalValue value={siteConfig.legal.companyName} label="raison sociale" />
             <br />
-            Responsable de la publication : {siteConfig.legal.responsiblePublication}
+            Responsable de la publication :{' '}
+            <LegalValue
+              value={siteConfig.legal.responsiblePublication}
+              label="responsable de la publication"
+            />
             <br />
             Adresse : <LegalValue value={siteConfig.legal.address} label="adresse postale" />
             <br />
@@ -43,15 +49,13 @@ export default function MentionsLegalesPage() {
             <br />
             E-mail : <LegalValue value={siteConfig.contact.email} label="adresse e-mail" />
             <br />
-            Téléphone / WhatsApp :{' '}
-            <LegalValue
-              value={siteConfig.contact.phone || siteConfig.contact.whatsapp.display}
-              label="numéro de téléphone"
-            />
-            <br />
             Numéro IDE : <LegalValue value={siteConfig.legal.ideNumber} label="numéro IDE" />
             <br />
             Numéro de TVA : <LegalValue value={siteConfig.legal.vatNumber} label="numéro de TVA" />
+          </p>
+          <p>
+            Le contact se fait par le formulaire du site ou par e-mail. Aucun numéro de téléphone
+            n’est publié.
           </p>
 
           <h2>Hébergement</h2>
@@ -63,7 +67,7 @@ export default function MentionsLegalesPage() {
           <h2>Propriété intellectuelle</h2>
           <p>
             L’ensemble des contenus présents sur ce site (textes, structure, mise en page, éléments
-            graphiques et code) est la propriété de {siteConfig.person.fullName}, sauf mention
+            graphiques et code) est la propriété de {siteConfig.brand}, sauf mention
             contraire. Toute reproduction, représentation ou diffusion, totale ou partielle, sans
             autorisation écrite préalable est interdite.
           </p>

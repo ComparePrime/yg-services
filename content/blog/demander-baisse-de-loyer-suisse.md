@@ -3,7 +3,7 @@ title: "Comment demander une baisse de loyer en Suisse ?"
 description: "Quand une demande de baisse de loyer a du sens, ce qu'il faut réunir avant d'écrire, et les limites à connaître."
 date: '2026-03-04'
 category: 'Logement'
-author: 'Yoann Guiot'
+author: 'YG Services'
 metaTitle: "Baisse de loyer en Suisse : la marche à suivre"
 metaDescription: "Taux de référence, échéance du bail, contenu du courrier : ce qu'il faut préparer avant de demander une baisse de loyer en Suisse romande."
 image: '/images/blog/baisse-de-loyer.svg'
@@ -12,7 +12,7 @@ imageAlt: "Immeuble d'habitation en Suisse romande"
 
 Beaucoup de locataires paient un loyer qui n'a jamais été revu depuis leur emménagement, parfois depuis dix ans. Demander une baisse est un droit prévu par le droit du bail suisse. Encore faut-il savoir quand la demande a des chances d'aboutir et comment la formuler.
 
-Un avertissement d'entrée : je vous aide à préparer et à rédiger la démarche, je ne vous dis pas si vous allez obtenir gain de cause. Cela dépend de votre bail, de son historique et de la situation de l'immeuble. Pour un cas conflictuel, adressez-vous à une association de défense des locataires ou à un professionnel du droit du bail.
+Un avertissement d'entrée : YG Services aide à préparer et à rédiger la démarche, sans se prononcer sur l'issue. Cela dépend de votre bail, de son historique et de la situation de l'immeuble. Pour un cas conflictuel, adressez-vous à une association de défense des locataires ou à un professionnel du droit du bail.
 
 ## Le motif le plus courant : le taux de référence
 
@@ -45,8 +45,8 @@ Deux réflexes qui font la différence : envoyez le courrier en recommandé, et 
 
 Le refus n'est pas la fin de l'histoire. Il existe en Suisse une procédure de conciliation en matière de bail, gratuite dans la plupart des cantons, avec des délais à respecter après la réponse du bailleur. C'est le moment où il faut se faire accompagner par une personne dont c'est le métier.
 
-## Comment je peux vous aider
+## Comment YG Services peut vous aider
 
-Je peux reprendre votre dossier, vérifier ce que disent vos documents, identifier le motif le plus solide dans votre situation et rédiger le courrier à votre place. Si le dossier dépasse le cadre administratif, je vous le dis franchement et je vous oriente.
+YG Services peut reprendre votre dossier, vérifier ce que disent vos documents, identifier le motif le plus solide dans votre situation et rédiger le courrier à votre place. Si le dossier dépasse le cadre administratif, cela vous est dit franchement, avec une orientation utile.
 
-[Faire le point sur mon loyer](/contact?sujet=logement)
+[Préparer ma démarche](/contact?sujet=logement)

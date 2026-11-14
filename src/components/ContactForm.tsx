@@ -128,7 +128,7 @@ export function ContactForm({ variant = 'full' }: { variant?: 'full' | 'simple' 
       >
         <p className="font-display text-2xl text-ink-900">Message bien reçu.</p>
         <p className="mx-auto mt-3 max-w-md text-ink-600">
-          Merci pour votre message. Je le lis personnellement et je vous réponds directement,
+          Merci pour votre message. Il est lu personnellement et recevra une réponse,
           généralement sous 24 à 48 heures ouvrables.
         </p>
         <Button
@@ -152,7 +152,7 @@ export function ContactForm({ variant = 'full' }: { variant?: 'full' | 'simple' 
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
       {variant === 'full' ? (
         <fieldset>
-          <legend className={labelClass}>Que puis-je faire pour vous ?</legend>
+          <legend className={labelClass}>Quel est l’objet de votre demande ?</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             {subjects.map((subject) => {
               const selected = values.subject === subject.value;
@@ -280,7 +280,7 @@ export function ContactForm({ variant = 'full' }: { variant?: 'full' | 'simple' 
           required
           placeholder={
             variant === 'simple'
-              ? 'Par exemple : « J’ai reçu une hausse de loyer et je ne sais pas si je peux la contester. »'
+              ? 'Par exemple : « J’ai reçu un courrier de ma gérance et je ne sais pas comment y répondre. »'
               : 'Décrivez votre projet ou votre situation, même brièvement.'
           }
           value={values.message}

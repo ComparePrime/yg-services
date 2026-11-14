@@ -11,14 +11,14 @@ import { projects } from '@/config/projects';
 import { buildMetadata, absoluteUrl } from '@/lib/seo';
 import { breadcrumbSchema, webPageSchema } from '@/lib/structured-data';
 
-const title = 'Mes réalisations : sites web créés en Suisse romande';
+const title = 'Réalisations : sites internet créés en Suisse romande';
 const description =
-  "Les sites que j'ai conçus et développés, de la structure des pages jusqu'à la mise en ligne. Vous pouvez tous les consulter en ligne.";
+  "Les sites conçus et développés par YG Services, de la structure des pages jusqu'à la mise en ligne. Tous sont consultables en ligne.";
 const path = '/realisations';
 
 export const metadata: Metadata = {
   ...buildMetadata({ title, description, path }),
-  title: 'Mes réalisations',
+  title: 'Réalisations',
 };
 
 export default function RealisationsPage() {
@@ -26,8 +26,8 @@ export default function RealisationsPage() {
     <>
       <PageHero
         eyebrow="Réalisations"
-        title="Des projets que vous pouvez aller voir"
-        lead="Je préfère montrer des sites en ligne plutôt que des maquettes. Voici ce que j’ai conçu et développé jusqu’ici."
+        title="Des projets consultables en ligne"
+        lead="Des sites en ligne plutôt que des maquettes. Voici les projets conçus et développés jusqu’ici."
         breadcrumb={[
           { name: 'Accueil', path: '/' },
           { name: 'Réalisations', path },
@@ -71,7 +71,7 @@ export default function RealisationsPage() {
 
               <div className="mt-7 grid gap-6 sm:grid-cols-2">
                 <div>
-                  <h3 className="text-sm font-semibold text-ink-900">Ce que j’ai réalisé</h3>
+                  <h3 className="text-sm font-semibold text-ink-900">Prestations réalisées</h3>
                   <ul className="mt-3 space-y-2 text-[15px] text-ink-600">
                     {project.services.map((service) => (
                       <li key={service} className="flex items-start gap-2">
@@ -107,7 +107,7 @@ export default function RealisationsPage() {
 
       <FinalCta
         title="Le prochain projet pourrait être le vôtre"
-        text="Dites-moi ce que vous avez en tête, même si l’idée n’est pas encore complètement claire."
+        text="Décrivez ce que vous avez en tête, même si l’idée n’est pas encore complètement claire."
         ctaLabel="Parlons de votre projet"
         ctaHref="/contact?sujet=creer-site"
         secondary={{ href: '/sites-web', label: 'Voir les formules' }}

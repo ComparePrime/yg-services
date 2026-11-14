@@ -2,7 +2,7 @@
   "name": "yg-services",
   "version": "1.0.0",
   "private": true,
-  "description": "Site web de YG Services - Yoann Guiot - Creation web, administration & optimisation",
+  "description": "Site web de YG Services - Creation de sites internet et assistance administrative",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

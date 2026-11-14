@@ -28,7 +28,7 @@ export default function BlogPage() {
       <PageHero
         eyebrow="Conseils"
         title="Des articles écrits pour être utiles"
-        lead="Je publie ici les réponses aux questions qu’on me pose vraiment, sur le web comme sur l’administratif. Pas de contenu écrit pour remplir des pages."
+        lead="Les réponses aux questions réellement posées, sur la création de sites comme sur l’administratif. Pas de contenu écrit pour remplir des pages."
         breadcrumb={[
           { name: 'Accueil', path: '/' },
           { name: 'Conseils', path },
@@ -66,7 +66,7 @@ export default function BlogPage() {
 
       <FinalCta
         title="Une question qui n’a pas encore son article ?"
-        text="Écrivez-la moi. Si elle revient souvent, j’en fais un article, et en attendant je vous réponds directement."
+        text="Posez-la directement. Si elle revient souvent, elle fera l’objet d’un article, et en attendant vous recevrez une réponse."
         ctaLabel="Me poser ma question"
         ctaHref="/contact"
       />

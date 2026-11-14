@@ -6,7 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { JsonLd } from '@/components/JsonLd';
 import { siteConfig } from '@/config/site';
 import { absoluteUrl } from '@/lib/seo';
-import { personSchema, professionalServiceSchema, websiteSchema } from '@/lib/structured-data';
+import { organizationSchema, websiteSchema } from '@/lib/structured-data';
 
 /*
  * Les deux polices sont chargées en `display: optional`.
@@ -32,14 +32,14 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: 'Création web, administration & optimisation en Suisse romande | YG Services',
+    default: 'Création de sites internet & assistance administrative | YG Services',
     template: `%s | ${siteConfig.brand}`,
   },
   description:
-    "Je crée des sites web de A à Z et j'accompagne les particuliers dans leurs démarches administratives et l'optimisation de leurs assurances et dépenses. Yverdon-les-Bains, Vaud, Suisse romande.",
+    "YG Services crée des sites internet pour indépendants, PME et particuliers, et accompagne les particuliers dans leurs démarches administratives. Yverdon-les-Bains, Vaud, Suisse romande.",
   applicationName: siteConfig.brand,
-  authors: [{ name: siteConfig.person.fullName, url: absoluteUrl('/a-propos') }],
-  creator: siteConfig.person.fullName,
+  authors: [{ name: siteConfig.brand, url: absoluteUrl('/a-propos') }],
+  creator: siteConfig.brand,
   publisher: siteConfig.brand,
   alternates: { canonical: absoluteUrl('/') },
   manifest: '/site.webmanifest',
@@ -70,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
-        <JsonLd data={[websiteSchema(), personSchema(), professionalServiceSchema()]} />
+        <JsonLd data={[websiteSchema(), organizationSchema()]} />
       </body>
     </html>
   );

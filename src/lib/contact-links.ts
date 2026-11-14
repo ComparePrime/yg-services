@@ -3,6 +3,10 @@ import { siteConfig } from '@/config/site';
 /**
  * Moyens de contact réellement renseignés.
  * Un moyen vide dans la configuration n'apparaît nulle part sur le site.
+ *
+ * Aucun numéro de téléphone n'est publié : le contact se fait par le
+ * formulaire et par e-mail. Renseigner `contact.phone` dans la configuration
+ * le ferait réapparaître ici et dans les données structurées.
  */
 
 export type ContactLink = {
@@ -23,28 +27,6 @@ export function contactLinks(): ContactLink[] {
       label: 'E-mail',
       value: contact.email,
       href: `mailto:${contact.email}`,
-    });
-  }
-
-  if (contact.phone) {
-    links.push({
-      id: 'phone',
-      label: 'Téléphone',
-      value: contact.phone,
-      href: `tel:${contact.phoneE164 || contact.phone.replace(/[^\d+]/g, '')}`,
-    });
-  }
-
-  if (contact.whatsapp.international) {
-    // Quand le numéro appelable est aussi celui de WhatsApp, on ne le répète
-    // pas : seule l'action change.
-    const sameNumber = contact.phone.replace(/\D/g, '') === contact.whatsapp.display.replace(/\D/g, '');
-    links.push({
-      id: 'whatsapp',
-      label: 'WhatsApp',
-      value: sameNumber ? 'même numéro' : contact.whatsapp.display,
-      href: `https://wa.me/${contact.whatsapp.international}`,
-      external: true,
     });
   }
 
@@ -79,7 +61,7 @@ export function socialLinks(): ContactLink[] {
     links.push({
       id: 'linkedin',
       label: 'LinkedIn',
-      value: siteConfig.person.fullName,
+      value: siteConfig.brand,
       href: social.linkedin,
       external: true,
     });

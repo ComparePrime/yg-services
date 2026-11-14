@@ -58,7 +58,7 @@ function parse(file: string) {
     description: data.description as string,
     date: data.date as string,
     category: data.category as BlogCategory,
-    author: (data.author as string) ?? 'Yoann Guiot',
+    author: (data.author as string) ?? 'YG Services',
     metaTitle: (data.metaTitle as string) ?? (data.title as string),
     metaDescription: (data.metaDescription as string) ?? (data.description as string),
     image: data.image as string | undefined,
