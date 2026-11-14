@@ -46,10 +46,10 @@ export function NeedSearch() {
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-ink-500">
             {siteConfig.brand}
           </p>
-          <p className="mt-2.5 text-sm text-accent-700">Digital • Administration • Optimisation</p>
+          <p className="mt-2.5 text-sm text-accent-700">{siteConfig.positioning}</p>
 
           <h1 className="mx-auto mt-7 max-w-2xl font-display text-[2rem] leading-[1.12] text-ink-900 sm:text-5xl">
-            En quoi puis-je vous aider aujourd’hui&nbsp;?
+            En quoi YG Services peut-il vous aider&nbsp;?
           </h1>
 
           {/* Sans JavaScript, la saisie part directement vers le formulaire de contact. */}
@@ -95,7 +95,7 @@ export function NeedSearch() {
 
               <button
                 type="submit"
-                aria-label="Voir comment je peux vous aider"
+                aria-label="Voir les prestations correspondantes"
                 className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink-900 text-white transition hover:bg-ink-800"
               >
                 <ArrowRight className="h-5 w-5" />
@@ -104,7 +104,7 @@ export function NeedSearch() {
           </form>
 
           <p className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-ink-600">
-            Pas besoin de savoir exactement ce qu’il vous faut. Expliquez-moi simplement votre
+            Pas besoin de savoir exactement ce qu’il vous faut. Décrivez simplement votre
             situation.
           </p>
 
@@ -150,9 +150,9 @@ export function NeedSearch() {
 
             {state.kind === 'none' ? (
               <Answer
-                eyebrow="Je ne suis pas certain de la meilleure façon de vous aider."
-                titre="Expliquez-moi simplement votre situation"
-                texte="Décrivez-moi ce qui vous amène, même en quelques lignes et même si vous ne savez pas quelle démarche effectuer. Je vous répondrai personnellement et je vous dirai si je peux vous aider."
+                eyebrow="Aucune correspondance évidente avec une prestation."
+                titre="Décrivez simplement votre situation"
+                texte="Décrivez ce qui vous amène, même en quelques lignes et même si vous ne savez pas quelle démarche effectuer. Vous recevrez une réponse personnelle indiquant si YG Services peut vous aider."
                 primaire={{ href: contactHref(state.query), label: 'Me parler de mon besoin' }}
               />
             ) : null}

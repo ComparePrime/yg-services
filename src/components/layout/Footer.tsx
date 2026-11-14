@@ -13,10 +13,10 @@ export function Footer() {
       <Container>
         <div className="grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            {/* Le logo complet porte déjà le positionnement et la signature :
-                ils ne sont pas répétés en texte juste en dessous. */}
-            <Logo variant="complet" tone="light" className="h-auto w-52" />
-            <p className="mt-5 text-sm text-ink-400">{siteConfig.person.fullName}</p>
+            {/* Verrouillage horizontal : le logo complet porte une signature
+                à la première personne, qui ne correspond plus au ton du site. */}
+            <Logo variant="horizontal" tone="light" className="h-auto w-44" />
+            <p className="mt-5 text-sm text-ink-300">{siteConfig.positioning}</p>
             <p className="mt-4 text-sm text-ink-400">
               {siteConfig.location.city} — {siteConfig.location.region} — {siteConfig.location.country}
             </p>
@@ -56,7 +56,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-2 border-t border-ink-800 py-6 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} {siteConfig.brand} — {siteConfig.person.fullName}. Tous droits réservés.
+            © {year} {siteConfig.brand}. Tous droits réservés.
           </p>
           <p>
             {siteConfig.location.city} — {siteConfig.location.region} — {siteConfig.location.country}

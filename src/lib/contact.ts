@@ -1,14 +1,16 @@
 /** Sujets proposés dans le formulaire. La clé sert aussi de paramètre d'URL (?sujet=). */
 export const subjects = [
-  { value: 'creer-site', label: 'Créer un site web' },
+  // Création de sites internet
+  { value: 'creer-site', label: 'Créer un site internet' },
   { value: 'refaire-site', label: 'Refaire mon site' },
   { value: 'seo', label: 'Référencement (SEO)' },
-  { value: 'assurance', label: 'Assurances' },
-  { value: 'logement', label: 'Logement / loyer' },
+  // Assistance administrative
   { value: 'administratif', label: 'Démarche administrative' },
   { value: 'courrier', label: 'Rédaction d’un courrier' },
-  { value: 'impots', label: 'Impôts & organisation' },
-  { value: 'autre', label: 'Autre / je ne sais pas' },
+  { value: 'documents', label: 'Organisation de documents' },
+  { value: 'logement', label: 'Logement' },
+  { value: 'impots', label: 'Documents fiscaux' },
+  { value: 'autre', label: 'Autre / je ne sais pas encore' },
 ] as const;
 
 export type SubjectValue = (typeof subjects)[number]['value'];

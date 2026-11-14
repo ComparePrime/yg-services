@@ -1,8 +1,8 @@
 # YG Services — site web
 
-Site de la marque personnelle **YG Services** (Yoann Guiot), prévu pour https://yg-services.ch
+Site de **YG Services** — https://yg-services.ch
 
-« Je crée, j'optimise et je simplifie. » — Création web • Administration • Optimisation
+Création de sites internet • Assistance administrative
 
 ---
 
@@ -45,8 +45,11 @@ affichent un encadré « à compléter » tant que l'information n'est pas rense
 - [ ] `social.facebook` — adresse de la page Facebook, une fois créée
 - [ ] `social.linkedin` — si vous en créez un
 
-Déjà renseignés : e-mail (`info@yg-services.ch`), téléphone et WhatsApp
-(078 772 39 19), hébergeur (Netlify).
+Déjà renseignés : e-mail (`info@yg-services.ch`), hébergeur (Netlify).
+
+Aucun numéro de téléphone n'est publié : le contact se fait par le formulaire et
+par e-mail. Renseigner `contact.phone` dans `src/config/site.ts` le ferait
+réapparaître sur le site, dans le pied de page et dans les données structurées.
 
 **Chez Netlify**
 
@@ -125,7 +128,7 @@ title: "Le titre affiché sur la page"
 description: "Le résumé affiché dans la liste des articles."
 date: '2026-09-15'
 category: 'Création web'   # ou SEO, Assurances, Logement, Administratif, Économies
-author: 'Yoann Guiot'
+author: 'YG Services'
 metaTitle: "Titre pour Google (45 caractères max.)"
 metaDescription: "Description pour Google (155 caractères max.)"
 image: '/images/blog/mon-image.jpg'
@@ -172,15 +175,14 @@ minimal exigé par les règles d'accessibilité.
 
 | Fichier attendu | Emplacement | Utilisé sur |
 | --- | --- | --- |
-| Votre photo | `public/images/yoann-guiot.jpg` | Accueil, À propos (déjà en place) |
 | Capture Jolie Création | `public/images/realisations/jolie-creation.jpg` | Accueil, Réalisations, Sites web |
 | Capture ComparePrime | `public/images/realisations/compareprime.jpg` | idem |
 | Capture Devis-Rapide | `public/images/realisations/devis-rapide.jpg` | idem |
 | Illustrations d'articles | `public/images/blog/` | Blog |
 
-Votre photo est déjà intégrée, recadrée au format portrait 4/5 attendu par le site.
-Des images de remplacement neutres (`.svg`) tiennent encore la place des captures
-de réalisations. Après avoir déposé un vrai fichier, changez l'extension dans
+Aucune photo de personne n'est utilisée sur le site : la communication est
+institutionnelle. Des images de remplacement neutres (`.svg`) tiennent encore la
+place des captures de réalisations. Après avoir déposé un vrai fichier, changez l'extension dans
 `src/config/projects.ts` (`.svg` → `.jpg`).
 
 **Recommandations :** photo en portrait (rapport 4/5, minimum 800 × 1000 px),

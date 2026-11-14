@@ -31,27 +31,54 @@ export default function MentionsLegalesPage() {
         <div className="prose-yg text-[16px]">
           <h2>Éditeur du site</h2>
           <p>
-            Raison sociale :{' '}
-            <LegalValue value={siteConfig.legal.companyName} label="raison sociale" />
+            Nom commercial : {siteConfig.brand}
             <br />
-            Responsable de la publication : {siteConfig.legal.responsiblePublication}
-            <br />
-            Adresse : <LegalValue value={siteConfig.legal.address} label="adresse postale" />
-            <br />
+            {siteConfig.legal.registeredInCommercialRegister ? (
+              <>
+                Raison sociale :{' '}
+                <LegalValue value={siteConfig.legal.companyName} label="raison sociale" />
+                <br />
+                Numéro IDE : <LegalValue value={siteConfig.legal.ideNumber} label="numéro IDE" />
+                <br />
+              </>
+            ) : (
+              <>
+                Forme : activité indépendante exercée en nom propre, non inscrite au registre du
+                commerce.
+                <br />
+              </>
+            )}
+            {siteConfig.legal.vatNumber ? (
+              <>
+                Numéro de TVA : {siteConfig.legal.vatNumber}
+                <br />
+              </>
+            ) : null}
+            {siteConfig.legal.responsiblePublication ? (
+              <>
+                Responsable de la publication : {siteConfig.legal.responsiblePublication}
+                <br />
+              </>
+            ) : null}
+            {siteConfig.legal.address ? (
+              <>
+                Adresse : {siteConfig.legal.address}
+                <br />
+              </>
+            ) : null}
             Localité : {siteConfig.location.city}, {siteConfig.location.region},{' '}
             {siteConfig.location.country}
             <br />
             E-mail : <LegalValue value={siteConfig.contact.email} label="adresse e-mail" />
-            <br />
-            Téléphone / WhatsApp :{' '}
-            <LegalValue
-              value={siteConfig.contact.phone || siteConfig.contact.whatsapp.display}
-              label="numéro de téléphone"
-            />
-            <br />
-            Numéro IDE : <LegalValue value={siteConfig.legal.ideNumber} label="numéro IDE" />
-            <br />
-            Numéro de TVA : <LegalValue value={siteConfig.legal.vatNumber} label="numéro de TVA" />
+          </p>
+          <p>
+            Le contact se fait par le formulaire du site ou par e-mail. Aucun numéro de téléphone
+            n’est publié.
+          </p>
+          <p>
+            L’identité complète de l’exploitant est communiquée sur demande, à l’adresse de contact
+            ci-dessus, ainsi qu’à toute autorité qui en ferait la demande dans le cadre de ses
+            compétences.
           </p>
 
           <h2>Hébergement</h2>
@@ -63,7 +90,7 @@ export default function MentionsLegalesPage() {
           <h2>Propriété intellectuelle</h2>
           <p>
             L’ensemble des contenus présents sur ce site (textes, structure, mise en page, éléments
-            graphiques et code) est la propriété de {siteConfig.person.fullName}, sauf mention
+            graphiques et code) est la propriété de {siteConfig.brand}, sauf mention
             contraire. Toute reproduction, représentation ou diffusion, totale ou partielle, sans
             autorisation écrite préalable est interdite.
           </p>

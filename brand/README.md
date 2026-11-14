@@ -1,6 +1,6 @@
 # Fichiers de marque
 
-`logo-yg-source.png` est le logo d'origine fourni par Yoann : verrouillage
+`logo-yg-source.png` est le logo d'origine de la marque : verrouillage
 vertical complet, fond transparent, 1254 × 1254.
 
 Ce dossier n'est **pas** publié sur le site. Il conserve le fichier maître pour
@@ -23,6 +23,21 @@ Le verrouillage horizontal a été composé à partir du fichier d'origine : le 
 vertical devient illisible dans un en-tête de 72 px de haut. Si vous disposez
 d'une version horizontale officielle, remplacez simplement les deux fichiers
 `logo-yg-horizontal*.png` en conservant les mêmes noms.
+
+## Deux points à reprendre sur le logo
+
+Le fichier d'origine porte deux éléments qui ne correspondent plus au
+positionnement :
+
+1. La signature « Je crée, j'optimise et je simplifie » est à la première
+   personne, alors que la communication est désormais institutionnelle.
+2. La ligne « DIGITAL • ADMINISTRATION • OPTIMISATION » mentionne une activité
+   d'optimisation qui a été retirée des prestations.
+
+C'est pourquoi le site n'utilise plus que le verrouillage horizontal, qui ne
+contient ni l'une ni l'autre. Les fichiers `logo-yg-complet*.png` sont
+conservés mais ne sont plus affichés : à régénérer lors de la prochaine mise à
+jour de l'identité visuelle.
 
 ## Couleurs de la marque
 

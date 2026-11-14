@@ -1,196 +1,166 @@
 /**
- * Prestations administratives et d'optimisation.
- * Structure évolutive : ajouter un objet pour créer une nouvelle section.
- * `disclaimer` affiche une mention de cadre (ce que la prestation n'est pas).
+ * Prestations détaillées des deux activités.
+ * Structure évolutive : ajouter un objet crée une nouvelle section.
+ * `disclaimer` affiche une mention de cadre, c'est-à-dire ce que la
+ * prestation n'est pas.
+ *
+ * Ton : institutionnel. YG Services est le sujet des phrases, jamais une
+ * personne.
  */
 
 export type AdminService = {
   id: string;
-  emoji: string;
   title: string;
   intro: string;
   items: string[];
+  /** Bénéfice concret pour le client, affiché en évidence. */
+  benefice: string;
   disclaimer?: string;
   cta: { href: string; label: string };
-  /** Encadré optionnel : prestation approfondie liée à la section. */
-  premium?: {
-    title: string;
-    text: string;
-    points: string[];
-    cta: { href: string; label: string };
-  };
 };
 
 export const adminServices: AdminService[] = [
   {
-    id: 'assurances',
-    emoji: '🛡️',
-    title: 'Optimisation de vos assurances',
+    id: 'demarches',
+    title: 'Démarches administratives',
     intro:
-      "J'ai suivi une formation AFA (Association pour la formation professionnelle en assurance) et travaillé dans le domaine. Je peux faire le point avec vous sur vos couvertures et identifier ce qui mérite d'être vérifié.",
+      'Certaines démarches sont simples sur le papier et deviennent vite compliquées dans la réalité : formulaires peu clairs, pièces à réunir, délais à tenir. YG Services vous accompagne du début à la fin.',
+    benefice: 'Vous savez quoi faire, dans quel ordre, et vous ne ratez pas un délai.',
     items: [
-      'Assurance maladie de base',
-      'Assurances complémentaires',
-      'Assurance ménage',
-      'Responsabilité civile',
-      'Assurance véhicule',
-      'Protection juridique',
-      'Assurance voyage',
-      'Prévoyance',
-      'Autres contrats',
+      'Lecture et explication des courriers reçus',
+      'Constitution de dossiers',
+      'Remplissage de formulaires',
+      'Suivi des délais et des échéances',
+      'Préparation des pièces justificatives',
+      'Accompagnement ponctuel ou régulier',
     ],
     disclaimer:
-      "Je ne vous garantis aucune économie avant d'avoir regardé votre situation. Mon rôle est d'identifier les possibilités d'optimisation et de vous les expliquer clairement.",
-    cta: { href: '/contact?sujet=assurance', label: 'Faire analyser mes assurances' },
-    premium: {
-      title: 'Audit de vos assurances',
-      text: "Vous me transmettez vos contrats et je les reprends un par un. Vous recevez ensuite un point de situation écrit, dans un langage compréhensible.",
-      points: [
-        'Lecture des garanties réellement couvertes',
-        'Primes et franchises',
-        'Doublons éventuels entre contrats',
-        'Cohérence entre vos couvertures et votre situation',
-        'Possibilités d’optimisation à envisager',
-      ],
-      cta: { href: '/contact?sujet=assurance', label: 'Demander un audit' },
-    },
-  },
-  {
-    id: 'logement',
-    emoji: '🏠',
-    title: 'Logement & loyer',
-    intro:
-      "Une hausse de loyer, un déménagement, un dossier de location à préparer : ce sont des démarches où quelques documents bien préparés changent beaucoup de choses.",
-    items: [
-      "Analyse d'une hausse de loyer",
-      'Préparation d’une demande de baisse de loyer',
-      'Courrier au bailleur ou à la gérance',
-      'Résiliation de bail',
-      'Changement d’adresse',
-      'Constitution d’un dossier de location',
-      'Lettre de motivation pour un logement',
-      'Organisation de vos documents',
-      'Aide administrative liée au logement',
-    ],
-    disclaimer:
-      "Je vous aide à préparer et à formuler vos démarches. Je ne peux pas garantir qu'une baisse de loyer soit juridiquement fondée dans votre cas, et cet accompagnement ne remplace pas l'avis d'un professionnel du droit du bail.",
-    cta: { href: '/contact?sujet=logement', label: 'Faire le point sur mon loyer' },
-  },
-  {
-    id: 'impots',
-    emoji: '📑',
-    title: 'Impôts & organisation',
-    intro:
-      "Beaucoup de temps se perd à chercher les bons documents. Je vous aide à préparer un dossier complet et ordonné avant de le transmettre à qui de droit.",
-    items: [
-      'Organisation de vos documents',
-      'Établissement d’une checklist personnalisée',
-      'Identification des documents manquants',
-      'Préparation du dossier',
-      'Mise en ordre des informations',
-      'Repérage des éléments à vérifier',
-      'Préparation des questions destinées à une fiduciaire',
-    ],
-    disclaimer:
-      "Je ne suis ni fiscaliste, ni fiduciaire, ni conseiller fiscal. Cet accompagnement est administratif et organisationnel : il prépare le travail, il ne le remplace pas.",
-    cta: { href: '/contact?sujet=impots', label: 'Organiser mon dossier' },
-  },
-  {
-    id: 'famille',
-    emoji: '👨‍👩‍👧',
-    title: 'Famille & changements de situation',
-    intro:
-      "Une naissance, un mariage, un déménagement : chaque changement déclenche une série de démarches, souvent dans un ordre précis et avec des délais.",
-    items: [
-      'Naissance',
-      'Mariage',
-      'Changement d’adresse',
-      'Changement de situation professionnelle ou familiale',
-      'Allocations',
-      'Démarches liées aux enfants',
-      'Organisation documentaire',
-    ],
-    cta: { href: '/contact?sujet=administratif', label: 'Préparer mes démarches' },
-    premium: {
-      title: "Arrivée d'un enfant",
-      text: "Je prépare avec vous une checklist claire, étape par étape, pour ne rien oublier au moment où vous aurez le moins de temps.",
-      points: [
-        'Avant la naissance : annonces, assurances, congés, documents à réunir',
-        'À la naissance : annonce, état civil, inscriptions',
-        'Après la naissance : allocations, couvertures, mises à jour de dossiers',
-      ],
-      cta: { href: '/contact?sujet=administratif', label: 'Recevoir ma checklist' },
-    },
+      'Il s’agit d’un accompagnement administratif et organisationnel. YG Services n’est ni avocat, ni notaire, ni conseiller juridique : lorsqu’une situation relève d’un professionnel agréé, cela vous est indiqué.',
+    cta: { href: '/contact?sujet=administratif', label: 'Demander un accompagnement' },
   },
   {
     id: 'courriers',
-    emoji: '✉️',
     title: 'Rédaction de courriers',
     intro:
-      "Vous savez ce que vous voulez dire, mais pas comment l'écrire. Vous m'expliquez la situation, je rédige le courrier.",
+      'Vous savez ce que vous voulez dire, mais pas comment l’écrire. Vous expliquez la situation, YG Services rédige le courrier et l’ajuste après votre relecture.',
+    benefice: 'Un courrier clair, daté, adapté au destinataire, prêt à être envoyé.',
     items: [
-      'Courrier au propriétaire ou à la gérance',
-      'Courrier à une assurance',
       'Courrier à une administration',
+      'Courrier à une gérance ou un bailleur',
       'Courrier à une entreprise ou un fournisseur',
-      'Résiliation',
-      'Réclamation',
+      'Résiliation de contrat',
+      'Réclamation et contestation',
       'Demande de remboursement',
-      "Demande d'information",
-      'Contestation',
+      'Demande d’information',
+      'Mise en demeure',
     ],
-    cta: { href: '/contact?sujet=courrier', label: 'Décrire ma situation' },
+    cta: { href: '/contact?sujet=courrier', label: 'Faire rédiger un courrier' },
   },
   {
-    id: 'emploi',
-    emoji: '💼',
-    title: 'Emploi & candidatures',
+    id: 'documents',
+    title: 'Organisation et gestion documentaire',
     intro:
-      "Un dossier de candidature qui tient la route, c'est d'abord un dossier lisible et cohérent avec l'offre visée.",
+      'Les papiers s’accumulent et on ne retrouve plus rien au moment où il le faudrait. YG Services met en place un classement simple, que vous pourrez tenir ensuite sans effort.',
+    benefice: 'Vous retrouvez un document en moins d’une minute, et vous savez quoi jeter.',
     items: [
-      'Mise en forme du CV',
-      'Lettre de motivation',
-      'Dossier de candidature complet',
-      'Profil LinkedIn',
-      "Analyse d'une offre d'emploi",
-      "Préparation d'un entretien",
+      'Tri et classement des documents',
+      'Mise en place d’une organisation durable',
+      'Numérisation et archivage',
+      'Durées de conservation',
+      'Mise en forme de documents',
+      'Saisie et traitement de données',
+      'Suivi des échéances récurrentes',
     ],
-    cta: { href: '/contact?sujet=administratif', label: 'Préparer ma candidature' },
+    cta: { href: '/contact?sujet=documents', label: 'Organiser mes documents' },
   },
   {
-    id: 'autres-optimisations',
-    emoji: '📉',
-    title: 'Autres optimisations',
+    id: 'logement',
+    title: 'Démarches liées au logement',
     intro:
-      "Certaines dépenses passent des années sans être revues. Cela vaut souvent la peine d'y jeter un œil.",
+      'Un déménagement, un dossier de location, un courrier à la gérance : ce sont des démarches où quelques documents bien préparés changent beaucoup de choses.',
+    benefice: 'Un dossier complet et des courriers envoyés dans les formes et les délais.',
     items: [
-      'Télécoms et abonnements',
-      'Contrats liés au véhicule',
-      'Organisation documentaire',
-      'Dépenses récurrentes du quotidien',
+      'Constitution d’un dossier de location',
+      'Courrier au bailleur ou à la gérance',
+      'Résiliation de bail',
+      'Préparation d’un état des lieux',
+      'Changement d’adresse',
+      'Organisation des documents du logement',
     ],
     disclaimer:
-      "Aucune économie n'est promise avant analyse. Je regarde d'abord votre situation, puis je vous dis honnêtement s'il y a quelque chose à optimiser.",
-    cta: { href: '/contact?sujet=autre', label: 'Faire le point' },
+      'YG Services prépare et formule vos démarches. Aucun résultat ne peut être garanti : cela dépend de votre contrat et de votre situation. Un dossier qui nécessite un avis juridique vous est signalé.',
+    cta: { href: '/contact?sujet=logement', label: 'Préparer ma démarche' },
+  },
+  {
+    id: 'situation',
+    title: 'Changements de situation',
+    intro:
+      'Une naissance, un mariage, un déménagement, un changement professionnel : chaque changement déclenche une série de démarches, souvent dans un ordre précis et avec des délais.',
+    benefice: 'Une liste personnalisée, dans l’ordre, pour ne rien oublier.',
+    items: [
+      'Naissance et arrivée d’un enfant',
+      'Mariage',
+      'Changement d’adresse',
+      'Changement de situation professionnelle',
+      'Allocations familiales',
+      'Mise à jour des dossiers existants',
+    ],
+    cta: { href: '/contact?sujet=administratif', label: 'Préparer mes démarches' },
+  },
+  {
+    id: 'impots',
+    title: 'Préparation des documents fiscaux',
+    intro:
+      'Beaucoup de temps se perd à chercher les bons documents. YG Services prépare un dossier complet et ordonné avant qu’il soit transmis à qui de droit.',
+    benefice: 'Un dossier prêt, complet, avec la liste de ce qui manque encore.',
+    items: [
+      'Checklist personnalisée',
+      'Rassemblement des justificatifs',
+      'Identification des documents manquants',
+      'Classement du dossier',
+      'Préparation des questions pour une fiduciaire',
+    ],
+    disclaimer:
+      'YG Services n’est ni fiscaliste, ni fiduciaire, ni conseiller fiscal. La prestation est administrative et organisationnelle : elle prépare le travail, elle ne le remplace pas.',
+    cta: { href: '/contact?sujet=impots', label: 'Préparer mon dossier' },
   },
 ];
 
-/** Les 7 étapes d'un projet web. */
+/** Étapes d'un projet de site internet. */
 export const webProcess = [
-  { step: '01', title: 'Analyse', text: "Je prends le temps de comprendre votre activité, vos objectifs et ce que le site doit réellement vous apporter." },
-  { step: '02', title: 'Structure', text: "Je définis l'architecture des pages et le parcours du visiteur, de son arrivée jusqu'à sa prise de contact." },
-  { step: '03', title: 'Design', text: "Je crée une interface moderne, sobre et lisible, pensée d'abord pour le mobile." },
-  { step: '04', title: 'Développement', text: 'Je développe le site, page par page, avec un code propre et maintenable.' },
-  { step: '05', title: 'SEO', text: "J'optimise la structure technique et les contenus pour que vos pages soient trouvées." },
-  { step: '06', title: 'Mise en ligne', text: 'Je configure le nom de domaine, l’hébergement et je publie le site.' },
-  { step: '07', title: 'Évolution', text: 'Je reste disponible pour la maintenance et les améliorations futures.' },
+  { step: '01', title: 'Analyse', text: 'Compréhension de votre activité, de vos objectifs et de ce que le site doit réellement apporter.' },
+  { step: '02', title: 'Structure', text: 'Architecture des pages et parcours du visiteur, de son arrivée jusqu’à sa prise de contact.' },
+  { step: '03', title: 'Design', text: 'Interface moderne, sobre et lisible, pensée d’abord pour le mobile.' },
+  { step: '04', title: 'Développement', text: 'Développement du site, page par page, avec un code propre et maintenable.' },
+  { step: '05', title: 'Référencement', text: 'Optimisation de la structure technique et des contenus pour que vos pages soient trouvées.' },
+  { step: '06', title: 'Mise en ligne', text: 'Configuration du nom de domaine, de l’hébergement et publication du site.' },
+  { step: '07', title: 'Évolution', text: 'Maintenance et améliorations après la mise en ligne.' },
 ];
 
-/** Section « Pourquoi moi ? ». */
-export const whyMe = [
-  { title: 'Un seul interlocuteur', text: 'Vous échangez directement avec moi, du premier message à la mise en ligne.' },
-  { title: 'Une approche concrète', text: 'Je cherche des solutions simples et applicables, pas des présentations théoriques.' },
-  { title: 'Du digital à l’administratif', text: 'Deux univers complémentaires, avec la même logique : rendre les choses lisibles.' },
-  { title: 'De A à Z', text: 'Je peux gérer un projet web complet, de la première idée jusqu’à la maintenance.' },
-  { title: 'Une relation humaine', text: 'Pas de plateforme impersonnelle ni de service client anonyme.' },
+/** Éléments de réassurance, communs aux deux activités. */
+export const reassurance = [
+  {
+    title: 'Un interlocuteur unique',
+    text: 'Un seul contact du premier message à la livraison, sans service commercial intermédiaire.',
+  },
+  {
+    title: 'Un devis fixé à l’avance',
+    text: 'Le montant est annoncé avant le début du travail et ne bouge pas sans votre accord.',
+  },
+  {
+    title: 'Des réponses claires',
+    text: 'Pas de jargon : ce qui est fait, pourquoi, et ce que cela implique pour vous.',
+  },
+  {
+    title: 'Un périmètre annoncé',
+    text: 'Lorsqu’une demande sort du cadre des prestations, cela vous est dit, avec une orientation utile.',
+  },
+  {
+    title: 'Une confidentialité stricte',
+    text: 'Vos documents ne servent qu’à traiter votre demande et sont supprimés sur simple demande.',
+  },
+  {
+    title: 'Une réponse rapide',
+    text: 'Chaque demande reçoit une réponse sous 24 à 48 heures ouvrables, sans relance commerciale.',
+  },
 ];
