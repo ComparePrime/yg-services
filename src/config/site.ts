@@ -77,9 +77,24 @@ export const siteConfig = {
    * Ne rien inventer : laisser vide tant que l'information n'est pas confirmée.
    */
   legal: {
-    /** Raison de commerce officielle, telle qu'inscrite le cas échéant. */
+    /**
+     * Inscription au registre du commerce. `false` : l'activité est exercée
+     * en nom propre sans inscription, il n'y a donc ni raison sociale
+     * officielle ni numéro IDE à publier. Passer à `true` et renseigner
+     * `companyName` et `ideNumber` le jour d'une inscription.
+     */
+    registeredInCommercialRegister: false as boolean,
+    /** Raison de commerce officielle, uniquement si inscrite au RC. */
     companyName: '' as string,
-    /** Personne responsable de la publication, au sens légal. */
+    /**
+     * Identité du responsable de la publication.
+     *
+     * Volontairement vide : l'identité complète de l'exploitant est
+     * communiquée sur demande, par l'adresse de contact. Ce choix privilégie
+     * la séparation entre la marque et l'identité civile. Il relève d'une
+     * appréciation juridique à faire valider : renseigner ce champ y fait
+     * figurer le nom sur la page des mentions légales.
+     */
     responsiblePublication: '' as string,
     ideNumber: '' as string,
     vatNumber: '' as string,

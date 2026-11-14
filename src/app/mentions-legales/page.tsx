@@ -33,29 +33,52 @@ export default function MentionsLegalesPage() {
           <p>
             Nom commercial : {siteConfig.brand}
             <br />
-            Raison sociale :{' '}
-            <LegalValue value={siteConfig.legal.companyName} label="raison sociale" />
-            <br />
-            Responsable de la publication :{' '}
-            <LegalValue
-              value={siteConfig.legal.responsiblePublication}
-              label="responsable de la publication"
-            />
-            <br />
-            Adresse : <LegalValue value={siteConfig.legal.address} label="adresse postale" />
-            <br />
+            {siteConfig.legal.registeredInCommercialRegister ? (
+              <>
+                Raison sociale :{' '}
+                <LegalValue value={siteConfig.legal.companyName} label="raison sociale" />
+                <br />
+                Numéro IDE : <LegalValue value={siteConfig.legal.ideNumber} label="numéro IDE" />
+                <br />
+              </>
+            ) : (
+              <>
+                Forme : activité indépendante exercée en nom propre, non inscrite au registre du
+                commerce.
+                <br />
+              </>
+            )}
+            {siteConfig.legal.vatNumber ? (
+              <>
+                Numéro de TVA : {siteConfig.legal.vatNumber}
+                <br />
+              </>
+            ) : null}
+            {siteConfig.legal.responsiblePublication ? (
+              <>
+                Responsable de la publication : {siteConfig.legal.responsiblePublication}
+                <br />
+              </>
+            ) : null}
+            {siteConfig.legal.address ? (
+              <>
+                Adresse : {siteConfig.legal.address}
+                <br />
+              </>
+            ) : null}
             Localité : {siteConfig.location.city}, {siteConfig.location.region},{' '}
             {siteConfig.location.country}
             <br />
             E-mail : <LegalValue value={siteConfig.contact.email} label="adresse e-mail" />
-            <br />
-            Numéro IDE : <LegalValue value={siteConfig.legal.ideNumber} label="numéro IDE" />
-            <br />
-            Numéro de TVA : <LegalValue value={siteConfig.legal.vatNumber} label="numéro de TVA" />
           </p>
           <p>
             Le contact se fait par le formulaire du site ou par e-mail. Aucun numéro de téléphone
             n’est publié.
+          </p>
+          <p>
+            L’identité complète de l’exploitant est communiquée sur demande, à l’adresse de contact
+            ci-dessus, ainsi qu’à toute autorité qui en ferait la demande dans le cadre de ses
+            compétences.
           </p>
 
           <h2>Hébergement</h2>
