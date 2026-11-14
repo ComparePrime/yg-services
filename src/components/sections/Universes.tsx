@@ -5,7 +5,8 @@ import { ArrowRight } from '@/components/ui/Check';
 import { universes } from '@/config/intents';
 
 /**
- * Les trois univers de YG Services.
+ * Les deux activités de YG Services, présentées côte à côte mais jamais
+ * mélangées : chacune affiche sa clientèle cible.
  * Volontairement sobre : pas de carte lourde, juste un filet et de l'espace.
  */
 export function Universes() {
