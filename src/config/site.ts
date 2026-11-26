@@ -18,7 +18,7 @@ export const siteConfig = {
   legalName: 'YG Services',
   /** Accroche de marque. Formulation neutre, sans première personne. */
   tagline: 'Simplifier vos démarches, construire votre présence en ligne.',
-  positioning: 'Création de sites internet • Assistance administrative',
+  positioning: 'Création de sites internet • Assistance administrative, à distance ou sur place',
 
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://yg-services.ch',
   domain: 'yg-services.ch',

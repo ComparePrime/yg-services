@@ -20,6 +20,7 @@ import {
 import { faqItems } from '@/config/faq';
 import { mentionTva } from '@/config/tva';
 import { paiementActif } from '@/lib/stripe';
+import { deplacement, modalites as toutesModalites, zones } from '@/config/intervention';
 import { buildMetadata, absoluteUrl } from '@/lib/seo';
 import {
   breadcrumbSchema,
@@ -30,7 +31,7 @@ import {
 
 const title = 'Services administratifs à prix fixes, Yverdon-les-Bains et Suisse romande';
 const description =
-  'Déclarations d’impôts, subsides, loyer, courriers, comptabilité : des prestations administratives à prix affichés, délais annoncés et périmètre défini. YG Services.';
+  'Impôts, subsides, loyer, courriers, comptabilité : des prestations à prix affichés et périmètre défini, à distance, sur rendez-vous ou chez vous. Nord vaudois.';
 const path = '/assistance-administrative';
 
 export const metadata: Metadata = {
@@ -64,7 +65,7 @@ export default function CataloguePage() {
 
       {/* Réassurance immédiate */}
       <Section tone="white">
-        <ul className="grid gap-6 sm:grid-cols-3">
+        <ul className="grid gap-6 sm:grid-cols-2">
           {[
             [
               'Prix connu à l’avance',
@@ -77,6 +78,10 @@ export default function CataloguePage() {
             [
               'Délai annoncé',
               'Le délai court dès que votre dossier est complet. S’il manque une pièce, cela vous est dit tout de suite.',
+            ],
+            [
+              'À distance ou sur place',
+              'Beaucoup de démarches se traitent par écrit. D’autres vont plus vite autour d’une table, ou chez vous, là où sont les documents.',
             ],
           ].map(([titre, texte], index) => (
             <Reveal as="li" key={titre} delay={index * 70}>
@@ -130,6 +135,68 @@ export default function CataloguePage() {
         <div className="mt-10">
           <CatalogueBrowser prestations={prestations} />
         </div>
+      </Section>
+
+      {/* Déroulement : distance, rendez-vous, sur place */}
+      <Section tone="white">
+        <SectionHeading
+          eyebrow="Déroulement"
+          title="Tout ne se règle pas par écrit"
+          lead="Certaines démarches se traitent très bien à distance. D’autres demandent qu’on s’assoie ensemble, ou qu’on vienne là où se trouvent les documents."
+        />
+
+        <ul className="mt-12 grid gap-5 sm:grid-cols-2">
+          {toutesModalites.map((item, index) => (
+            <Reveal as="li" key={item.id} delay={index * 60}>
+              <div className="h-full rounded-2xl bg-sand p-6">
+                <h3 className="font-display text-lg text-ink-900">{item.label}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-ink-600">{item.description}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
+
+        <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:gap-14">
+          <div>
+            <h3 className="font-display text-lg text-ink-900">Où les déplacements sont possibles</h3>
+            <ul className="mt-5 space-y-4 text-[15px]">
+              {zones.map((zone) => (
+                <li key={zone.id}>
+                  <p className="font-medium text-ink-900">{zone.nom}</p>
+                  <p className="mt-1 text-ink-600">
+                    {zone.description} Rendez-vous sous {zone.delaiRendezVous}.
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-lg text-ink-900">Les règles du rendez-vous</h3>
+            <ul className="mt-5 space-y-2.5 text-[15px] text-ink-600">
+              {deplacement.conditions.map((condition) => (
+                <li key={condition} className="flex items-baseline gap-2.5">
+                  <span
+                    aria-hidden="true"
+                    className="h-1 w-1 shrink-0 rounded-full bg-accent-500"
+                  />
+                  <span>{condition}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 text-sm leading-relaxed text-ink-500">
+              {deplacement.fraisActifs
+                ? 'Les frais de déplacement figurent sur une ligne distincte du récapitulatif de commande.'
+                : 'Aucun frais de déplacement n’est ajouté aux prix affichés aujourd’hui. S’il y en a, ils sont annoncés par écrit et validés par vous avant tout engagement.'}
+            </p>
+          </div>
+        </div>
+
+        <p className="mt-10 text-[15px] text-ink-600">
+          Le déplacement n’est pas proposé partout : une résiliation d’abonnement ou une mise en
+          forme de document n’en a pas besoin. Chaque fiche indique ce qui est possible pour la
+          prestation concernée.
+        </p>
       </Section>
 
       {/* Forfaits */}

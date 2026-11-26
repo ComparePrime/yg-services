@@ -21,6 +21,13 @@ import { breadcrumbSchema, webPageSchema } from '@/lib/structured-data';
 import { mentionTva } from '@/config/tva';
 import { modeCommande } from '@/lib/order';
 import { paiementActif } from '@/lib/stripe';
+import {
+  deplacement,
+  getModalite,
+  getZone,
+  modalitesPour,
+  proposeDeplacement,
+} from '@/config/intervention';
 
 type Params = { params: Promise<{ categorie: string; prestation: string }> };
 
@@ -68,6 +75,8 @@ export default async function PrestationPage({ params }: Params) {
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
 
   const mode = modeCommande(prestation);
+  const modalitesProposees = modalitesPour(prestation.slug).map((id) => getModalite(id)!);
+  const surPlace = proposeDeplacement(prestation.slug);
 
   // Une prestation sur devis passe par le formulaire de contact ; les autres
   // ouvrent le parcours de commande, avec son formulaire propre.
@@ -133,6 +142,14 @@ export default async function PrestationPage({ params }: Params) {
                 ) : null}
 
                 <dl className="mt-6 space-y-3 text-sm">
+                  <div>
+                    <dt className="text-ink-500">Déroulement</dt>
+                    <dd className="mt-0.5 text-ink-900">
+                      {surPlace
+                        ? 'À distance ou avec rendez-vous'
+                        : 'À distance'}
+                    </dd>
+                  </div>
                   <div>
                     <dt className="text-ink-500">Délai</dt>
                     <dd className="mt-0.5 text-ink-900">{prestation.delai}</dd>
@@ -241,6 +258,61 @@ export default async function PrestationPage({ params }: Params) {
           </div>
         </Section>
 
+        {modalitesProposees.length > 1 ? (
+          <Section tone="white">
+            <h2 className="font-display text-2xl text-ink-900 sm:text-3xl">
+              Comment cette prestation peut se dérouler
+            </h2>
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink-600">
+              Le résultat est le même dans tous les cas. Ce qui change, c’est la façon d’y arriver.
+              Vous choisissez au moment de la commande.
+            </p>
+
+            <ul className="mt-9 grid gap-5 sm:grid-cols-2">
+              {modalitesProposees.map((item) => (
+                <li
+                  key={item.id}
+                  className="rounded-2xl bg-sand p-6"
+                >
+                  <h3 className="font-display text-lg text-ink-900">{item.label}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-ink-600">
+                    {item.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
+
+            {surPlace ? (
+              <div className="mt-9 rounded-2xl border border-ink-200 p-7">
+                <h3 className="font-display text-lg text-ink-900">Zones de déplacement</h3>
+                <ul className="mt-5 space-y-4 text-[15px]">
+                  {['yverdon', 'nord-vaudois', 'au-dela'].map((id) => {
+                    const zone = getZone(id);
+                    if (!zone) return null;
+                    return (
+                      <li key={zone.id}>
+                        <p className="font-medium text-ink-900">{zone.nom}</p>
+                        <p className="mt-1 text-ink-600">
+                          {zone.description} Rendez-vous sous {zone.delaiRendezVous}.
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <p className="mt-6 text-sm leading-relaxed text-ink-600">
+                  {deplacement.fraisActifs
+                    ? 'Les frais de déplacement éventuels figurent sur une ligne distincte du récapitulatif, avant validation.'
+                    : 'Aucun frais de déplacement n’est ajouté au total aujourd’hui. S’il y en a, le montant est annoncé par écrit et validé par vous avant tout engagement.'}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-600">
+                  Disponibilités : {deplacement.disponibilites} Durée d’un rendez-vous :{' '}
+                  {deplacement.dureeRendezVous}.
+                </p>
+              </div>
+            ) : null}
+          </Section>
+        ) : null}
+
         {prestation.cadre ? (
           <Section tone="white" size="narrow">
             <h2 className="font-display text-2xl text-ink-900">Cadre de la prestation</h2>
@@ -316,6 +388,25 @@ export default async function PrestationPage({ params }: Params) {
               '@type': 'Place',
               name: nom,
             })),
+            availableChannel: [
+              {
+                '@type': 'ServiceChannel',
+                name: 'À distance',
+                serviceUrl: absoluteUrl(`/commande/${prestation.slug}`),
+              },
+              ...(surPlace
+                ? [
+                    {
+                      '@type': 'ServiceChannel',
+                      name: 'Rendez-vous ou intervention sur place',
+                      serviceLocation: {
+                        '@type': 'Place',
+                        name: 'Yverdon-les-Bains et environs',
+                      },
+                    },
+                  ]
+                : []),
+            ],
             ...(prestation.prix !== null
               ? {
                   offers: {

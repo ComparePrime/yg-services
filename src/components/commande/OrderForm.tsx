@@ -6,7 +6,16 @@ import { Button } from '@/components/ui/Button';
 import { getOption, type Prestation } from '@/config/catalogue';
 import { questionsPour, type Field } from '@/config/order-fields';
 import { formatChf, mentionTva } from '@/config/tva';
-import { calculerTotal, modeCommande, validerCommande, type OrderErrors } from '@/lib/order';
+import { calculerTotal, demandeModalite, modeCommande, validerCommande, type OrderErrors } from '@/lib/order';
+import {
+  deplacement,
+  getModalite,
+  getZone,
+  modalites as toutesModalites,
+  modalitesPour,
+  zones,
+  type Modalite,
+} from '@/config/intervention';
 
 type Statut = 'saisie' | 'envoi' | 'envoye' | 'erreur';
 
@@ -32,18 +41,33 @@ export function OrderForm({ prestation }: { prestation: Prestation }) {
     [prestation],
   );
 
-  // L'étape « options » est sautée lorsque la prestation n'en propose aucune.
+  const modalitesDisponibles = useMemo(
+    () => modalitesPour(prestation.slug).map((id) => getModalite(id)!),
+    [prestation.slug],
+  );
+  const choixModalite = demandeModalite(prestation);
+
+  // Les étapes « déroulement » et « options » sont sautées lorsque la
+  // prestation n'offre pas de choix : le parcours reste aussi court que
+  // la prestation le permet.
   const etapes = useMemo(
     () =>
       [
-        ...(optionsProposees.length > 0 ? ([{ id: 'options', titre: 'Options' }] as const) : []),
+        ...(choixModalite ? [{ id: 'modalite', titre: 'Déroulement' }] : []),
+        ...(optionsProposees.length > 0 ? [{ id: 'options', titre: 'Options' }] : []),
         { id: 'informations', titre: 'Vos informations' },
         { id: 'recapitulatif', titre: 'Récapitulatif' },
       ] as { id: string; titre: string }[],
-    [optionsProposees.length],
+    [choixModalite, optionsProposees.length],
   );
 
   const [etape, setEtape] = useState(0);
+  // Lorsqu'une seule modalité existe, elle est retenue d'office : le client
+  // n'a pas à choisir ce qui n'a pas d'alternative.
+  const [modalite, setModalite] = useState<Modalite>(
+    choixModalite ? ('' as Modalite) : (modalitesDisponibles[0]?.id ?? 'distance'),
+  );
+  const [zone, setZone] = useState('');
   const [options, setOptions] = useState<string[]>([]);
   const [reponses, setReponses] = useState<Record<string, string>>({});
   const [conditions, setConditions] = useState(false);
@@ -53,7 +77,12 @@ export function OrderForm({ prestation }: { prestation: Prestation }) {
   const [messageServeur, setMessageServeur] = useState('');
   const [reference, setReference] = useState('');
 
-  const total = useMemo(() => calculerTotal(prestation, options), [prestation, options]);
+  const total = useMemo(
+    () => calculerTotal(prestation, options, modalite || undefined, zone || undefined),
+    [prestation, options, modalite, zone],
+  );
+  const modaliteRetenue = modalite ? getModalite(modalite) : undefined;
+  const deplacementRequis = modaliteRetenue?.deplacement === true;
   const mode = modeCommande(prestation);
   const nomChamp = (name: string) => `${uid}-${name}`;
 
@@ -72,11 +101,26 @@ export function OrderForm({ prestation }: { prestation: Prestation }) {
 
   /** Contrôle les champs de l'étape courante avant de laisser avancer. */
   const etapeValide = () => {
+    if (etapes[etape].id === 'modalite') {
+      if (!modalite) {
+        setErrors({ modalite: 'Choisissez comment la prestation doit se dérouler.' });
+        return false;
+      }
+      if (deplacementRequis && !zone) {
+        setErrors({ zone: 'Indiquez où le rendez-vous doit avoir lieu.' });
+        return false;
+      }
+      setErrors({});
+      return true;
+    }
+
     if (etapes[etape].id !== 'informations') return true;
 
     const complets = validerCommande({
       prestation: prestation.slug,
       options,
+      modalite,
+      zone: zone || undefined,
       reponses,
       conditions: true,
       consentement: true,
@@ -104,7 +148,15 @@ export function OrderForm({ prestation }: { prestation: Prestation }) {
   async function envoyer(event: React.FormEvent) {
     event.preventDefault();
 
-    const payload = { prestation: prestation.slug, options, reponses, conditions, consentement };
+    const payload = {
+      prestation: prestation.slug,
+      options,
+      modalite,
+      ...(zone ? { zone } : {}),
+      reponses,
+      conditions,
+      consentement,
+    };
     const locales = validerCommande(payload);
     if (Object.keys(locales).length > 0) {
       setErrors(locales);
@@ -194,6 +246,121 @@ export function OrderForm({ prestation }: { prestation: Prestation }) {
         </ol>
 
         <div className="mt-8 space-y-8">
+          {etapes[etape].id === 'modalite' ? (
+            <div className="space-y-8">
+              <fieldset>
+                <legend className="font-display text-xl text-ink-900">
+                  Comment souhaitez-vous que cela se passe ?
+                </legend>
+                <p className="mt-2 text-[15px] text-ink-600">
+                  Cette prestation peut se traiter à distance ou avec un rendez-vous. Les deux
+                  aboutissent au même résultat : choisissez ce qui vous arrange.
+                </p>
+
+                <ul className="mt-6 space-y-3">
+                  {modalitesDisponibles.map((item) => (
+                    <li key={item.id}>
+                      <label
+                        className={`flex cursor-pointer gap-4 rounded-2xl p-5 transition ${
+                          modalite === item.id
+                            ? 'bg-accent-50/70 ring-2 ring-accent-500'
+                            : 'bg-white ring-1 ring-ink-200 hover:ring-ink-400'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="modalite"
+                          value={item.id}
+                          checked={modalite === item.id}
+                          onChange={() => {
+                            setModalite(item.id);
+                            if (!getModalite(item.id)?.deplacement) setZone('');
+                            setErrors({});
+                          }}
+                          className="mt-1 h-4 w-4 shrink-0 accent-ink-900"
+                        />
+                        <span>
+                          <span className="block font-medium text-ink-900">{item.label}</span>
+                          <span className="mt-1 block text-[15px] leading-relaxed text-ink-600">
+                            {item.description}
+                          </span>
+                        </span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+
+                {errors.modalite ? (
+                  <p role="alert" className={errorClass}>
+                    {errors.modalite}
+                  </p>
+                ) : null}
+              </fieldset>
+
+              {deplacementRequis ? (
+                <div>
+                  <label className={labelClass} htmlFor={nomChamp('zone')}>
+                    Où se situe le rendez-vous ?
+                  </label>
+                  <select
+                    id={nomChamp('zone')}
+                    name="zone"
+                    value={zone}
+                    onChange={(event) => {
+                      setZone(event.target.value);
+                      setErrors({});
+                    }}
+                    className={inputClass}
+                    aria-describedby={`${nomChamp('zone')}-help`}
+                    aria-invalid={errors.zone ? true : undefined}
+                  >
+                    <option value="">Choisir…</option>
+                    {zones.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.nom}
+                      </option>
+                    ))}
+                  </select>
+
+                  <p id={`${nomChamp('zone')}-help`} className={helpClass}>
+                    {zone
+                      ? `${getZone(zone)?.description} Exemples : ${getZone(zone)
+                          ?.exemples.slice(0, 5)
+                          .join(', ')}. Rendez-vous sous ${getZone(zone)?.delaiRendezVous}.`
+                      : 'La zone détermine le délai de rendez-vous et les frais éventuels.'}
+                  </p>
+
+                  {errors.zone ? (
+                    <p role="alert" className={errorClass}>
+                      {errors.zone}
+                    </p>
+                  ) : null}
+
+                  <div className="mt-6 rounded-xl border-l-[3px] border-accent-400 bg-accent-50/70 px-5 py-4 text-sm leading-relaxed text-ink-700">
+                    {deplacement.fraisActifs ? (
+                      <>
+                        <span className="font-semibold text-ink-900">Frais de déplacement — </span>
+                        ils figurent sur une ligne distincte du récapitulatif, avant que vous ne
+                        validiez quoi que ce soit.
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-semibold text-ink-900">Frais de déplacement — </span>
+                        aucun frais n’est ajouté à votre total aujourd’hui. Si un déplacement en
+                        implique, le montant vous est annoncé par écrit et vous le validez avant
+                        tout engagement.
+                      </>
+                    )}
+                    <span className="mt-2 block">
+                      Disponibilités : {deplacement.disponibilites} Durée d’un rendez-vous :{' '}
+                      {deplacement.dureeRendezVous}.
+                    </span>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
           {etapes[etape].id === 'options' ? (
             <fieldset>
               <legend className="font-display text-xl text-ink-900">
@@ -281,6 +448,30 @@ export function OrderForm({ prestation }: { prestation: Prestation }) {
               </dl>
 
               <p className="mt-4 text-sm text-ink-500">{mentionTva()}</p>
+
+              {modaliteRetenue ? (
+                <dl className="mt-6 space-y-2 text-[15px]">
+                  <div className="flex gap-2">
+                    <dt className="text-ink-500">Déroulement :</dt>
+                    <dd className="text-ink-900">{modaliteRetenue.label}</dd>
+                  </div>
+                  {deplacementRequis && zone ? (
+                    <div className="flex gap-2">
+                      <dt className="text-ink-500">Zone :</dt>
+                      <dd className="text-ink-900">
+                        {getZone(zone)?.nom} — rendez-vous sous {getZone(zone)?.delaiRendezVous}
+                      </dd>
+                    </div>
+                  ) : null}
+                </dl>
+              ) : null}
+
+              {deplacementRequis && !deplacement.fraisActifs ? (
+                <p className="mt-4 text-sm leading-relaxed text-ink-600">
+                  Aucun frais de déplacement n’est inclus dans ce total. S’il y en a, ils vous sont
+                  annoncés avant tout engagement.
+                </p>
+              ) : null}
 
               {mode === 'apres-examen' ? (
                 <p className="mt-5 rounded-xl border-l-[3px] border-accent-400 bg-accent-50/70 px-5 py-4 text-sm leading-relaxed text-ink-700">
@@ -405,6 +596,15 @@ export function OrderForm({ prestation }: { prestation: Prestation }) {
           ) : null}
 
           <dl className="mt-6 space-y-3 border-t border-ink-100 pt-5 text-sm">
+            {modaliteRetenue ? (
+              <div>
+                <dt className="text-ink-500">Déroulement</dt>
+                <dd className="mt-0.5 text-ink-900">
+                  {modaliteRetenue.label}
+                  {deplacementRequis && zone ? ` — ${getZone(zone)?.nom}` : ''}
+                </dd>
+              </div>
+            ) : null}
             <div>
               <dt className="text-ink-500">Délai indicatif</dt>
               <dd className="mt-0.5 text-ink-900">{prestation.delai}</dd>

@@ -19,7 +19,7 @@ import { webPageSchema } from '@/lib/structured-data';
 
 const title = 'Création de sites internet et assistance administrative en Suisse romande';
 const description =
-  'Sites internet pour indépendants, PME et particuliers, et services administratifs à prix fixes pour les particuliers. Yverdon-les-Bains et Suisse romande.';
+  'Sites internet pour indépendants, PME et particuliers, et services administratifs à prix fixes, à distance ou sur place. Yverdon-les-Bains et Nord vaudois.';
 
 export const metadata: Metadata = {
   ...buildMetadata({ title, description, path: '/' }),
@@ -130,10 +130,23 @@ export default function HomePage() {
           </p>
           <p>
             <strong className="text-ink-900">L’assistance administrative</strong> s’adresse aux
-            particuliers d’Yverdon-les-Bains, du Nord vaudois et du canton de Vaud : démarches,
-            courriers, organisation de documents, logement et préparation de dossiers. La proximité
-            compte davantage ici, parce que les usages et les délais varient d’une commune à
-            l’autre.
+            particuliers et aux indépendants d’Yverdon-les-Bains, du Nord vaudois et du canton de
+            Vaud : démarches, courriers, organisation de documents, logement, impôts et préparation
+            de dossiers. La proximité compte davantage ici, parce que les usages et les délais
+            varient d’une commune à l’autre.
+          </p>
+          <p>
+            Ces prestations ne se font pas toutes à distance. Selon ce qu’il y a à faire, elles se
+            traitent par écrit, lors d’un rendez-vous, ou directement sur place lorsqu’il y a des
+            papiers à trier et qu’il est plus simple de s’y mettre là où ils sont. Le choix se fait
+            au moment de la commande, et chaque{' '}
+            <Link
+              href="/assistance-administrative"
+              className="underline underline-offset-2 hover:text-ink-900"
+            >
+              fiche de prestation
+            </Link>{' '}
+            indique ce qui est possible.
           </p>
           <p>
             La{' '}

@@ -88,7 +88,7 @@ export async function POST(request: Request) {
   // seulement si Stripe est configuré. Le montant envoyé à Stripe est
   // recalculé ici à partir du catalogue, jamais repris du navigateur.
   if (paiementActif() && modeCommande(prestation) === 'ferme') {
-    const total = calculerTotal(prestation, payload.options);
+    const total = calculerTotal(prestation, payload.options, payload.modalite, payload.zone);
     try {
       const url = await creerSessionPaiement({
         prestation,

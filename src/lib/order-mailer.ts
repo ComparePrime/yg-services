@@ -4,6 +4,7 @@ import { getPrestation } from '@/config/catalogue';
 import { questionsPour } from '@/config/order-fields';
 import { calculerTotal, modeCommande, recapitulatif, type OrderPayload } from '@/lib/order';
 import { mentionTva } from '@/config/tva';
+import { deplacement, getModalite, getZone } from '@/config/intervention';
 
 /**
  * Acheminement des commandes.
@@ -54,11 +55,28 @@ function lignesInternes(payload: OrderPayload, reference: string): string[] {
   const prestation = getPrestation(payload.prestation);
   if (!prestation) return [];
 
-  const total = calculerTotal(prestation, payload.options);
+  const total = calculerTotal(prestation, payload.options, payload.modalite, payload.zone);
+  const modalite = payload.modalite ? getModalite(payload.modalite) : undefined;
+  const zone = payload.zone ? getZone(payload.zone) : undefined;
+
   const lignes: string[] = [
     `Référence : ${reference}`,
     `Prestation : ${prestation.titre}`,
     `Mode : ${modeCommande(prestation) === 'ferme' ? 'prix ferme' : 'montant à confirmer après examen'}`,
+    `Déroulement : ${modalite?.label ?? 'à distance'}`,
+    ...(zone
+      ? [
+          `Zone : ${zone.nom}`,
+          `Rendez-vous sous : ${zone.delaiRendezVous}`,
+          `Frais de déplacement : ${
+            deplacement.fraisActifs
+              ? zone.fraisProposes === null
+                ? 'à confirmer'
+                : `CHF ${zone.fraisProposes}`
+              : 'non facturés (à confirmer avec le client)'
+          }`,
+        ]
+      : []),
     '',
     'Montant',
     ...recapitulatif(prestation, total),
@@ -90,8 +108,10 @@ function lignesClient(payload: OrderPayload, reference: string): string[] {
   const prestation = getPrestation(payload.prestation);
   if (!prestation) return [];
 
-  const total = calculerTotal(prestation, payload.options);
+  const total = calculerTotal(prestation, payload.options, payload.modalite, payload.zone);
   const ferme = modeCommande(prestation) === 'ferme';
+  const modalite = payload.modalite ? getModalite(payload.modalite) : undefined;
+  const zone = payload.zone ? getZone(payload.zone) : undefined;
 
   return [
     `Bonjour ${payload.reponses.prenom ?? ''},`.trim(),
@@ -99,6 +119,7 @@ function lignesClient(payload: OrderPayload, reference: string): string[] {
     `Votre commande est enregistrée sous la référence ${reference}.`,
     '',
     `Prestation : ${prestation.titre}`,
+    ...(modalite ? [`Déroulement : ${modalite.label}`] : []),
     ...recapitulatif(prestation, total),
     '',
     mentionTva(),
@@ -107,10 +128,20 @@ function lignesClient(payload: OrderPayload, reference: string): string[] {
       ? 'Le montant ci-dessus est ferme. La facture vous parvient avant le début du traitement.'
       : 'Le montant ci-dessus est un ordre de grandeur. Le montant ferme vous est communiqué après examen de votre dossier, et avant tout engagement de votre part.',
     '',
+    ...(zone
+      ? [
+          `Rendez-vous : dans la zone « ${zone.nom} », sous ${zone.delaiRendezVous}. ${deplacement.disponibilites}`,
+          deplacement.fraisActifs
+            ? ''
+            : 'Aucun frais de déplacement n’est inclus dans ce montant. S’il y en a, ils vous sont annoncés par écrit et vous les validez avant tout engagement.',
+          '',
+        ].filter(Boolean)
+      : []),
     'La suite :',
     '  1. Vous recevez un message confirmant le montant et la liste exacte des pièces à transmettre.',
-    '  2. Vous transmettez vos documents par le moyen indiqué dans ce message.',
-    '  3. Le délai court dès que le dossier est complet.',
+    ...(zone ? ['  2. Le rendez-vous est fixé ensemble, par écrit.'] : []),
+    `  ${zone ? '3' : '2'}. Vous transmettez vos documents par le moyen indiqué dans ce message.`,
+    `  ${zone ? '4' : '3'}. Le délai court dès que le dossier est complet.`,
     '',
     'Documents à prévoir :',
     ...prestation.documents.map((document) => `  - ${document}`),

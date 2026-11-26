@@ -9,6 +9,16 @@
 import { getOption, getPrestation, type Prestation } from '@/config/catalogue';
 import { champsPour, type Field } from '@/config/order-fields';
 import { detailTva, formatChf, type DetailTva } from '@/config/tva';
+import {
+  deplacement,
+  fraisDeplacement,
+  getModalite,
+  getZone,
+  modalitesPour,
+  proposeDeplacement,
+  zones,
+  type Modalite,
+} from '@/config/intervention';
 
 /** Comment une prestation peut être commandée. */
 export type ModeCommande =
@@ -40,8 +50,17 @@ export type Total = {
  * Calcule le total d'une commande à partir du catalogue seul.
  * Les identifiants d'options qui ne sont pas proposés par la prestation sont
  * ignorés : un total ne peut pas être gonflé depuis le navigateur.
+ *
+ * Les frais de déplacement apparaissent sur une ligne distincte, jamais
+ * fondus dans le prix de la prestation, et valent zéro tant que
+ * `deplacement.fraisActifs` est faux.
  */
-export function calculerTotal(prestation: Prestation, optionsChoisies: string[]): Total {
+export function calculerTotal(
+  prestation: Prestation,
+  optionsChoisies: string[],
+  modalite?: Modalite,
+  zoneId?: string,
+): Total {
   const proposees = new Set(prestation.options ?? []);
   const lignes: LigneTotal[] = [];
 
@@ -53,6 +72,15 @@ export function calculerTotal(prestation: Prestation, optionsChoisies: string[])
     if (!proposees.has(id)) continue;
     const option = getOption(id);
     if (option) lignes.push({ label: option.label, montant: option.price });
+  }
+
+  // Les frais ne s'ajoutent que si la modalité est bien proposée par la
+  // prestation : une modalité envoyée par le navigateur ne suffit pas.
+  if (modalite && modalitesPour(prestation.slug).includes(modalite)) {
+    const frais = fraisDeplacement(modalite, zoneId);
+    if (frais > 0) {
+      lignes.push({ label: `Déplacement — ${getZone(zoneId ?? '')?.nom ?? 'zone'}`, montant: frais });
+    }
   }
 
   const sousTotal = lignes.reduce((somme, ligne) => somme + ligne.montant, 0);
@@ -74,6 +102,10 @@ export type OrderPayload = {
   prestation: string;
   /** Identifiants des options retenues. */
   options: string[];
+  /** Modalité d'intervention retenue. */
+  modalite?: Modalite;
+  /** Zone de déplacement, lorsque la modalité en suppose un. */
+  zone?: string;
   /** Réponses aux questions, indexées par nom de champ. */
   reponses: Record<string, string>;
   /** Acceptation des conditions de prestation. */
@@ -162,6 +194,25 @@ export function validerCommande(data: Partial<OrderPayload>): OrderErrors {
     }
   }
 
+  // Modalité d'intervention. Le choix n'est EXIGÉ que si la prestation
+  // propose une alternative, mais une modalité envoyée est toujours
+  // contrôlée : sans cela, un déplacement pourrait être commandé sur une
+  // prestation qui ne le propose pas.
+  const disponibles = modalitesPour(prestation.slug);
+  if (data.modalite && !disponibles.includes(data.modalite)) {
+    errors.modalite = 'Cette modalité n’est pas proposée pour cette prestation.';
+  } else if (disponibles.length > 1) {
+    if (!data.modalite) {
+      errors.modalite = 'Choisissez comment la prestation doit se dérouler.';
+    } else if (getModalite(data.modalite)?.deplacement) {
+      if (!data.zone) {
+        errors.zone = 'Indiquez où le rendez-vous doit avoir lieu.';
+      } else if (!zones.some((zone) => zone.id === data.zone)) {
+        errors.zone = 'Cette zone n’est pas proposée.';
+      }
+    }
+  }
+
   if (!data.conditions) {
     errors.conditions = 'L’acceptation des conditions de prestation est nécessaire.';
   }
@@ -202,3 +253,11 @@ export function recapitulatif(prestation: Prestation, total: Total): string[] {
 
   return lignes;
 }
+
+/** Vrai si la prestation demande un choix de modalité au client. */
+export function demandeModalite(prestation: Prestation): boolean {
+  return modalitesPour(prestation.slug).length > 1;
+}
+
+/** Vrai si la prestation peut donner lieu à un déplacement. */
+export { proposeDeplacement, deplacement };
