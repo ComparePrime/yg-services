@@ -342,6 +342,28 @@ function CarteCommande({ commande }: { commande: Commande }) {
           <div className="mt-4">
             <label
               className="mb-1.5 block text-sm font-medium text-ink-800"
+              htmlFor={`depot-${commande.reference}`}
+            >
+              Lien de dépôt kDrive pour cette commande
+            </label>
+            <input
+              id={`depot-${commande.reference}`}
+              name="depotUrl"
+              type="url"
+              inputMode="url"
+              placeholder="https://…infomaniak.com/…"
+              defaultValue={commande.depotUrl ?? ''}
+              className="w-full rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm text-ink-900"
+            />
+            <p className="mt-1.5 text-xs text-ink-500">
+              Boîte de dépôt, jamais un lien de partage : un lien de partage donnerait accès aux
+              documents. Seules les adresses https d’Infomaniak sont acceptées.
+            </p>
+          </div>
+
+          <div className="mt-4">
+            <label
+              className="mb-1.5 block text-sm font-medium text-ink-800"
               htmlFor={`notes-${commande.reference}`}
             >
               Notes internes

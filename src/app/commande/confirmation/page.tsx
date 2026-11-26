@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/Button';
 import { buildMetadata } from '@/lib/seo';
 import { formatChf } from '@/config/tva';
 import { paiementActif, verifierPaiement } from '@/lib/stripe';
+import { lireCommande } from '@/lib/store';
+import { documents, depotDisponible, lienDepot } from '@/config/documents';
 
 export const metadata: Metadata = buildMetadata({
   title: 'Commande confirmée',
@@ -36,7 +38,11 @@ export default async function ConfirmationPage({ searchParams }: Props) {
     }
   }
 
-  const paye = paiement?.paye === true;
+  // L'état enregistré de la commande fait foi pour tout le reste : le
+  // paiement vérifié auprès de Stripe ne renseigne que le paiement.
+  const commande = ref ? await lireCommande(ref).catch(() => null) : null;
+  const paye = paiement?.paye === true || commande?.paiement === 'payee';
+  const depot = lienDepot(commande?.depotUrl);
 
   return (
     <>
@@ -96,7 +102,9 @@ export default async function ConfirmationPage({ searchParams }: Props) {
             ],
             [
               'Vous transmettez vos documents',
-              'Par le moyen indiqué dans ce message. Les pièces ne se déposent pas sur ce site.',
+              depotDisponible(commande?.depotUrl)
+                ? 'Par le dépôt sécurisé hébergé en Suisse, dont le lien figure dans votre confirmation. Les pièces ne passent pas par ce site.'
+                : 'Par le moyen indiqué dans ce message. Les pièces ne se déposent pas sur ce site, et aucune pièce sensible ne doit partir par courriel.',
             ],
             [
               'Le délai commence',
@@ -113,10 +121,32 @@ export default async function ConfirmationPage({ searchParams }: Props) {
           ))}
         </ol>
 
+        {depot ? (
+          <div className="mt-10 rounded-2xl bg-sand p-7">
+            <h3 className="font-display text-lg text-ink-900">Déposer vos documents</h3>
+            <p className="mt-2 text-[15px] leading-relaxed text-ink-600">
+              Nommez vos fichiers en commençant par votre référence{ref ? ` (${ref})` : ''}. Le
+              dépôt n’autorise que l’envoi : personne ne peut consulter ce qui s’y trouve.
+              {documents.depotProtege
+                ? ' Le mot de passe du dépôt vous est communiqué séparément du lien.'
+                : ''}
+            </p>
+            <Button href={depot} external className="mt-5">
+              Ouvrir le dépôt sécurisé
+            </Button>
+          </div>
+        ) : (
+          <div className="mt-10 rounded-xl border-l-[3px] border-accent-400 bg-accent-50/70 px-5 py-4 text-[15px] leading-relaxed text-ink-700">
+            <span className="font-semibold text-ink-900">Vos documents — </span>
+            ne les envoyez pas encore. Les pièces attendues vous seront demandées dans la
+            confirmation, par un canal adapté aux documents sensibles.
+          </div>
+        )}
+
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Button href="/assistance-administrative">Revenir au catalogue</Button>
-          <Button href="/conditions-prestations" variant="secondary">
-            Conditions de prestation
+          <Button href="/transmission-securisee" variant="secondary">
+            Comment vos documents sont protégés
           </Button>
         </div>
       </Section>

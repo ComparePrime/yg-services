@@ -14,6 +14,7 @@ export async function POST(request: Request) {
   const statut = String(formulaire.get('statut') ?? '').trim();
   const paiement = String(formulaire.get('paiement') ?? '').trim();
   const notes = String(formulaire.get('notes') ?? '');
+  const depotUrl = String(formulaire.get('depotUrl') ?? '').trim();
 
   if (!reference) {
     return NextResponse.json({ ok: false, error: 'Référence manquante.' }, { status: 400 });
@@ -26,10 +27,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'Statut invalide.' }, { status: 422 });
   }
 
+  // Le lien de dépôt est contrôlé : seule une adresse https d'Infomaniak
+  // est acceptée, pour qu'une erreur de copie n'envoie pas un client
+  // déposer ses documents n'importe où.
+  if (depotUrl) {
+    let valide = false;
+    try {
+      const url = new URL(depotUrl);
+      valide =
+        url.protocol === 'https:' &&
+        (url.hostname.endsWith('.infomaniak.com') || url.hostname === 'infomaniak.com');
+    } catch {
+      valide = false;
+    }
+    if (!valide) {
+      return NextResponse.json(
+        { ok: false, error: 'Le lien de dépôt doit être une adresse https d’Infomaniak.' },
+        { status: 422 },
+      );
+    }
+  }
+
   const commande = await majCommande(reference, {
     statut: statut as never,
     paiement: paiement as never,
     notes: notes.slice(0, 4000),
+    depotUrl: depotUrl || undefined,
   });
 
   if (!commande) {

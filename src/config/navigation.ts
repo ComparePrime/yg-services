@@ -32,6 +32,8 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
       { href: '/assistance-administrative/logement', label: 'Logement' },
       { href: '/assistance-administrative/documents', label: 'Courriers et documents' },
       { href: '/assistance-administrative/comptabilite', label: 'Comptabilité' },
+      { href: '/assistance-administrative/packs', label: 'Packs' },
+      { href: '/transmission-securisee', label: 'Vos documents' },
     ],
   },
   {

@@ -5,6 +5,7 @@ import { questionsPour } from '@/config/order-fields';
 import { calculerTotal, modeCommande, recapitulatif, type OrderPayload } from '@/lib/order';
 import { mentionTva } from '@/config/tva';
 import { deplacement, getModalite, getZone } from '@/config/intervention';
+import { documents, lienDepot } from '@/config/documents';
 
 /**
  * Acheminement des commandes.
@@ -112,6 +113,9 @@ function lignesClient(payload: OrderPayload, reference: string): string[] {
   const ferme = modeCommande(prestation) === 'ferme';
   const modalite = payload.modalite ? getModalite(payload.modalite) : undefined;
   const zone = payload.zone ? getZone(payload.zone) : undefined;
+  // Le lien propre à la commande n'existe pas encore à cet instant : seule
+  // la boîte commune peut être annoncée dans le premier message.
+  const depot = lienDepot();
 
   return [
     `Bonjour ${payload.reponses.prenom ?? ''},`.trim(),
@@ -148,7 +152,24 @@ function lignesClient(payload: OrderPayload, reference: string): string[] {
     '',
     `Délai indicatif : ${prestation.delai}, dès réception d’un dossier complet.`,
     '',
-    'Aucun document ne doit être transmis par ce site : les pièces vous sont demandées séparément.',
+    ...(depot
+      ? [
+          'Transmettre vos documents :',
+          `  ${depot}`,
+          `  Nommez vos fichiers en commençant par ${reference}.`,
+          documents.depotProtege
+            ? '  Le mot de passe du dépôt vous est communiqué dans un message séparé.'
+            : '',
+          '  Ce dépôt n’autorise que l’envoi : personne ne peut consulter ce qui s’y trouve.',
+          `  Données hébergées en Suisse. Lien valable ${documents.validiteLien}.`,
+          '',
+        ].filter(Boolean)
+      : [
+          'Vos documents : ne les envoyez pas encore. Les pièces attendues vous seront demandées par un canal adapté aux documents sensibles.',
+          '',
+        ]),
+    'N’envoyez jamais par courriel : ' + documents.jamaisParCourriel.join(', ') + '.',
+    `Détail : ${siteConfig.url}/transmission-securisee`,
     '',
     `Conditions de prestation : ${siteConfig.url}/conditions-prestations`,
     '',

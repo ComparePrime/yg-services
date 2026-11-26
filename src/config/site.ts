@@ -77,30 +77,30 @@ export const siteConfig = {
    * Ne rien inventer : laisser vide tant que l'information n'est pas confirmée.
    */
   legal: {
-    /**
-     * Inscription au registre du commerce. `false` : l'activité est exercée
-     * en nom propre sans inscription, il n'y a donc ni raison sociale
-     * officielle ni numéro IDE à publier. Passer à `true` et renseigner
-     * `companyName` et `ideNumber` le jour d'une inscription.
-     */
     registeredInCommercialRegister: false as boolean,
-    /** Raison de commerce officielle, uniquement si inscrite au RC. */
     companyName: '' as string,
     /**
-     * Identité du responsable de la publication.
+     * Exploitant du site, au sens de l'art. 3 al. 1 let. s LCD.
      *
-     * Volontairement vide : l'identité complète de l'exploitant est
-     * communiquée sur demande, par l'adresse de contact. Ce choix privilégie
-     * la séparation entre la marque et l'identité civile. Il relève d'une
-     * appréciation juridique à faire valider : renseigner ce champ y fait
-     * figurer le nom sur la page des mentions légales.
+     * Cette mention n'est PAS du marketing : elle est l'identification du
+     * fournisseur, légalement exigée dès lors que le site vend des
+     * prestations en ligne. Elle ne figure que sur cette page et n'est
+     * reprise ni sur l'accueil, ni sur les fiches, ni dans le blog, ni
+     * dans les données structurées, ni dans les balises SEO.
+     *
+     * À VALIDER : pour une activité en nom propre, les sources consultées
+     * exigent « l'identité » de l'exploitant sans préciser si le prénom
+     * est nécessaire lorsque l'activité n'est pas inscrite au registre du
+     * commerce. Le nom de famille figure ici ; voir
+     * docs/07-mentions-legales-a-valider.md.
      */
+    operator: 'Guiot' as string,
     responsiblePublication: '' as string,
     ideNumber: '' as string,
     vatNumber: '' as string,
-    address: '' as string,
+    /** Adresse de contact exigée par l'art. 3 al. 1 let. s LCD. */
+    address: 'Avenue Général Guisan 61, 1400 Yverdon-les-Bains, Suisse' as string,
     host: 'Netlify, Inc. (netlify.com)' as string,
-    /** Pays d'hébergement, mentionné dans la politique de confidentialité. */
     hostCountry: 'États-Unis' as string,
   },
 

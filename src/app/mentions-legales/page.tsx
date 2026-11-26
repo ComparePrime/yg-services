@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
 import { Section } from '@/components/ui/Section';
+import Link from 'next/link';
 import { LegalValue } from '@/components/LegalPlaceholder';
 import { JsonLd } from '@/components/JsonLd';
 import { siteConfig } from '@/config/site';
@@ -54,31 +55,58 @@ export default function MentionsLegalesPage() {
                 <br />
               </>
             ) : null}
+            Exploitant :{' '}
+            <LegalValue value={siteConfig.legal.operator} label="exploitant" />
+            <br />
             {siteConfig.legal.responsiblePublication ? (
               <>
                 Responsable de la publication : {siteConfig.legal.responsiblePublication}
                 <br />
               </>
             ) : null}
-            {siteConfig.legal.address ? (
-              <>
-                Adresse : {siteConfig.legal.address}
-                <br />
-              </>
-            ) : null}
-            Localité : {siteConfig.location.city}, {siteConfig.location.region},{' '}
-            {siteConfig.location.country}
+            Adresse : <LegalValue value={siteConfig.legal.address} label="adresse postale" />
             <br />
             E-mail : <LegalValue value={siteConfig.contact.email} label="adresse e-mail" />
           </p>
           <p>
             Le contact se fait par le formulaire du site ou par e-mail. Aucun numéro de téléphone
-            n’est publié.
+            n’est publié : la loi n’en exige pas pour un site de commerce électronique suisse.
           </p>
+
+          <h2>Vente de prestations en ligne</h2>
           <p>
-            L’identité complète de l’exploitant est communiquée sur demande, à l’adresse de contact
-            ci-dessus, ainsi qu’à toute autorité qui en ferait la demande dans le cadre de ses
-            compétences.
+            Ce site permet de commander des prestations. Les informations suivantes sont fournies
+            au titre de l’art. 3 al. 1 let. s de la loi fédérale contre la concurrence déloyale
+            (LCD) :
+          </p>
+          <ul>
+            <li>
+              <strong>Identité et adresse de contact</strong> : indiquées ci-dessus, adresse
+              électronique comprise.
+            </li>
+            <li>
+              <strong>Prix</strong> : indiqués en francs suisses sur chaque fiche de prestation,
+              suppléments non optionnels compris. Les options éventuelles et les frais de
+              déplacement éventuels sont annoncés avant la commande et figurent sur une ligne
+              distincte du récapitulatif.
+            </li>
+            <li>
+              <strong>Étapes techniques menant au contrat</strong> : choix de la prestation, choix
+              du déroulement et des options, saisie des informations, récapitulatif chiffré, puis
+              validation. Le récapitulatif précède toujours la validation.
+            </li>
+            <li>
+              <strong>Confirmation de commande</strong> : une confirmation est adressée sans délai
+              par voie électronique, avec la référence, le montant, le délai et les pièces
+              attendues.
+            </li>
+          </ul>
+          <p>
+            Les conditions applicables à une commande figurent dans les{' '}
+            <Link href="/conditions-prestations">conditions de prestation</Link>. Le droit suisse
+            ne prévoit pas de droit de révocation général pour les achats en ligne ; les
+            conditions de prestation accordent néanmoins une annulation sans frais tant que le
+            traitement n’a pas commencé.
           </p>
 
           <h2>Hébergement</h2>

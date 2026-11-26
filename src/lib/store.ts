@@ -83,6 +83,11 @@ export type Commande = {
   payeeLe?: string;
   /** Notes internes, saisies depuis le tableau de bord. */
   notes?: string;
+  /**
+   * Lien de dépôt kDrive propre à cette commande, collé depuis le tableau
+   * de bord. Prend le pas sur la boîte commune lorsqu'il est renseigné.
+   */
+  depotUrl?: string;
 };
 
 /* ------------------------------------------------------------------

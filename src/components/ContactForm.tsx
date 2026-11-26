@@ -313,7 +313,24 @@ export function ContactForm({ variant = 'full' }: { variant?: 'full' | 'simple' 
             className="w-full rounded-xl border border-dashed border-ink-300 bg-white px-4 py-3 text-sm text-ink-600 file:mr-4 file:rounded-full file:border-0 file:bg-ink-100 file:px-4 file:py-2 file:text-sm file:text-ink-800"
           />
           <p className="mt-1.5 text-sm text-ink-500">
-            Un contrat, un courrier reçu ou un document utile à votre demande.
+            Un courrier reçu, une capture d’écran ou un document utile à votre demande.
+          </p>
+          {/* Cette pièce jointe part par courriel : elle ne convient pas aux
+              documents sensibles, qui passent par le dépôt sécurisé. */}
+          <p className="mt-3 rounded-xl border-l-[3px] border-accent-400 bg-accent-50/70 px-4 py-3 text-sm leading-relaxed text-ink-700">
+            <span className="font-semibold text-ink-900">
+              N’y joignez pas de certificat de salaire, de relevé bancaire, de frais médicaux ni de
+              pièce d’identité.
+            </span>{' '}
+            Ce champ achemine le fichier par courriel. Ces pièces vous sont demandées séparément,
+            par un{' '}
+            <a
+              href="/transmission-securisee"
+              className="underline underline-offset-2 hover:text-ink-900"
+            >
+              dépôt sécurisé hébergé en Suisse
+            </a>
+            .
           </p>
           {errors.attachment ? <p className={errorClass}>{errors.attachment}</p> : null}
         </div>

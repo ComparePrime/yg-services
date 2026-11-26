@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
 import { Section } from '@/components/ui/Section';
+import Link from 'next/link';
 import { LegalValue } from '@/components/LegalPlaceholder';
 import { JsonLd } from '@/components/JsonLd';
 import { siteConfig } from '@/config/site';
@@ -73,12 +74,40 @@ export default function ConfidentialitePage() {
             préalable et à votre initiative.
           </p>
 
+          <h2>Commandes passées depuis le site</h2>
+          <p>
+            Lorsque vous commandez une prestation, les informations du formulaire sont enregistrées
+            afin de traiter votre dossier : votre référence, la prestation, les options, le
+            déroulement choisi, le montant, vos coordonnées et vos réponses aux questions posées.
+            Ces données sont nécessaires à l’exécution du contrat.
+          </p>
+          <p>
+            Le formulaire de commande ne demande <strong>aucune donnée sensible</strong> : ni
+            numéro AVS, ni montant de revenu, ni information de santé, ni pièce d’identité. Aucun
+            document ne peut y être joint.
+          </p>
+
           <h2>Documents sensibles</h2>
           <p>
-            Certaines demandes impliquent des documents contenant des données sensibles, notamment
-            des contrats d’assurance ou des pièces relatives à votre logement. Ces documents sont
-            traités avec la même confidentialité que le reste de votre dossier, utilisés uniquement
-            pour la prestation demandée, et supprimés sur simple demande de votre part.
+            Certaines prestations supposent des pièces qui contiennent des données sensibles, par
+            exemple des frais médicaux ou des attestations d’assurance maladie pour une déclaration
+            d’impôts. Ces pièces ne transitent pas par ce site : elles sont déposées sur un espace
+            de dépôt hébergé en Suisse, chez Infomaniak, après la commande. Le site n’héberge aucun
+            fichier et ne publie aucun lien de téléchargement.
+          </p>
+          <p>
+            Le dépôt n’autorise que l’envoi : il ne permet pas de consulter, de lister ni de
+            télécharger des documents, y compris les vôtres. Le détail du circuit figure sur la
+            page{' '}
+            <Link href="/transmission-securisee">
+              consacrée à la transmission de vos documents
+            </Link>
+            .
+          </p>
+          <p>
+            Vos documents sont utilisés uniquement pour la prestation commandée, ne sont transmis à
+            aucun tiers sans votre accord, et sont supprimés sur demande, sous réserve des durées de
+            conservation légales.
           </p>
 
           <h2>Durée de conservation</h2>
@@ -104,11 +133,36 @@ export default function ConfidentialitePage() {
             </p>
           ) : null}
           <p>
-            Les messages envoyés depuis le formulaire de contact sont acheminés vers ma messagerie
-            professionnelle,{' '}
+            Les messages envoyés depuis le formulaire de contact sont acheminés vers la messagerie
+            professionnelle de {siteConfig.brand},{' '}
             <LegalValue value={siteConfig.contact.email} label="adresse e-mail de réception" />,
-            hébergée par Infomaniak, en Suisse. Le contenu de votre message et les documents que
-            vous joignez ne transitent par aucun autre prestataire.
+            hébergée par Infomaniak, en Suisse.
+          </p>
+          <p>
+            La liste des prestataires qui peuvent traiter des données pour le compte de{' '}
+            {siteConfig.brand} est la suivante, et elle est limitée à ce qui est nécessaire :
+          </p>
+          <ul>
+            <li>
+              <strong>Netlify, Inc.</strong> ({siteConfig.legal.hostCountry || 'États-Unis'}) —
+              hébergement du site et enregistrement des commandes. Les commandes contiennent des
+              données personnelles ordinaires (nom, adresse, courriel), mais aucune donnée
+              sensible et aucun document.
+            </li>
+            <li>
+              <strong>Infomaniak</strong> (Suisse) — messagerie professionnelle et espace de dépôt
+              des documents. C’est là que se trouvent les pièces de votre dossier.
+            </li>
+            <li>
+              <strong>Stripe</strong> (Irlande et États-Unis) — traitement des paiements par carte,
+              lorsque ce moyen de paiement est actif. Les données de carte sont saisies sur les
+              pages de Stripe et ne touchent jamais ce site. {siteConfig.brand} ne reçoit ni ne
+              conserve de numéro de carte.
+            </li>
+          </ul>
+          <p>
+            Aucun autre prestataire n’intervient, et vos documents ne sont déposés dans aucun outil
+            qui ne sert pas directement à votre dossier.
           </p>
 
           <h2>Cookies</h2>
