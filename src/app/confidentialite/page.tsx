@@ -38,7 +38,7 @@ export default function ConfidentialitePage() {
 
           <h2>Responsable du traitement</h2>
           <p>
-            {siteConfig.person.fullName} — {siteConfig.brand}
+            {siteConfig.brand}
             <br />
             {siteConfig.location.city}, {siteConfig.location.region}, {siteConfig.location.country}
             <br />

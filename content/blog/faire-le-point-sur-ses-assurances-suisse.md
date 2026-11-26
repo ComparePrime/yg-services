@@ -3,16 +3,20 @@ title: "Comment faire le point sur ses assurances en Suisse ?"
 description: "Une méthode simple pour reprendre vos contrats un par un, repérer les doublons et voir ce qui mérite d'être ajusté."
 date: '2026-04-08'
 category: 'Assurances'
-author: 'Yoann Guiot'
+author: 'YG Services'
 metaTitle: "Faire le point sur ses assurances en Suisse"
 metaDescription: "Inventaire des contrats, doublons, franchises, garanties inutiles : comment reprendre calmement l'ensemble de vos assurances en Suisse."
 image: '/images/blog/point-assurances.svg'
 imageAlt: 'Documents de contrats classés sur une table'
+# Les prestations d'assurance ne font plus partie du positionnement de
+# YG Services. L'article est dépublié : il disparaît du site et du plan du
+# site, et son URL est redirigée vers le blog (voir next.config.mjs).
+draft: true
 ---
 
 La plupart des ménages accumulent leurs assurances par couches successives. Un contrat signé à la sortie des études, un autre ajouté au moment du déménagement, un troisième conseillé lors de l'achat d'une voiture. Personne ne reprend jamais l'ensemble. Résultat : on paie parfois deux fois la même chose, et il manque parfois l'essentiel.
 
-Voici la méthode que j'utilise pour remettre tout ça à plat.
+Voici une méthode pour remettre tout ça à plat.
 
 ## Étape 1 : faire l'inventaire
 
@@ -49,10 +53,10 @@ Chaque contrat a sa date et son délai de résiliation, et ils ne sont pas ident
 
 Mettez ces échéances dans votre agenda. C'est la seule manière de ne pas subir la reconduction automatique.
 
-## Ce que je ne vous promettrai pas
+## Ce qui n'est pas promis
 
-Je ne vous dirai jamais avant analyse que vous allez économiser un montant donné. Parfois il y a une marge réelle, parfois la situation est déjà correcte, et parfois il manque une couverture, ce qui coûtera un peu plus cher mais vous protégera mieux.
+Aucun montant d'économie n'est annoncé avant analyse. Parfois il y a une marge réelle, parfois la situation est déjà correcte, et parfois il manque une couverture, ce qui coûtera un peu plus cher mais vous protégera mieux.
 
-Ce que je peux faire, c'est reprendre vos contrats avec vous, vous expliquer ce qu'ils contiennent dans un langage compréhensible, et identifier les possibilités d'optimisation. J'ai suivi une formation AFA et travaillé dans le domaine : je sais où regarder.
+Ce qu'il est possible de faire : reprendre vos documents avec vous et vous expliquer ce qu'ils contiennent dans un langage compréhensible.
 
-[Faire analyser mes assurances](/contact?sujet=assurance)
+[Demander un accompagnement](/contact?sujet=administratif)

@@ -45,7 +45,7 @@ export function Logo({
   return (
     <Image
       src={tone === 'light' ? source.light : source.dark}
-      alt={`${siteConfig.brand} — ${siteConfig.signature}`}
+      alt={`${siteConfig.brand} — ${siteConfig.positioning}`}
       width={source.width}
       height={source.height}
       priority={priority}

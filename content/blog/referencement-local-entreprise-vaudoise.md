@@ -3,7 +3,7 @@ title: "Pourquoi le référencement local est important pour une entreprise vaud
 description: "Comment se rendre visible auprès des clients qui cherchent près de chez eux, sans multiplier les pages inutiles."
 date: '2026-06-17'
 category: 'SEO'
-author: 'Yoann Guiot'
+author: 'YG Services'
 metaTitle: "Référencement local, entreprise vaudoise"
 metaDescription: "Fiche Google, contenu réellement local, avis clients : les leviers concrets du référencement local pour une PME ou un artisan dans le canton de Vaud."
 image: '/images/blog/referencement-local.svg'
@@ -36,7 +36,7 @@ C'est l'erreur la plus fréquente. On crée une page pour Yverdon, une pour Laus
 
 Une page locale n'a d'intérêt que si elle contient quelque chose de réellement propre à cet endroit : une réalisation faite sur place, une contrainte spécifique à cette commune, un délai d'intervention, une expérience concrète. Sinon, une bonne page de service, bien écrite, fait mieux le travail.
 
-Je préfère dix pages réellement utiles à cent pages écrites pour un moteur de recherche.
+Dix pages réellement utiles valent mieux que cent pages écrites pour un moteur de recherche.
 
 ## Les bases techniques à ne pas rater
 
@@ -55,4 +55,4 @@ C'est un travail lent. Le référencement local ne produit pas d'effet en trois 
 
 Si votre site actuel n'est pas rapide sur mobile, commencez par là. Si votre fiche Google est incomplète, complétez-la cette semaine. Si vos pages ne disent pas clairement où vous travaillez, réécrivez-les.
 
-Et si vous voulez que je regarde votre situation, [écrivez-moi](/contact?sujet=seo). Je vous dirai honnêtement s'il y a du travail à faire, et lequel est prioritaire.
+Pour un regard sur votre situation, [écrivez à YG Services](/contact?sujet=seo). La réponse indiquera honnêtement s'il y a du travail à faire, et lequel est prioritaire.

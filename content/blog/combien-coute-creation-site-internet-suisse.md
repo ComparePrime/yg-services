@@ -3,7 +3,7 @@ title: "Combien coûte la création d'un site internet en Suisse ?"
 description: "Les éléments qui font vraiment varier le prix d'un site web en Suisse, et comment lire un devis sans se perdre."
 date: '2026-02-11'
 category: 'Création web'
-author: 'Yoann Guiot'
+author: 'YG Services'
 metaTitle: "Combien coûte un site internet en Suisse ?"
 metaDescription: "Ce qui fait varier le prix d'un site web en Suisse : nombre de pages, contenus, fonctionnalités, référencement. Comment comparer deux devis sérieusement."
 image: '/images/blog/prix-site-internet.svg'
@@ -48,8 +48,8 @@ Un site fait à la va-vite se paie deux fois : une première fois à la créatio
 
 À l'inverse, un devis très élevé n'est pas automatiquement gage de qualité. Ce qui compte, c'est que chaque ligne soit compréhensible et que vous sachiez à quoi elle correspond.
 
-## Ma façon de faire
+## La façon de procéder
 
-Je travaille avec trois formules pour que vous sachiez tout de suite dans quel ordre de grandeur vous vous situez, puis j'établis un devis précis une fois votre projet compris. Le montant est fixé avant le début du travail, et il ne bouge pas en cours de route sans que vous l'ayez validé.
+YG Services propose trois formules pour que vous sachiez tout de suite dans quel ordre de grandeur vous vous situez, puis établit un devis précis une fois votre projet compris. Le montant est fixé avant le début du travail, et il ne bouge pas en cours de route sans que vous l'ayez validé.
 
-Si vous voulez une estimation pour votre cas, [décrivez-moi votre projet](/contact?sujet=creer-site). Je vous réponds directement, sans passer par un commercial.
+Pour une estimation adaptée à votre cas, [décrivez votre projet](/contact?sujet=creer-site). La réponse vous parvient directement, sans passer par un commercial.

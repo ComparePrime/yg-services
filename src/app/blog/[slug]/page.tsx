@@ -73,9 +73,7 @@ export default async function ArticlePage({ params }: Params) {
             <p className="mt-5 text-lg leading-relaxed text-ink-600">{post.description}</p>
 
             <div className="mt-7 flex flex-wrap items-center gap-3 text-sm text-ink-500">
-              <Link href="/a-propos" className="font-medium text-ink-800 hover:text-accent-700">
-                {post.author}
-              </Link>
+              <span className="font-medium text-ink-800">{post.author}</span>
               <span aria-hidden="true">•</span>
               <time dateTime={post.date}>{formatDate(post.date)}</time>
               <span aria-hidden="true">•</span>
@@ -90,18 +88,16 @@ export default async function ArticlePage({ params }: Params) {
             <div className="prose-yg text-[17px]" dangerouslySetInnerHTML={{ __html: post.html }} />
 
             <aside className="mt-14 rounded-2xl bg-sand p-7 ring-1 ring-ink-200">
-              <p className="font-display text-xl text-ink-900">
-                Écrit par {siteConfig.person.fullName}
-              </p>
+              <p className="font-display text-xl text-ink-900">{siteConfig.brand}</p>
               <p className="mt-3 text-[15px] leading-relaxed text-ink-600">
-                Je crée des sites web et j’accompagne les particuliers dans leurs démarches
-                administratives et l’optimisation de leurs contrats, depuis Yverdon-les-Bains.
+                Création de sites internet pour indépendants, PME et particuliers, et assistance
+                administrative aux particuliers, depuis {siteConfig.location.city}.
               </p>
               <Link
                 href="/a-propos"
                 className="mt-4 inline-block text-sm font-medium text-ink-900 underline underline-offset-4 hover:text-accent-700"
               >
-                En savoir plus sur moi
+                En savoir plus sur YG Services
               </Link>
             </aside>
           </Container>

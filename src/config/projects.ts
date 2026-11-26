@@ -34,7 +34,7 @@ export const projects: Project[] = [
     summary:
       'Un site de présentation pensé pour mettre en valeur des créations et faciliter la prise de contact.',
     description: [
-      "J'ai pris en charge la conception et le développement du site, de la structure des pages jusqu'à la mise en ligne.",
+      "YG Services a pris en charge la conception et le développement du site, de la structure des pages jusqu'à la mise en ligne.",
       "L'objectif était d'obtenir un site clair, agréable à parcourir sur mobile, et facile à faire évoluer au fil des nouvelles créations.",
     ],
     services: [
@@ -59,7 +59,7 @@ export const projects: Project[] = [
     summary:
       "Une plateforme romande qui permet à un particulier de demander une analyse personnalisée de son assurance maladie et de ses besoins de couverture.",
     description: [
-      "J'ai conçu et développé la plateforme dans son ensemble : parcours utilisateur, formulaire de demande, contenus et mise en ligne.",
+      "YG Services a conçu et développé la plateforme dans son ensemble : parcours utilisateur, formulaire de demande, contenus et mise en ligne.",
       "Le site a un objectif précis : permettre à un visiteur d'expliquer sa situation en quelques étapes, puis d'être mis en relation avec un conseiller qui traite sa demande.",
       "Le travail a porté sur la clarté du parcours, la simplicité du formulaire et le référencement des pages.",
     ],
@@ -86,7 +86,7 @@ export const projects: Project[] = [
     summary:
       'Un site orienté demande de devis, pensé pour que le visiteur décrive son besoin en quelques clics.',
     description: [
-      "J'ai développé le site autour d'un objectif unique : obtenir des demandes de devis complètes et exploitables.",
+      "Le site a été développé autour d'un objectif unique : obtenir des demandes de devis complètes et exploitables.",
       "Le parcours a été simplifié au maximum et les pages travaillées pour le référencement local.",
     ],
     services: [

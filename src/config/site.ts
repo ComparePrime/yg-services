@@ -1,7 +1,12 @@
 /**
  * Configuration centrale du site.
- * C'est le seul fichier à modifier pour changer les informations de contact,
- * la localisation, les réseaux sociaux ou les informations légales.
+ * C'est le seul fichier à modifier pour changer les coordonnées, la
+ * localisation, les réseaux sociaux ou les informations légales.
+ *
+ * Principe de communication : YG Services s'exprime comme une structure.
+ * Aucune donnée personnelle de l'exploitant n'apparaît ici en dehors des
+ * champs légaux, qui ne sont affichés que sur les pages Mentions légales et
+ * Confidentialité, toutes deux en noindex.
  *
  * Les valeurs vides ("") sont des emplacements à compléter : elles ne sont pas
  * affichées sur le site tant qu'elles ne contiennent rien.
@@ -9,21 +14,11 @@
 
 export const siteConfig = {
   brand: 'YG Services',
-  legalName: 'YG Services — Yoann Guiot',
-  signature: "Je crée, j'optimise et je simplifie.",
-  positioning: 'Création web • Administration • Optimisation',
-
-  person: {
-    firstName: 'Yoann',
-    lastName: 'Guiot',
-    fullName: 'Yoann Guiot',
-    jobTitle: 'Créateur de sites web et accompagnement administratif',
-    /** Photo fournie par Yoann. Déposer le fichier dans /public/images/. */
-    photo: '/images/yoann-guiot.jpg',
-    /** Version carrée, pour les réseaux sociaux et les vignettes. */
-    photoSquare: '/images/yoann-guiot-carre.jpg',
-    photoAlt: 'Yoann Guiot, fondateur de YG Services à Yverdon-les-Bains',
-  },
+  /** Raison affichée dans les textes institutionnels. */
+  legalName: 'YG Services',
+  /** Accroche de marque. Formulation neutre, sans première personne. */
+  tagline: 'Simplifier vos démarches, construire votre présence en ligne.',
+  positioning: 'Création de sites internet • Assistance administrative',
 
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://yg-services.ch',
   domain: 'yg-services.ch',
@@ -33,22 +28,14 @@ export const siteConfig = {
   contact: {
     email: 'info@yg-services.ch' as string,
     /**
-     * Numéro affiché et appelable.
-     * `phone` est la forme lisible, `phoneE164` la forme internationale
-     * utilisée pour le lien d'appel et les données structurées.
-     * Laisser les deux vides pour n'être joignable que par WhatsApp.
+     * Aucun numéro de téléphone n'est publié. Le contact se fait par le
+     * formulaire et par e-mail. Renseigner ce champ ferait réapparaître le
+     * numéro sur le site, dans le pied de page et dans les données
+     * structurées : ne le remplir qu'avec une ligne dédiée à l'activité.
      */
-    phone: '078 772 39 19' as string,
-    phoneE164: '+41787723919' as string,
-    /**
-     * WhatsApp. `display` est ce qui s'affiche, `international` sert au lien
-     * wa.me et doit être au format international sans espace ni signe plus.
-     */
-    whatsapp: {
-      display: '078 772 39 19',
-      international: '41787723919',
-    },
-    /** Adresse postale complète : à compléter uniquement si vous souhaitez la publier. */
+    phone: '' as string,
+    phoneE164: '' as string,
+    /** Adresse postale : à compléter uniquement si vous souhaitez la publier. */
     postalAddress: '' as string,
   },
 
@@ -75,36 +62,49 @@ export const siteConfig = {
   social: {
     instagram: 'https://www.instagram.com/yg_services_/',
     instagramHandle: '@yg_services_',
-    /**
-     * Page Facebook : coller l'adresse complète de la page une fois créée.
-     * Tant que ce champ est vide, aucun lien Facebook n'apparaît sur le site.
-     */
+    /** Page Facebook : coller l'adresse complète une fois la page créée. */
     facebook: '' as string,
-    /** À compléter si vous souhaitez afficher un profil LinkedIn. */
     linkedin: '' as string,
   },
 
   /**
    * Informations légales.
+   *
+   * ATTENTION : ces champs identifient l'exploitant et sont requis par le
+   * droit suisse dès lors que des prestations sont proposées en ligne. Ils ne
+   * sont affichés que sur /mentions-legales et /confidentialite, qui sont en
+   * noindex : ils ne remontent donc pas dans les résultats de recherche.
    * Ne rien inventer : laisser vide tant que l'information n'est pas confirmée.
-   * Les champs vides s'affichent comme « à compléter » sur la page Mentions légales.
    */
   legal: {
+    /**
+     * Inscription au registre du commerce. `false` : l'activité est exercée
+     * en nom propre sans inscription, il n'y a donc ni raison sociale
+     * officielle ni numéro IDE à publier. Passer à `true` et renseigner
+     * `companyName` et `ideNumber` le jour d'une inscription.
+     */
+    registeredInCommercialRegister: false as boolean,
+    /** Raison de commerce officielle, uniquement si inscrite au RC. */
     companyName: '' as string,
+    /**
+     * Identité du responsable de la publication.
+     *
+     * Volontairement vide : l'identité complète de l'exploitant est
+     * communiquée sur demande, par l'adresse de contact. Ce choix privilégie
+     * la séparation entre la marque et l'identité civile. Il relève d'une
+     * appréciation juridique à faire valider : renseigner ce champ y fait
+     * figurer le nom sur la page des mentions légales.
+     */
+    responsiblePublication: '' as string,
     ideNumber: '' as string,
     vatNumber: '' as string,
     address: '' as string,
-    responsiblePublication: 'Yoann Guiot',
-    /** Hébergeur du site. */
     host: 'Netlify, Inc. (netlify.com)' as string,
-    /**
-     * Pays d'hébergement des données, mentionné dans la politique de
-     * confidentialité. Netlify est une société américaine.
-     */
+    /** Pays d'hébergement, mentionné dans la politique de confidentialité. */
     hostCountry: 'États-Unis' as string,
   },
 
-  /** Outils de mesure d'audience réellement utilisés (laisser vide si aucun). */
+  /** Outils de mesure d'audience réellement utilisés. */
   analytics: {
     googleAnalytics: false as boolean,
     googleSearchConsole: false as boolean,

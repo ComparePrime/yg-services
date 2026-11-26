@@ -3,14 +3,14 @@ title: "Les démarches à effectuer lors d'un changement d'adresse en Suisse"
 description: "La liste des annonces à faire lors d'un déménagement, dans l'ordre, pour ne rien oublier."
 date: '2026-05-13'
 category: 'Administratif'
-author: 'Yoann Guiot'
+author: 'YG Services'
 metaTitle: "Changement d'adresse en Suisse : la liste"
 metaDescription: "Commune, assurances, employeur, abonnements : toutes les annonces à faire lors d'un déménagement en Suisse, organisées avant, pendant et après."
 image: '/images/blog/changement-adresse.svg'
 imageAlt: 'Cartons de déménagement dans un appartement'
 ---
 
-Un déménagement, ce sont deux listes : celle des cartons et celle des annonces. La seconde est plus courte, mais l'oublier coûte plus cher. Voici comment je l'organise avec les personnes que j'accompagne.
+Un déménagement, ce sont deux listes : celle des cartons et celle des annonces. La seconde est plus courte, mais l'oublier coûte plus cher. Voici comment l'organiser.
 
 ## Avant le déménagement
 
@@ -48,6 +48,6 @@ Prévoyez d'emporter vos pièces d'identité, votre contrat de bail et, pour les
 
 Faites un seul document, sur lequel vous cochez chaque annonce au fur et à mesure, avec la date à laquelle vous l'avez faite. Un déménagement s'étale sur plusieurs semaines et personne ne se souvient de ce qui a été envoyé le mardi précédent.
 
-Si vous préférez ne pas gérer cette partie, je peux préparer votre liste personnalisée en fonction de votre situation, rédiger les courriers de résiliation et de changement d'adresse, et organiser vos documents.
+Si vous préférez ne pas gérer cette partie, YG Services prépare votre liste personnalisée, rédige les courriers de résiliation et de changement d'adresse, et organise vos documents.
 
 [Préparer mes démarches](/contact?sujet=administratif)

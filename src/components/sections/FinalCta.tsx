@@ -8,7 +8,7 @@ import { Reveal } from '@/components/ui/Reveal';
  */
 export function FinalCta({
   title = 'Vous avez une idée, un problème ou simplement une question ?',
-  text = "Expliquez-moi simplement ce dont vous avez besoin. Je vous répondrai directement et nous verrons ensemble quelle solution est la plus adaptée.",
+  text = "Décrivez simplement ce dont vous avez besoin. Vous recevrez une réponse claire, précisant ce qui peut être fait et la suite à donner.",
   ctaLabel = 'Me contacter',
   ctaHref = '/contact',
   secondary,
