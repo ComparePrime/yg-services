@@ -18,6 +18,9 @@ import {
 import { siteConfig } from '@/config/site';
 import { buildMetadata, absoluteUrl } from '@/lib/seo';
 import { breadcrumbSchema, webPageSchema } from '@/lib/structured-data';
+import { mentionTva } from '@/config/tva';
+import { modeCommande } from '@/lib/order';
+import { paiementActif } from '@/lib/stripe';
 
 type Params = { params: Promise<{ categorie: string; prestation: string }> };
 
@@ -64,9 +67,16 @@ export default async function PrestationPage({ params }: Params) {
     .map((item) => getPrestation(item))
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
 
-  const commandeHref = `/contact?sujet=${encodeURIComponent(
-    prestation.categorie === 'impots' ? 'impots' : 'administratif',
-  )}&besoin=${encodeURIComponent(`Commande : ${prestation.titre} (${prix})`)}`;
+  const mode = modeCommande(prestation);
+
+  // Une prestation sur devis passe par le formulaire de contact ; les autres
+  // ouvrent le parcours de commande, avec son formulaire propre.
+  const commandeHref =
+    mode === 'devis'
+      ? `/contact?sujet=${encodeURIComponent(
+          prestation.categorie === 'impots' ? 'impots' : 'administratif',
+        )}&besoin=${encodeURIComponent(`Devis : ${prestation.titre}`)}`
+      : `/commande/${prestation.slug}`;
 
   return (
     <>
@@ -116,6 +126,11 @@ export default async function PrestationPage({ params }: Params) {
                     Montant ferme communiqué après examen du dossier.
                   </p>
                 ) : null}
+                {prestation.recurrence === 'mensuel' ? (
+                  <p className="mt-1.5 text-sm text-ink-500">
+                    Résiliable pour la fin d’un mois, avec un préavis de trente jours.
+                  </p>
+                ) : null}
 
                 <dl className="mt-6 space-y-3 text-sm">
                   <div>
@@ -129,12 +144,16 @@ export default async function PrestationPage({ params }: Params) {
                 </dl>
 
                 <Button href={commandeHref} size="lg" className="mt-7 w-full">
-                  Commander cette prestation
+                  {mode === 'devis' ? 'Demander un devis' : 'Commander cette prestation'}
                 </Button>
 
                 <p className="mt-3 text-xs leading-relaxed text-ink-500">
-                  Le paiement par carte n’est pas encore actif. La commande passe par le formulaire
-                  et la facture vous est adressée avant le début du traitement.
+                  {mentionTva()}
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-ink-500">
+                  {paiementActif()
+                    ? 'Règlement par carte à la validation de la commande, sur une page sécurisée. Aucune donnée de carte ne transite par ce site.'
+                    : 'Le règlement par carte n’est pas encore actif : la facture vous est adressée avant le début du traitement.'}
                 </p>
               </aside>
             </div>

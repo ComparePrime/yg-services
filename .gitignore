@@ -13,3 +13,6 @@ yarn-error.log*
 next-env.d.ts
 *.tsbuildinfo
 .netlify/
+
+# Captures produites par les scripts de vérification
+commande-ok.png

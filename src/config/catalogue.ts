@@ -15,6 +15,21 @@
  *   baisse de loyer, ni l'acceptation d'un dossier.
  * - `exclus` est aussi important que `inclus` : ce qui n'est pas couvert
  *   doit être lisible avant l'achat.
+ *
+ * EXCLUSION ASSURANCE — décision du 26 novembre 2026
+ * Aucune prestation portant sur la comparaison, le changement, la
+ * résiliation, la recommandation ou la gestion de contrats d'assurance ne
+ * doit figurer dans ce catalogue. Ces activités relèvent de
+ * l'intermédiation en assurance et supposent une inscription au registre
+ * de la FINMA. La catégorie sera réexaminée après vérification du cadre
+ * applicable ; d'ici là, toute prestation de ce type est refusée en revue.
+ *
+ * Ne sont PAS concernés, et restent autorisés :
+ * - le dossier de demande de subside cantonal, qui est une démarche
+ *   administrative auprès de l'agence d'assurances sociales et non auprès
+ *   d'un assureur ;
+ * - les attestations d'assurance maladie listées comme pièces à fournir
+ *   pour une déclaration d'impôts.
  */
 
 export type Audience = 'particuliers' | 'independants' | 'tous';
@@ -121,6 +136,15 @@ export const categories: Categorie[] = [
     audience: 'tous',
   },
   {
+    slug: 'packs',
+    nom: 'Packs de prestations',
+    nomCourt: 'Packs',
+    intro:
+      'Lorsque plusieurs démarches vont ensemble, le pack les traite d’un bloc : une seule commande, un seul délai, un prix inférieur à la somme des prestations.',
+    motCle: 'forfait démarches administratives suisse',
+    audience: 'tous',
+  },
+  {
     slug: 'documents',
     nom: 'Documents, courriers et rédaction',
     nomCourt: 'Documents',
@@ -195,7 +219,7 @@ const CADRE_COMPTA =
    Prestations
 ------------------------------------------------------------------- */
 
-export const prestations: Prestation[] = [
+const prestationsUnitaires: Prestation[] = [
   /* ============ Impôts ============ */
   {
     slug: 'declaration-impots-etudiant',
@@ -2025,6 +2049,53 @@ export const forfaits: Forfait[] = [
     cadre: CADRE_SIGNATURE,
   },
 ];
+
+/* ------------------------------------------------------------------
+   Composition du catalogue
+
+   Les packs sont des prestations à part entière : ils ont une fiche, une
+   page de commande, un prix et leurs propres données structurées. Ils sont
+   dérivés du tableau `forfaits` pour qu'un pack n'ait qu'une définition.
+------------------------------------------------------------------- */
+
+const PACK_POUR_QUI: Record<string, string> = {
+  'pack-demenagement': 'Personnes et familles qui déménagent et veulent traiter l’ensemble des annonces en une fois.',
+  'pack-subside': 'Ménages déposant une demande de subside et souhaitant un dossier vérifié de bout en bout.',
+  'pack-locataire': 'Locataires qui veulent faire le point sur leur bail et préparer une demande de baisse de loyer.',
+  'pack-administratif': 'Personnes ayant plusieurs petites démarches en attente et préférant les regrouper.',
+};
+
+const packsCommePrestations: Prestation[] = forfaits.map((forfait) => {
+  // Les pièces attendues sont l'union de celles des prestations couvertes :
+  // un pack ne demande rien de plus que ce qu'il contient.
+  const documents = Array.from(
+    new Set(
+      forfait.couvre.flatMap(
+        (slug) => prestationsUnitaires.find((p) => p.slug === slug)?.documents ?? [],
+      ),
+    ),
+  );
+
+  return {
+    slug: forfait.slug,
+    categorie: 'packs',
+    titre: forfait.titre,
+    accroche: forfait.accroche,
+    description: forfait.description,
+    prix: forfait.prix,
+    delai: forfait.delai,
+    audience: 'tous',
+    pourQui: PACK_POUR_QUI[forfait.slug] ?? 'Particuliers ayant plusieurs démarches à traiter.',
+    inclus: forfait.inclus,
+    exclus: forfait.exclus,
+    documents: documents.length > 0 ? documents : ['Les pièces propres aux démarches retenues'],
+    voirAussi: forfait.couvre,
+    ...(forfait.cadre ? { cadre: forfait.cadre } : {}),
+    miseEnAvant: true,
+  } satisfies Prestation;
+});
+
+export const prestations: Prestation[] = [...prestationsUnitaires, ...packsCommePrestations];
 
 /* ------------------------------------------------------------------
    Accès

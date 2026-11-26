@@ -18,6 +18,8 @@ import {
   prestationsDe,
 } from '@/config/catalogue';
 import { faqItems } from '@/config/faq';
+import { mentionTva } from '@/config/tva';
+import { paiementActif } from '@/lib/stripe';
 import { buildMetadata, absoluteUrl } from '@/lib/seo';
 import {
   breadcrumbSchema,
@@ -91,8 +93,8 @@ export default function CataloguePage() {
       <Section tone="sand">
         <SectionHeading
           eyebrow="Les domaines"
-          title="Six domaines d’intervention"
-          lead="Chaque domaine regroupe des prestations précises, avec leurs documents et leurs délais."
+          title="Sept domaines d’intervention"
+          lead="Chaque domaine regroupe des prestations précises, avec leurs documents et leurs délais. Les packs regroupent les démarches qui vont ensemble."
         />
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((categorie, index) => {
@@ -158,8 +160,8 @@ export default function CataloguePage() {
 
                 <p className="mt-5 text-xs text-ink-500">Délai : {forfait.delai}</p>
 
-                <Button href={`/contact?sujet=administratif&besoin=${encodeURIComponent(forfait.titre)}`} className="mt-6 w-full">
-                  Demander ce forfait
+                <Button href={`/commande/${forfait.slug}`} className="mt-6 w-full">
+                  Commander ce pack
                 </Button>
               </div>
             </Reveal>
@@ -188,10 +190,13 @@ export default function CataloguePage() {
         </ol>
 
         <div className="mt-10 rounded-xl border-l-[3px] border-accent-400 bg-accent-50/70 px-5 py-4 text-sm leading-relaxed text-ink-700">
-          <span className="font-semibold text-ink-900">Paiement en ligne — </span>
-          le règlement par carte n’est pas encore actif. Les commandes passent pour l’instant par le
-          formulaire, et la facture vous est adressée avant le début du traitement.
+          <span className="font-semibold text-ink-900">Paiement — </span>
+          {paiementActif()
+            ? 'le règlement par carte se fait à la validation de la commande, sur une page sécurisée. Aucune donnée de carte ne transite par ce site.'
+            : 'le règlement par carte n’est pas encore actif. La commande est enregistrée depuis le site et la facture vous est adressée avant le début du traitement.'}
         </div>
+
+        <p className="mt-5 text-sm text-ink-500">{mentionTva()}</p>
       </Section>
 
       {adminFaq.length > 0 ? (
