@@ -32,6 +32,13 @@ export const tva = {
   mode: 'incluse' as 'incluse' | 'ajoutee',
   /** Seuil d'assujettissement obligatoire, en CHF. */
   seuilAssujettissement: 100_000,
+  /**
+   * Seuils d'alerte, en CHF de chiffre d'affaires cumulé sur l'année civile.
+   * À chaque franchissement, un courriel part une seule fois vers la boîte
+   * de YG Services. Le calcul se fait sur les commandes enregistrées, à la
+   * réception de chaque nouvelle commande et à chaque paiement confirmé.
+   */
+  seuilsAlerte: [70_000, 90_000, 100_000],
 };
 
 export type DetailTva = {

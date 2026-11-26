@@ -16,3 +16,6 @@ next-env.d.ts
 
 # Captures produites par les scripts de vérification
 commande-ok.png
+
+# Commandes du pilote de secours (développement)
+.data/

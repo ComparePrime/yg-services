@@ -54,8 +54,8 @@ export type DemandePaiement = {
 };
 
 /**
- * Crée une session de paiement et renvoie l'adresse de redirection.
- * Renvoie `null` si Stripe n'est pas configuré.
+ * Crée une session de paiement et renvoie son identifiant et l'adresse de
+ * redirection. Renvoie `null` si Stripe n'est pas configuré.
  */
 export async function creerSessionPaiement({
   prestation,
@@ -63,7 +63,7 @@ export async function creerSessionPaiement({
   reference,
   email,
   origin,
-}: DemandePaiement): Promise<string | null> {
+}: DemandePaiement): Promise<{ id: string; url: string } | null> {
   const stripe = getStripe();
   if (!stripe) return null;
 
@@ -91,7 +91,7 @@ export async function creerSessionPaiement({
     cancel_url: `${origin}/assistance-administrative/${prestation.categorie}/${prestation.slug}?paiement=annule`,
   });
 
-  return session.url;
+  return session.url ? { id: session.id, url: session.url } : null;
 }
 
 export type EtatPaiement = {

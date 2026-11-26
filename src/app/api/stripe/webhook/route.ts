@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { lireEvenementWebhook, webhookConfigure } from '@/lib/stripe';
 import { notifierPaiement } from '@/lib/order-mailer';
+import { lireCommande, majCommande } from '@/lib/store';
+import { verifierSeuilTva } from '@/lib/alerte-tva';
 
 export const runtime = 'nodejs';
 
@@ -35,18 +37,60 @@ export async function POST(request: Request) {
     // Même après vérification de la signature, on ne traite que les
     // sessions effectivement payées.
     if (session.payment_status === 'paid') {
+      const reference = session.client_reference_id ?? session.metadata?.reference ?? null;
+      const montant = session.amount_total === null ? null : session.amount_total / 100;
+
+      // Le paiement est inscrit sur la commande enregistrée. C'est ce qui
+      // remplace le rapprochement manuel entre Stripe et la commande.
+      if (reference) {
+        try {
+          const commande = await lireCommande(reference);
+
+          if (!commande) {
+            console.error('[stripe] Paiement sans commande correspondante', reference);
+          } else if (montant !== null && Math.abs(montant - commande.total) > 0.01) {
+            // Un écart de montant n'est pas traité en silence : la commande
+            // passe en paiement reçu mais l'écart est signalé.
+            console.error(
+              `[stripe] Écart de montant sur ${reference} : payé ${montant}, attendu ${commande.total}`,
+            );
+            await majCommande(reference, {
+              paiement: 'payee',
+              payeeLe: new Date().toISOString(),
+              notes: `${commande.notes ? commande.notes + '\n' : ''}Écart de montant : payé CHF ${montant}, attendu CHF ${commande.total}.`,
+            });
+          } else {
+            await majCommande(reference, {
+              paiement: 'payee',
+              payeeLe: new Date().toISOString(),
+            });
+          }
+        } catch (error) {
+          // Stripe réessaiera l'événement : on renvoie une erreur pour ne
+          // pas perdre l'information de paiement.
+          console.error('[stripe] Commande non mise à jour', error);
+          return NextResponse.json({ ok: false }, { status: 500 });
+        }
+      }
+
       try {
         await notifierPaiement({
-          reference: session.client_reference_id ?? session.metadata?.reference ?? 'inconnue',
+          reference: reference ?? 'inconnue',
           prestation: session.metadata?.prestation ?? 'inconnue',
-          montant: session.amount_total === null ? null : session.amount_total / 100,
+          montant,
           email: session.customer_details?.email ?? session.customer_email ?? null,
         });
       } catch (error) {
-        // Stripe réessaiera : on renvoie une erreur pour ne pas perdre
-        // l'événement si la notification échoue.
         console.error('[stripe] Notification de paiement non délivrée', error);
         return NextResponse.json({ ok: false }, { status: 500 });
+      }
+
+      // Un paiement confirmé fait évoluer le chiffre d'affaires encaissé :
+      // le seuil de TVA est revérifié ici aussi.
+      try {
+        await verifierSeuilTva();
+      } catch (error) {
+        console.error('[tva] Vérification du seuil impossible', error);
       }
     }
   }

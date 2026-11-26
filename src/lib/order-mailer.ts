@@ -256,3 +256,57 @@ export async function notifierPaiement(paiement: PaiementConfirme): Promise<void
     html: enHtml(lignes),
   });
 }
+
+/* ------------------------------------------------------------------
+   Alerte de seuil de TVA
+------------------------------------------------------------------- */
+
+/**
+ * Prévient que le chiffre d'affaires cumulé a franchi un seuil de
+ * surveillance. Envoyé une seule fois par seuil et par année civile.
+ */
+export async function notifierSeuilTva({
+  seuil,
+  chiffres,
+}: {
+  seuil: number;
+  chiffres: { annee: number; encaisse: number; engage: number; nombreCommandes: number };
+}): Promise<void> {
+  const chf = (montant: number) => `CHF ${montant.toLocaleString('fr-CH')}`;
+  const atteint = seuil >= 100_000;
+
+  const lignes = [
+    `Seuil de surveillance franchi : ${chf(seuil)}.`,
+    '',
+    `Année : ${chiffres.annee}`,
+    `Chiffre d’affaires encaissé ou facturé : ${chf(chiffres.encaisse)}`,
+    `Dont commandes encore en attente de paiement : ${chf(chiffres.engage - chiffres.encaisse)}`,
+    `Nombre de commandes retenues : ${chiffres.nombreCommandes}`,
+    '',
+    atteint
+      ? 'Le seuil d’assujettissement obligatoire à la TVA (CHF 100 000) est atteint. L’assujettissement remonte au début de l’exercice concerné : il y a une démarche à engager auprès de l’AFC sans attendre.'
+      : `Le seuil d’assujettissement obligatoire est de ${chf(100_000)}. Il reste ${chf(
+          100_000 - chiffres.encaisse,
+        )} de marge.`,
+    '',
+    'Ce cumul ne porte que sur les commandes passées par le site. Les revenus facturés en dehors doivent y être ajoutés pour juger du seuil réel.',
+    '',
+    'Aucun prix n’a été modifié et la TVA n’a pas été activée : la décision vous revient.',
+  ];
+
+  const inbox = process.env.CONTACT_INBOX || siteConfig.contact.email;
+  const mailer = getTransporter();
+
+  if (!mailer || !inbox) {
+    console.info('[tva] ' + lignes.join('\n'));
+    return;
+  }
+
+  await mailer.sendMail({
+    from: `"${siteConfig.brand}" <${process.env.SMTP_FROM || process.env.SMTP_USER || inbox}>`,
+    to: inbox,
+    subject: `Seuil de TVA — ${chf(seuil)} franchis (${chiffres.annee})`,
+    text: lignes.join('\n'),
+    html: enHtml(lignes),
+  });
+}
