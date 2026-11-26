@@ -14,8 +14,13 @@ import { verifierSeuilTva } from '@/lib/alerte-tva';
 
 export const runtime = 'nodejs';
 
-/** Limitation par adresse IP, en mémoire. */
-const RATE_LIMIT_MAX = 8;
+/**
+ * Limitation par adresse IP, en mémoire.
+ * `ORDER_RATE_LIMIT` permet de la relever pour jouer la suite de tests
+ * sans que les contrôles suivants se heurtent au plafond. En production,
+ * la variable n'est pas définie et la valeur par défaut s'applique.
+ */
+const RATE_LIMIT_MAX = Number(process.env.ORDER_RATE_LIMIT ?? 8);
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const hits = new Map<string, { count: number; resetAt: number }>();
 

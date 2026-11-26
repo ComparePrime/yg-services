@@ -198,6 +198,7 @@ export const MODALITES_PAR_PRESTATION: Record<string, Modalite[]> = {
   // prolongation-delai-fiscal : purement administratif, reste à distance.
 
   /* --- Logement --- */
+  'demande-baisse-loyer': ['distance', 'mixte'],
   'demande-baisse-loyer-approfondie': ['distance', 'mixte'],
   'analyse-documents-bail': ['distance', 'mixte', 'presentiel'],
   // Les défauts se constatent sur place.
@@ -206,13 +207,19 @@ export const MODALITES_PAR_PRESTATION: Record<string, Modalite[]> = {
   'restitution-garantie': ['distance', 'mixte'],
 
   /* --- Subsides : l'aide au remplissage se fait bien côte à côte --- */
+  'subside-assurance-maladie': ['distance', 'mixte', 'presentiel', 'domicile'],
   'subside-complet': ['distance', 'mixte', 'presentiel', 'domicile'],
+  'mise-a-jour-subside': ['distance', 'mixte'],
+  'aide-logement': ['distance', 'mixte', 'presentiel'],
+  'allocation-familiale': ['distance', 'mixte'],
   'demande-aide-financiere': ['distance', 'mixte', 'presentiel'],
   'dossier-administratif-social': ['distance', 'mixte', 'presentiel', 'domicile'],
   'dossier-allocation': ['distance', 'mixte', 'presentiel'],
 
   /* --- Démarches du quotidien --- */
   'formulaire-complexe': ['distance', 'mixte', 'presentiel'],
+  'changement-adresse-cinq': ['distance', 'mixte'],
+  'certificat-attestation': ['distance', 'mixte'],
   // Trier des papiers à distance suppose de tout numériser : sur place est
   // souvent plus simple pour le client.
   'organisation-documents': ['distance', 'presentiel', 'domicile'],

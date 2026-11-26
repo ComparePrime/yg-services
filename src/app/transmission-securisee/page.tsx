@@ -26,31 +26,26 @@ const questions = [
     question: 'Pourquoi ne puis-je pas joindre mes documents au formulaire ?',
     answer:
       'Parce qu’une pièce jointe part par courriel. Le courriel n’est pas chiffré de bout en bout, il reste dans une boîte de réception sans durée définie et il se duplique dans les sauvegardes. Pour un certificat de salaire, un frais médical ou une pièce d’identité, ce n’est pas un canal acceptable. Le dépôt sécurisé existe pour cela.',
-    category: 'Assistance administrative' as const,
   },
   {
     question: 'Si quelqu’un trouve mon lien de dépôt, peut-il voir mes documents ?',
     answer:
       'Non. Un lien de dépôt n’autorise que l’envoi : il ne permet ni de lister, ni d’ouvrir, ni de télécharger quoi que ce soit. Quelqu’un qui le possèderait pourrait au pire déposer un fichier indésirable. C’est précisément pour cette raison qu’une boîte de dépôt est utilisée, et non un lien de partage.',
-    category: 'Assistance administrative' as const,
   },
   {
     question: 'Où mes documents sont-ils stockés ?',
     answer:
       'Sur un espace kDrive d’Infomaniak, hébergé en Suisse et soumis au droit suisse. Ils ne sont pas stockés sur ce site, qui ne sert aucun fichier et ne publie aucun lien de téléchargement.',
-    category: 'Assistance administrative' as const,
   },
   {
     question: 'Combien de temps mes documents sont-ils conservés ?',
     answer:
       'Le temps du mandat, puis ils sont supprimés sur demande. Les pièces soumises à une obligation de conservation légale sont gardées le temps prévu par la loi. Vous pouvez demander la suppression de vos documents à tout moment.',
-    category: 'Assistance administrative' as const,
   },
   {
     question: 'Mes documents sont-ils transmis à quelqu’un d’autre ?',
     answer:
       'Non, sauf si vous le demandez — par exemple pour remettre un dossier à votre fiduciaire. Aucun document n’est envoyé à un tiers sans votre accord, et aucun n’est déposé dans un outil qui ne sert pas directement à votre dossier.',
-    category: 'Assistance administrative' as const,
   },
 ];
 

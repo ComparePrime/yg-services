@@ -59,11 +59,59 @@ avant que la personne sache qu'un service existe.
 - **Plan du site** : généré au build, les nouvelles fiches et les packs s'y
   ajoutent seuls.
 
+## Mise à jour du 26 novembre 2026 — ce qui a été ajouté depuis
+
+- **FAQ propres aux prestations** : 38 questions sur 22 fiches, rédigées une
+  par une. Elles portent des données structurées `FAQPage`. Les 49 autres
+  fiches n'en ont **pas**, et c'est volontaire : une FAQ générée depuis un
+  modèle aurait répété la même question sur des dizaines de pages, ce qui
+  est exactement le contenu dupliqué artificiel à éviter.
+- **Mention du présentiel dans les métadonnées**, mais seulement quand elle
+  informe : « À distance ou chez vous » n'est écrit que si l'intervention
+  sur place est réellement proposée, « À distance ou sur rendez-vous » quand
+  seul un rendez-vous l'est, et rien d'autre que « À distance » sinon.
+- **Section « Comment cette prestation peut se dérouler »** sur les fiches
+  concernées, avec les zones de déplacement et les conditions de
+  rendez-vous, en H2/H3.
+- **Données structurées `availableChannel`** sur les fiches : canal à
+  distance, et canal sur place avec son lieu quand il existe.
+- **Septième catégorie, les packs** : 4 fiches de plus, avec leurs propres
+  pages, leurs données structurées et leur maillage vers les prestations
+  couvertes.
+- **Nouvelle page indexable** `/transmission-securisee`, avec sa FAQ et ses
+  données structurées. Elle répond à une vraie inquiétude et pas seulement à
+  un besoin de contenu.
+- **Trois articles rédigés** (voir plus bas).
+- **Vérifié** : 165 URL parcourues, 0 erreur, un seul H1 par page, aucun
+  titre au-delà de 65 caractères, aucune description au-delà de 165.
+
+### Les trois articles écrits
+
+| Article | Priorité du plan | Mène à |
+|---|---|---|
+| Déclaration d'impôts vaudoise : la liste des documents à réunir | 1 | les 10 fiches Impôts |
+| Subside d'assurance maladie : comment constituer un dossier qui passe | 1 | `subside-assurance-maladie`, `pack-subside` |
+| Décompte de charges : ce qui peut vous être facturé, et ce qui ne peut pas | 1 | `contestation-charges` |
+
+Un point de méthode, parce qu'il compte pour la suite : en préparant
+l'article sur le subside, les sources disponibles se **contredisaient** sur
+deux règles — la date d'ouverture du droit et le caractère automatique du
+renouvellement. L'article est donc écrit sur ce qui est solide (base de
+calcul, taxation de référence, LAMal uniquement, importance de la date de
+dépôt) et renvoie à l'OVAM pour ce qui change chaque année. Plutôt que
+d'affirmer une règle contestée, il dit où trouver celle qui fait foi. La
+même prudence a été appliquée aux numérotations d'alinéas du Code des
+obligations dans l'article sur les charges.
+
+Les deux articles restants de la priorité 1 du plan ne sont pas écrits :
+« Baisse de loyer » et « Déménager en Suisse » existent déjà sur le blog
+sous un autre titre, et en écrire une seconde version créerait exactement la
+duplication à éviter. Ils seront **mis à jour** plutôt que doublés.
+
 ## Les manques, par ordre d'importance
 
-1. **Aucun article n'existe encore pour le catalogue.** Quatre articles sont
-   publiés, dont deux seulement touchent l'administratif. Le catalogue n'a
-   donc pas d'alimentation en haut de tunnel.
+1. ~~Aucun article n'existe encore pour le catalogue.~~ **Partiellement
+   traité** : trois articles écrits, douze restants au plan ci-dessous.
 2. **Pas d'ancrage local.** « Yverdon-les-Bains » figure dans les
    descriptions, mais il n'y a pas de page locale ni de fiche
    d'établissement. Sur ce marché, la recherche locale est une part

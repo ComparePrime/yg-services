@@ -34,12 +34,28 @@ export function organizationSchema() {
     image: absoluteUrl('/images/logo-yg-horizontal.png'),
     ...(siteConfig.contact.email ? { email: siteConfig.contact.email } : {}),
     ...(siteConfig.contact.phoneE164 ? { telephone: siteConfig.contact.phoneE164 } : {}),
+    /**
+     * Volontairement limité à la localité, à la région et au pays.
+     *
+     * `siteConfig.legal.address` n'est PAS reprise ici : les données
+     * structurées figurent sur toutes les pages du site et sont lues par
+     * les moteurs de recherche, qui peuvent publier une adresse de rue
+     * comme adresse d'établissement. L'adresse est une mention légale, et
+     * elle reste sur la seule page qui l'exige.
+     *
+     * Si vous disposez un jour d'une adresse professionnelle distincte de
+     * votre domicile, la renseigner ici améliorerait le référencement
+     * local. Utiliser `legal.address` pour cela publierait votre domicile
+     * sur l'ensemble du site.
+     */
     address: {
       '@type': 'PostalAddress',
       addressLocality: siteConfig.location.city,
       addressRegion: siteConfig.location.region,
       addressCountry: siteConfig.location.countryCode,
-      ...(siteConfig.legal.address ? { streetAddress: siteConfig.legal.address } : {}),
+      ...(siteConfig.legal.publicStreetAddress
+        ? { streetAddress: siteConfig.legal.publicStreetAddress }
+        : {}),
     },
     areaServed: siteConfig.location.areaServed.map((name) => ({ '@type': 'Place', name })),
     knowsLanguage: ['fr-CH'],

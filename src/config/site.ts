@@ -98,8 +98,22 @@ export const siteConfig = {
     responsiblePublication: '' as string,
     ideNumber: '' as string,
     vatNumber: '' as string,
-    /** Adresse de contact exigée par l'art. 3 al. 1 let. s LCD. */
+    /**
+     * Adresse de contact exigée par l'art. 3 al. 1 let. s LCD.
+     * Affichée UNIQUEMENT sur la page des mentions légales. Elle n'est
+     * reprise ni dans le pied de page, ni dans les données structurées,
+     * ni dans aucune balise SEO.
+     */
     address: 'Avenue Général Guisan 61, 1400 Yverdon-les-Bains, Suisse' as string,
+    /**
+     * Adresse de rue publiée dans les données structurées, sur toutes les
+     * pages. Laissée vide à dessein : `address` ci-dessus est un domicile,
+     * et les données structurées sont lues par les moteurs de recherche,
+     * qui en feraient une adresse d'établissement affichée publiquement.
+     * À ne renseigner qu'avec une adresse professionnelle assumée comme
+     * telle.
+     */
+    publicStreetAddress: '' as string,
     host: 'Netlify, Inc. (netlify.com)' as string,
     hostCountry: 'États-Unis' as string,
   },

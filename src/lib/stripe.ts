@@ -37,9 +37,17 @@ export function paiementActif(): boolean {
   return Boolean(process.env.STRIPE_SECRET_KEY);
 }
 
-/** Vrai lorsque la vérification des webhooks est configurée. */
+/**
+ * Vrai lorsque la vérification des webhooks est réellement possible.
+ *
+ * Les DEUX variables sont nécessaires : la vérification de signature passe
+ * par le client Stripe, qui a besoin de la clé secrète. Ne tester que
+ * STRIPE_WEBHOOK_SECRET ferait répondre « signature invalide » à un
+ * webhook pourtant correctement signé, ce qui envoie chercher le problème
+ * au mauvais endroit.
+ */
 export function webhookConfigure(): boolean {
-  return Boolean(process.env.STRIPE_WEBHOOK_SECRET);
+  return Boolean(process.env.STRIPE_WEBHOOK_SECRET && process.env.STRIPE_SECRET_KEY);
 }
 
 /** Convertit un montant en francs vers l'unité attendue par Stripe. */

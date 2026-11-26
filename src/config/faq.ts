@@ -1,7 +1,12 @@
 export type FaqItem = {
   question: string;
   answer: string;
-  category: 'Sites internet' | 'Assistance administrative' | 'Général';
+  /**
+   * Rubrique de la page FAQ générale. Facultative : les FAQ propres à une
+   * prestation n'en ont pas besoin, le composant d'affichage ne s'en sert
+   * pas et seule `/faq` regroupe par rubrique.
+   */
+  category?: 'Sites internet' | 'Assistance administrative' | 'Général';
 };
 
 /**

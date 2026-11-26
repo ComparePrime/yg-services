@@ -17,7 +17,9 @@ import {
 } from '@/config/catalogue';
 import { siteConfig } from '@/config/site';
 import { buildMetadata, absoluteUrl } from '@/lib/seo';
-import { breadcrumbSchema, webPageSchema } from '@/lib/structured-data';
+import { breadcrumbSchema, faqSchema, webPageSchema } from '@/lib/structured-data';
+import { Faq } from '@/components/Faq';
+import { faqPour } from '@/config/catalogue-faq';
 import { mentionTva } from '@/config/tva';
 import { modeCommande } from '@/lib/order';
 import { paiementActif } from '@/lib/stripe';
@@ -44,7 +46,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!prestation) return {};
 
   const prix = formatPrix(prestation.prix, prestation.aPartirDe, prestation.recurrence);
-  const description = `${prestation.accroche} ${prix}, ${prestation.delai}. YG Services, Yverdon-les-Bains.`;
+
+  // La modalité est mentionnée lorsqu'elle apporte une information au
+  // visiteur, et non pour remplir : « chez vous » n'est écrit que si
+  // l'intervention sur place est réellement proposée.
+  const possibles = modalitesPour(prestation.slug);
+  const lieu = possibles.includes('domicile')
+    ? 'À distance ou chez vous, Yverdon-les-Bains et environs.'
+    : possibles.includes('presentiel') || possibles.includes('mixte')
+      ? 'À distance ou sur rendez-vous, Nord vaudois.'
+      : 'À distance, Yverdon-les-Bains et Suisse romande.';
+
+  const description = `${prestation.accroche} ${prix}, ${prestation.delai}. ${lieu}`;
 
   return {
     ...buildMetadata({
@@ -77,6 +90,7 @@ export default async function PrestationPage({ params }: Params) {
   const mode = modeCommande(prestation);
   const modalitesProposees = modalitesPour(prestation.slug).map((id) => getModalite(id)!);
   const surPlace = proposeDeplacement(prestation.slug);
+  const questions = faqPour(prestation.slug);
 
   // Une prestation sur devis passe par le formulaire de contact ; les autres
   // ouvrent le parcours de commande, avec son formulaire propre.
@@ -333,6 +347,17 @@ export default async function PrestationPage({ params }: Params) {
           </Section>
         ) : null}
 
+        {questions.length > 0 ? (
+          <Section tone="white" size="narrow">
+            <h2 className="font-display text-2xl text-ink-900 sm:text-3xl">
+              Questions fréquentes sur cette prestation
+            </h2>
+            <div className="mt-8">
+              <Faq items={questions} />
+            </div>
+          </Section>
+        ) : null}
+
         {liees.length > 0 ? (
           <Section tone="sand">
             <h2 className="font-display text-2xl text-ink-900 sm:text-3xl">
@@ -428,6 +453,7 @@ export default async function PrestationPage({ params }: Params) {
                 }
               : {}),
           },
+          ...(questions.length > 0 ? [faqSchema(questions)] : []),
         ]}
       />
     </>

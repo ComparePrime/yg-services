@@ -66,9 +66,79 @@ actif ». Il n'y a aucune affirmation fausse affichée au client.
 4. Faire un paiement réel en mode test, puis un en mode réel. **Je ne
    déclarerai le paiement opérationnel qu'après ce test-là.**
 
-## Ce qui reste à décider : la persistance des commandes
+## La persistance : décidée et construite
 
-C'est la limite réelle de l'état actuel, et je préfère l'écrire clairement.
+> **Mise à jour du 26 novembre 2026.** Cette section décrivait une limite ;
+> elle est levée. La solution 2 a été retenue et construite. Ce qui suit
+> décrit l'état réel, et le texte d'origine est conservé plus bas pour
+> mémoire.
+
+**Solution retenue : Netlify Blobs**, avec un tableau de bord protégé sur
+le site. Le raisonnement, critère par critère :
+
+| Critère | Pourquoi Netlify Blobs |
+|---|---|
+| Coût | Inclus dans l'offre Netlify déjà utilisée. Aucun abonnement de plus, aucune carte à donner. |
+| Sécurité | Aucun identifiant de base de données à faire circuler. Les commandes ne contiennent aucune donnée sensible et aucun document. |
+| Simplicité | Aucun serveur à administrer, aucune migration à écrire. |
+| Fiabilité | L'écriture passe avant l'envoi des courriels. Un courriel perdu ne fait plus perdre une commande. Un échec d'écriture refuse la commande au lieu de la perdre. |
+| Évolutivité | L'interface tient en six fonctions. Remplacer le pilote par une base SQL ne demande de réécrire qu'un fichier, pas les pages ni les routes. |
+| Facilité de gestion | Un tableau de bord sur le site, sans outil tiers à ouvrir. |
+| Compatibilité | Fonctionne avec le runtime Next déjà en place. Un pilote de fichiers prend le relais en développement, pour que tout reste testable. |
+
+**La limite à connaître, dite clairement :** Netlify est un hébergeur
+américain. Les commandes contiennent des données personnelles ordinaires —
+nom, adresse, courriel — mais **aucune donnée sensible et aucun document** :
+les pièces passent par Infomaniak, en Suisse. Netlify est déjà l'hébergeur
+du site et figure nommément dans la politique de confidentialité. Si vous
+préférez un hébergement suisse ou européen pour ces données aussi, le pilote
+est remplaçable sans toucher au reste.
+
+### Ce que le tableau de bord vous donne
+
+À l'adresse `/admin`, protégée par authentification :
+
+- la liste des commandes, de la plus récente à la plus ancienne, avec
+  référence, date, client, prestation, montant, statut et paiement ;
+- le détail de chaque commande : options, déroulement choisi, zone de
+  déplacement, réponses au formulaire, session Stripe, date de paiement ;
+- la **modification du statut** (reçue, en cours, livrée, annulée) et du
+  **paiement** (en attente, payée, facturée, remboursée) ;
+- des **notes internes** par commande ;
+- le champ du **lien de dépôt** des documents pour cette commande ;
+- les **indicateurs de l'année** : encaissé ou facturé, en attente de
+  paiement, commandes à traiter, progression vers le seuil de TVA ;
+- l'**état technique** en un coup d'œil : pilote de stockage en service,
+  paiement actif ou non, webhook configuré ou non, régime de TVA, frais de
+  déplacement actifs ou non.
+
+### La protection de l'accès
+
+Authentification HTTP simple, par `ADMIN_USER` et `ADMIN_PASSWORD`, avec
+comparaison à durée constante. **Tant que ces deux variables ne sont pas
+définies, `/admin` répond 404** : une configuration absente ferme l'accès au
+lieu de l'ouvrir, et aucune version non protégée du tableau de bord n'est
+jamais servie. La zone est en plus exclue du plan du site et de
+`robots.txt`, et marquée `noindex`.
+
+**La limite, dite franchement :** une authentification HTTP simple n'offre
+ni second facteur, ni limitation des tentatives, ni expiration de session.
+Elle convient à un tableau de bord à un seul utilisateur derrière HTTPS.
+Pour aller plus loin, il faudra une vraie session et une limitation des
+tentatives — à décider selon l'usage réel.
+
+### Le rapprochement des paiements
+
+Il n'est plus manuel. La référence de commande est transmise à Stripe comme
+`client_reference_id`, et l'identifiant de session est enregistré sur la
+commande. À la réception du webhook, après vérification de la signature, la
+commande passe en « payée » avec l'horodatage. Si le montant payé diffère du
+montant attendu, l'écart n'est pas avalé en silence : il est journalisé et
+inscrit dans les notes de la commande.
+
+---
+
+## Texte d'origine, conservé pour mémoire
 
 **Aujourd'hui, une commande n'existe que sous forme de deux courriels.** Il
 n'y a pas de base de données. Conséquences concrètes :
@@ -115,3 +185,6 @@ Netlify, par vous :
 | `CONTACT_INBOX` | Boîte de réception, par défaut `info@yg-services.ch` | Facultatif |
 | `STRIPE_SECRET_KEY` | Active le paiement par carte | **Absente — paiement désactivé** |
 | `STRIPE_WEBHOOK_SECRET` | Vérification de signature des webhooks | **Absente** |
+| `ADMIN_USER` | Identifiant du tableau de bord | **Absente — /admin répond 404** |
+| `ADMIN_PASSWORD` | Mot de passe du tableau de bord | **Absente** |
+| `ORDERS_DIR` | Dossier du pilote de secours, en développement | Facultatif |
