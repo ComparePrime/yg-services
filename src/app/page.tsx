@@ -19,11 +19,11 @@ import { webPageSchema } from '@/lib/structured-data';
 
 const title = 'Création de sites internet et assistance administrative en Suisse romande';
 const description =
-  'YG Services crée des sites internet pour indépendants, PME et particuliers, et accompagne les particuliers dans leurs démarches administratives. Yverdon-les-Bains et canton de Vaud.';
+  'Sites internet pour indépendants, PME et particuliers, et services administratifs à prix fixes pour les particuliers. Yverdon-les-Bains et Suisse romande.';
 
 export const metadata: Metadata = {
   ...buildMetadata({ title, description, path: '/' }),
-  title: { absolute: 'Création de sites internet & assistance administrative | YG Services' },
+  title: { absolute: 'Sites internet & services administratifs | YG Services' },
 };
 
 export default function HomePage() {

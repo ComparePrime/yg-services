@@ -13,7 +13,7 @@ import { breadcrumbSchema, organizationSchema, webPageSchema } from '@/lib/struc
 
 const title = 'À propos de YG Services, Yverdon-les-Bains';
 const description =
-  'YG Services réunit deux activités : la création de sites internet pour indépendants, PME et particuliers, et l’assistance administrative aux particuliers. Basé à Yverdon-les-Bains.';
+  'YG Services réunit deux activités : la création de sites internet et les services administratifs aux particuliers. Basé à Yverdon-les-Bains.';
 const path = '/a-propos';
 
 export const metadata: Metadata = {

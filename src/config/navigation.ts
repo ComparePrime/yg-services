@@ -7,7 +7,7 @@ export type NavLink = { href: string; label: string };
 export const mainNav: NavLink[] = [
   { href: '/', label: 'Accueil' },
   { href: '/sites-web', label: 'Sites internet' },
-  { href: '/assistance-administrative', label: 'Assistance administrative' },
+  { href: '/assistance-administrative', label: 'Services administratifs' },
   { href: '/realisations', label: 'Réalisations' },
   { href: '/a-propos', label: 'À propos' },
   { href: '/blog', label: 'Blog' },
@@ -25,12 +25,13 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
     ],
   },
   {
-    title: 'Assistance administrative',
+    title: 'Services administratifs',
     links: [
-      { href: '/assistance-administrative', label: 'Démarches administratives' },
-      { href: '/assistance-administrative#courriers', label: 'Rédaction de courriers' },
-      { href: '/assistance-administrative#documents', label: 'Organisation de documents' },
-      { href: '/assistance-administrative#logement', label: 'Logement' },
+      { href: '/assistance-administrative', label: 'Catalogue des prestations' },
+      { href: '/assistance-administrative/impots', label: 'Impôts' },
+      { href: '/assistance-administrative/logement', label: 'Logement' },
+      { href: '/assistance-administrative/documents', label: 'Courriers et documents' },
+      { href: '/assistance-administrative/comptabilite', label: 'Comptabilité' },
     ],
   },
   {
@@ -41,6 +42,7 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
       { href: '/faq', label: 'FAQ' },
       { href: '/contact', label: 'Contact' },
       { href: '/mentions-legales', label: 'Mentions légales' },
+      { href: '/conditions-prestations', label: 'Conditions de prestation' },
       { href: '/confidentialite', label: 'Confidentialité' },
     ],
   },

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getAllPosts } from '@/lib/blog';
+import { categories, prestations } from '@/config/catalogue';
 import { absoluteUrl } from '@/lib/seo';
 
 /** Plan du site, généré automatiquement (les articles s'y ajoutent seuls). */
@@ -24,6 +25,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: page.changeFrequency,
       priority: page.priority,
+    })),
+    // Catalogue : une entrée par catégorie et par prestation.
+    ...categories.map((categorie) => ({
+      url: absoluteUrl(`/assistance-administrative/${categorie.slug}`),
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
+    ...prestations.map((prestation) => ({
+      url: absoluteUrl(
+        `/assistance-administrative/${prestation.categorie}/${prestation.slug}`,
+      ),
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
     })),
     ...getAllPosts().map((post) => ({
       url: absoluteUrl(`/blog/${post.slug}`),

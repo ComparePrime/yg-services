@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
 import { Section } from '@/components/ui/Section';
@@ -5,14 +6,19 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { Check, ArrowRight } from '@/components/ui/Check';
-import { Disclaimer } from '@/components/sections/Disclaimer';
 import { Faq } from '@/components/Faq';
-import { HelpForm } from '@/components/sections/HelpForm';
 import { FinalCta } from '@/components/sections/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
-import { adminServices } from '@/config/services';
+import { CatalogueBrowser } from '@/components/catalogue/CatalogueBrowser';
+import {
+  categories,
+  forfaits,
+  formatPrix,
+  prestations,
+  prestationsDe,
+} from '@/config/catalogue';
 import { faqItems } from '@/config/faq';
-import { buildMetadata } from '@/lib/seo';
+import { buildMetadata, absoluteUrl } from '@/lib/seo';
 import {
   breadcrumbSchema,
   faqSchema,
@@ -20,122 +26,156 @@ import {
   webPageSchema,
 } from '@/lib/structured-data';
 
-const title = 'Assistance administrative pour particuliers à Yverdon-les-Bains';
+const title = 'Services administratifs à prix fixes, Yverdon-les-Bains et Suisse romande';
 const description =
-  'Démarches, courriers, organisation de documents, logement, dossiers fiscaux : YG Services accompagne les particuliers dans leur administration. Yverdon-les-Bains et canton de Vaud.';
+  'Déclarations d’impôts, subsides, loyer, courriers, comptabilité : des prestations administratives à prix affichés, délais annoncés et périmètre défini. YG Services.';
 const path = '/assistance-administrative';
 
 export const metadata: Metadata = {
   ...buildMetadata({ title, description, path }),
-  title: 'Assistance administrative pour particuliers',
+  title: 'Services administratifs à prix fixes',
 };
 
 const adminFaq = faqItems.filter((item) => item.category === 'Assistance administrative');
 
-export default function AssistanceAdministrativePage() {
+export default function CataloguePage() {
   return (
     <>
       <PageHero
-        eyebrow="Pour les particuliers"
-        title="L’administration prise en charge, du courrier au dossier complet"
-        lead="Certaines démarches sont simples sur le papier et deviennent vite compliquées dans la réalité. YG Services vous aide à y voir clair, prépare les documents et rédige les courriers."
+        eyebrow="Services administratifs"
+        title="Vos démarches prises en charge, à prix affiché"
+        lead="Chaque prestation indique son prix, son délai, ce qu’elle comprend et ce qu’elle ne comprend pas. Vous savez à quoi vous vous engagez avant de commander."
         breadcrumb={[
           { name: 'Accueil', path: '/' },
-          { name: 'Assistance administrative', path },
+          { name: 'Services administratifs', path },
         ]}
       >
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Button href="/contact?sujet=administratif" size="lg">
-            Demander un accompagnement
+          <Button href="#catalogue" size="lg">
+            Parcourir les prestations
           </Button>
-          <Button href="#besoin-aide" variant="secondary" size="lg">
-            Expliquer ma situation
+          <Button href="/contact?sujet=administratif" variant="secondary" size="lg">
+            Décrire un besoin particulier
           </Button>
         </div>
       </PageHero>
 
-      {/* Bénéfices, avant le détail des prestations */}
+      {/* Réassurance immédiate */}
       <Section tone="white">
-        <SectionHeading
-          eyebrow="Ce que cela change"
-          title="Du temps gagné, et des démarches qui aboutissent"
-          lead="L’objectif n’est pas de faire à votre place sans vous expliquer, mais de vous enlever la charge et de vous laisser un dossier en ordre."
-        />
-        <ul className="mt-12 grid gap-6 sm:grid-cols-3">
+        <ul className="grid gap-6 sm:grid-cols-3">
           {[
-            {
-              titre: 'Vous ne ratez plus un délai',
-              texte:
-                'Les échéances sont repérées et suivies, et les courriers partent dans les formes.',
-            },
-            {
-              titre: 'Vous comprenez ce qui est demandé',
-              texte:
-                'Chaque courrier reçu est expliqué en français clair, sans jargon administratif.',
-            },
-            {
-              titre: 'Vos papiers restent en ordre',
-              texte:
-                'Un classement simple est mis en place, que vous pouvez tenir ensuite sans effort.',
-            },
-          ].map((item, index) => (
-            <Reveal as="li" key={item.titre} delay={index * 70}>
+            [
+              'Prix connu à l’avance',
+              'Le montant affiché est celui que vous payez. Les éventuelles options sont annoncées avant la commande.',
+            ],
+            [
+              'Périmètre écrit',
+              'Chaque fiche indique ce qui est inclus et ce qui ne l’est pas. Aucune mauvaise surprise en cours de dossier.',
+            ],
+            [
+              'Délai annoncé',
+              'Le délai court dès que votre dossier est complet. S’il manque une pièce, cela vous est dit tout de suite.',
+            ],
+          ].map(([titre, texte], index) => (
+            <Reveal as="li" key={titre} delay={index * 70}>
               <div className="h-full border-t-2 border-ink-900 pt-5">
-                <h3 className="font-display text-lg text-ink-900">{item.titre}</h3>
-                <p className="mt-2.5 text-[15px] leading-relaxed text-ink-600">{item.texte}</p>
+                <h2 className="font-display text-lg text-ink-900">{titre}</h2>
+                <p className="mt-2.5 text-[15px] leading-relaxed text-ink-600">{texte}</p>
               </div>
             </Reveal>
           ))}
         </ul>
       </Section>
 
-      {/* Prestations détaillées */}
-      {adminServices.map((service, index) => (
-        <Section key={service.id} id={service.id} tone={index % 2 === 0 ? 'sand' : 'white'}>
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-            <div>
-              <h2 className="font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
-                {service.title}
-              </h2>
-              <p className="mt-5 text-[17px] leading-relaxed text-ink-600">{service.intro}</p>
+      {/* Catégories */}
+      <Section tone="sand">
+        <SectionHeading
+          eyebrow="Les domaines"
+          title="Six domaines d’intervention"
+          lead="Chaque domaine regroupe des prestations précises, avec leurs documents et leurs délais."
+        />
+        <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((categorie, index) => {
+            const nombre = prestationsDe(categorie.slug).length;
+            return (
+              <Reveal as="li" key={categorie.slug} delay={index * 60}>
+                <Link
+                  href={`/assistance-administrative/${categorie.slug}`}
+                  className="group flex h-full flex-col rounded-2xl bg-white p-6 ring-1 ring-ink-200 transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <h3 className="font-display text-xl text-ink-900">{categorie.nomCourt}</h3>
+                  <p className="mt-2.5 flex-1 text-[15px] leading-relaxed text-ink-600">
+                    {categorie.intro}
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink-900 transition group-hover:text-accent-700">
+                    {nombre} prestation{nombre > 1 ? 's' : ''}
+                    <ArrowRight className="transition group-hover:translate-x-0.5" />
+                  </span>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </ul>
+      </Section>
 
-              <p className="mt-6 border-l-2 border-accent-500 pl-4 text-[15px] font-medium leading-relaxed text-ink-800">
-                {service.benefice}
-              </p>
+      {/* Catalogue complet */}
+      <Section id="catalogue" tone="white">
+        <SectionHeading
+          eyebrow="Catalogue"
+          title="Toutes les prestations"
+          lead="Filtrez par domaine ou cherchez directement ce dont vous avez besoin."
+        />
+        <div className="mt-10">
+          <CatalogueBrowser prestations={prestations} />
+        </div>
+      </Section>
 
-              {service.disclaimer ? <Disclaimer>{service.disclaimer}</Disclaimer> : null}
+      {/* Forfaits */}
+      <Section tone="sand">
+        <SectionHeading
+          eyebrow="Forfaits"
+          title="Plusieurs démarches regroupées"
+          lead="Lorsque les démarches vont ensemble, le forfait évite de commander prestation par prestation."
+        />
+        <ul className="mt-12 grid gap-6 sm:grid-cols-2">
+          {forfaits.map((forfait, index) => (
+            <Reveal as="li" key={forfait.slug} delay={index * 70}>
+              <div className="flex h-full flex-col rounded-2xl bg-white p-7 ring-1 ring-ink-200">
+                <h3 className="font-display text-xl text-ink-900">{forfait.titre}</h3>
+                <p className="mt-2 text-[15px] text-ink-600">{forfait.accroche}</p>
+                <p className="mt-4 font-display text-2xl text-ink-900">
+                  {formatPrix(forfait.prix)}
+                </p>
 
-              <Button href={service.cta.href} className="mt-7">
-                {service.cta.label}
-                <ArrowRight />
-              </Button>
-            </div>
+                <ul className="mt-5 flex-1 space-y-2.5 text-[15px] text-ink-700">
+                  {forfait.inclus.slice(0, 4).map((item) => (
+                    <li key={item} className="flex gap-2.5">
+                      <Check className="mt-0.5 text-accent-600" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
 
-            <Reveal>
-              <ul className="grid gap-2.5 sm:grid-cols-2">
-                {service.items.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-2.5 rounded-xl bg-white px-4 py-3 text-[15px] text-ink-700 ring-1 ring-ink-200"
-                  >
-                    <Check className="mt-0.5 text-accent-600" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+                <p className="mt-5 text-xs text-ink-500">Délai : {forfait.delai}</p>
+
+                <Button href={`/contact?sujet=administratif&besoin=${encodeURIComponent(forfait.titre)}`} className="mt-6 w-full">
+                  Demander ce forfait
+                </Button>
+              </div>
             </Reveal>
-          </div>
-        </Section>
-      ))}
+          ))}
+        </ul>
+      </Section>
 
-      {/* Comment cela se passe */}
-      <Section tone="sand" size="narrow">
-        <SectionHeading eyebrow="Déroulement" title="Comment se passe une demande" />
+      {/* Déroulement */}
+      <Section tone="white" size="narrow">
+        <SectionHeading eyebrow="Déroulement" title="Comment se passe une commande" />
         <ol className="mt-10 space-y-6">
           {[
-            ['Vous décrivez votre situation', 'Par le formulaire ou par e-mail, avec vos mots et sans préparer de dossier.'],
-            ['Vous recevez une réponse', 'Ce qui peut être fait, comment, dans quel délai et à quel prix. Sans engagement.'],
-            ['La prestation est réalisée', 'Les documents sont préparés, les courriers rédigés, et vous relisez avant envoi.'],
+            ['Vous choisissez la prestation', 'Le prix, le délai et le périmètre sont indiqués sur la fiche.'],
+            ['Vous décrivez votre situation', 'Un formulaire adapté à la prestation recueille ce qui est nécessaire, sans question inutile.'],
+            ['Vous recevez la confirmation', 'Le montant, le délai et la liste des documents à transmettre vous sont confirmés par écrit.'],
+            ['Le dossier est traité', 'Le délai court dès que le dossier est complet. Vous recevez le document final par voie sécurisée.'],
           ].map(([titre, texte], index) => (
             <li key={titre} className="flex gap-5">
               <span className="font-display text-xl text-accent-600">{`0${index + 1}`}</span>
@@ -146,10 +186,16 @@ export default function AssistanceAdministrativePage() {
             </li>
           ))}
         </ol>
+
+        <div className="mt-10 rounded-xl border-l-[3px] border-accent-400 bg-accent-50/70 px-5 py-4 text-sm leading-relaxed text-ink-700">
+          <span className="font-semibold text-ink-900">Paiement en ligne — </span>
+          le règlement par carte n’est pas encore actif. Les commandes passent pour l’instant par le
+          formulaire, et la facture vous est adressée avant le début du traitement.
+        </div>
       </Section>
 
       {adminFaq.length > 0 ? (
-        <Section tone="white" size="narrow">
+        <Section tone="sand" size="narrow">
           <SectionHeading eyebrow="FAQ" title="Les questions fréquentes" />
           <div className="mt-10">
             <Faq items={adminFaq} />
@@ -157,11 +203,9 @@ export default function AssistanceAdministrativePage() {
         </Section>
       ) : null}
 
-      <HelpForm />
-
       <FinalCta
-        title="Vous ne savez pas par où commencer ?"
-        text="C’est justement le bon moment pour écrire. Décrivez votre situation avec vos mots, YG Services s’occupe du reste."
+        title="Votre démarche n’est pas dans la liste ?"
+        text="Le catalogue couvre les demandes les plus fréquentes. Pour le reste, décrivez votre situation et vous recevrez une proposition chiffrée."
         ctaLabel="Décrire ma situation"
         ctaHref="/contact?sujet=administratif"
       />
@@ -171,14 +215,28 @@ export default function AssistanceAdministrativePage() {
           webPageSchema({ title, description, path }),
           breadcrumbSchema([
             { name: 'Accueil', path: '/' },
-            { name: 'Assistance administrative', path },
+            { name: 'Services administratifs', path },
           ]),
           serviceSchema({
-            name: 'Assistance administrative',
+            name: 'Services administratifs',
             description,
             path,
-            prestations: adminServices.map((service) => service.title),
+            prestations: categories.map((categorie) => categorie.nom),
           }),
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Catalogue des prestations administratives',
+            numberOfItems: prestations.length,
+            itemListElement: prestations.map((prestation, index) => ({
+              '@type': 'ListItem',
+              position: index + 1,
+              name: prestation.titre,
+              url: absoluteUrl(
+                `/assistance-administrative/${prestation.categorie}/${prestation.slug}`,
+              ),
+            })),
+          },
           ...(adminFaq.length > 0 ? [faqSchema(adminFaq)] : []),
         ]}
       />
